@@ -7,7 +7,7 @@ import { CiSearch } from "react-icons/ci";
 const Navbar = () => {
   return (
     <div
-      className="w-[80vw] bg-white w-full flex justify-between items-center px-10 py-6 fixed"
+      className="max-w-[80vw] bg-white w-full flex justify-between items-center px-10 py-6 fixed"
       style={{ zIndex: 50 }}
     >
       <div className="shadow-md flex items-center gap-2 border border-[#F0F2F5] rounded-[8px] px-5">

@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="w-[80vw] ml-[280px]">
+      <div className="w-[80vw] ml-[20vw]">
         <Navbar />
         <main className="mt-[110px] bg-[#F9F9F9] w-full min-h-[100vh] h-full pt-5 p-10">
           {children}

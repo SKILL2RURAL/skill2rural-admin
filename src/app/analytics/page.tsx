@@ -47,7 +47,7 @@ const Analytics = () => {
         <div className="h-[30px]" />
         <div>
           <div className="flex gap-5">
-            <div className="border border p-5 rounded-[8px] w-fit shadow-md w-3/5">
+            <div className="border border p-5 rounded-[8px] w-fit shadow-md w-2/3">
               <div>
                 <div>
                   <h1 className="text-[14px] font-[500] text-[#A3AED0]">
@@ -59,19 +59,39 @@ const Analytics = () => {
               </div>
               <AnalyticsBarChart />
             </div>
-            <div className="border border p-5 rounded-[8px] w-fit shadow-md w-2/5">
-              <h1 className="text-[16px] font-[600]">Drop off rate</h1>
-              <p className="text-[14px] font-[400]">
-                This section provides an analysis or insights into drop off rate
-                based on user types.
-              </p>
+            <div className="border border p-5 rounded-[8px] w-fit shadow-md w-2/4">
+              <div>
+                <h1 className="text-[16px] font-[600]">Drop off rate</h1>
+                <p className="text-[14px] font-[400] text-[#909090]">
+                  This section provides an analysis or insights into drop off
+                  rate based on user types.
+                </p>
+              </div>
+              <div className="flex items-end justify-center mt-[40px]">
+                <div className="flex justify-center items-center text-white text-[37px] font-[700] h-[183px] w-[183px] bg-[#60269E] rounded-full -mr-[40px]">
+                  70%
+                </div>
+                <div className="border-4 border-white flex justify-center items-center text-white text-[27px] font-[700] h-[130px] w-[130px] bg-[#51A3DA] rounded-full">
+                  30%
+                </div>
+              </div>
+              <div className="mt-[30px] flex justify-center items-center gap-10">
+                <div className="flex items-center justify-center gap-2 ">
+                  <div className="bg-[#60269E] h-[13px] w-[13px] rounded-full" />
+                  <p className="text-[#A09D9D] text-[14px]">Students</p>
+                </div>
+                <div className="flex items-center justify-center gap-2 ">
+                  <div className="bg-[#51A3DA] h-[13px] w-[13px] rounded-full" />
+                  <p className="text-[#A09D9D] text-[14px]">Educator</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="h-[30px]" />
 
         <div className="flex gap-5">
-          <div className="border border py-5 rounded-[8px] w-fit shadow-md">
+          <div className="w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
             <div className="flex gap-2 items-start border-b pb-5 mb-3 px-5">
               <Image src={book} alt="" />
               <div>
@@ -84,7 +104,7 @@ const Analytics = () => {
             </div>
             <CourseCompletionCountChart />
           </div>
-          <div className="border border py-5 rounded-[8px] w-fit shadow-md">
+          <div className="w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
             <div className="flex items-start gap-2 border-b pb-5 mb-3 px-5">
               <Image src={book} alt="" />
               <div>
@@ -99,11 +119,11 @@ const Analytics = () => {
               <CourseCompletionRateChart />
               <div className="mt-3 flex justify-center items-center gap-5">
                 <p className="flex items-center gap-1">
-                  <div className="h-[20px] w-[20px] bg-[#2390FA] rounded-full" />
+                  <span className="h-[20px] w-[20px] bg-[#2390FA] rounded-full" />
                   Students
                 </p>
                 <p className="flex items-center gap-1">
-                  <div className="h-[20px] w-[20px] bg-[#60269E] rounded-full" />
+                  <span className="h-[20px] w-[20px] bg-[#60269E] rounded-full" />
                   Educators
                 </p>
               </div>

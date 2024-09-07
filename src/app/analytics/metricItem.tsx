@@ -13,7 +13,7 @@ interface Metric {
 
 const MetricItem: React.FC<MetricsProps> = ({ metric }) => {
   return (
-    <div className="border border-[#EAECF0] rounded-[8px] space-y-[30px] p-5 shadow-sm">
+    <div className="border border-[#EAECF0] rounded-[8px] space-y-[30px] p-5 shadow-md">
       <div className="flex justify-between items-center">
         <h1 className="neue-haas font-[500] text-[16px]">{metric.title}</h1>
         <Image src={metric.icon} alt={metric.title} width={40} />
