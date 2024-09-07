@@ -46,7 +46,7 @@ const Analytics = () => {
         </div>
         <div className="h-[30px]" />
         <div>
-          <div className="flex gap-5">
+          <div className="md:flex gap-5">
             <div className="border border p-5 rounded-[8px] w-fit shadow-md w-2/3">
               <div>
                 <div>
@@ -90,7 +90,7 @@ const Analytics = () => {
         </div>
         <div className="h-[30px]" />
 
-        <div className="flex gap-5">
+        <div className="md:flex gap-5">
           <div className="w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
             <div className="flex gap-2 items-start border-b pb-5 mb-3 px-5">
               <Image src={book} alt="" />
