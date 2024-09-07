@@ -12,10 +12,10 @@ const CourseCompletionRateChart = () => {
               { id: 1, value: 15, color: "#60269E" },
             ],
             innerRadius: 63,
-            cx: 300,
+            cx: 200,
           },
         ]}
-        width={1000}
+        width={400}
         height={200}
       />
     </div>
