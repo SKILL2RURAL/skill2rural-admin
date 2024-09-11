@@ -30,7 +30,7 @@ const rows = [
 
 const BasicTable = () => {
   return (
-    <div className="mt-7">
+    <div className="mt-3 md:mt-7">
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -48,12 +48,12 @@ const BasicTable = () => {
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                className="text-[14px]"
+                className="text-[10px] md:text-[14px]"
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <div className="border-b py-4 flex flex-row gap-2 items-center">
                   <Avatar />
-                  <div className="text-[14px]">
+                  <div className="text-[13px] md:text-[14px]">
                     <p>John Doe</p>
                     <p className="text-[#667085]">@o.mariam</p>
                   </div>

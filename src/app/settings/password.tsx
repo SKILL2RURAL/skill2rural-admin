@@ -17,7 +17,7 @@ const Password = () => {
       <form className="font-neue-haas">
         <div className="grid gap-1 mb-5">
           <label className="font-[300] text-[14px]">Current password</label>
-          <div className="flex w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
+          <div className="flex md:w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
             <input
               type="password"
               placeholder="Enter current password"
@@ -33,7 +33,7 @@ const Password = () => {
         </div>
         <div className="grid gap-1 mb-5">
           <label className="font-[300] text-[14px]">New password</label>
-          <div className="flex w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
+          <div className="flex md:w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
             <input
               type="password"
               placeholder="Enter new password"
@@ -52,7 +52,7 @@ const Password = () => {
         </div>
         <div className="grid gap-1 mb-5">
           <label className="font-[300] text-[14px]">Confirm password</label>
-          <div className="flex w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
+          <div className="flex md:w-[550px] items-center px-3 border-[#D0D5DD] border rounded-[10px] bg-white">
             <input
               type="password"
               placeholder="Enter new password"
@@ -66,8 +66,8 @@ const Password = () => {
             />
           </div>
         </div>
-        <div className="w-[550px] flex gap-3 items-center">
-          <button className="h-[70px] border border-[#D0D5DD] rounded-[12px] px-10 bg-white text-black font-[600] shadow-md">
+        <div className="md:w-[550px] flex gap-3 items-center">
+          <button className="h-[70px] border border-[#D0D5DD] rounded-[12px] px-5 md:px-10 bg-white text-black font-[600] shadow-md">
             Cancel
           </button>
           <button

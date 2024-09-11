@@ -24,13 +24,13 @@ const Settings = () => {
   };
 
   return (
-    <Layout>
+    <>
       <div className="flex justify-between items-center font-neue-haas">
         <div className="flex gap-2 items-center">
           <Image src={gear} alt="date" width={40} />
-          <p className="font-[600] text-[24px]">Settings</p>
+          <p className="font-[600] text-[18px] md:text-[24px]">Settings</p>
         </div>
-        <div className="text-[16px] font-[300] flex gap-2 items-center">
+        <div className="text-[12px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
           <p>Saturday, August 10, 2024</p>
         </div>
@@ -70,7 +70,7 @@ const Settings = () => {
       </div>
       <div className="h-[40px]" />
       <div>{getTab()}</div>
-    </Layout>
+    </>
   );
 };
 
