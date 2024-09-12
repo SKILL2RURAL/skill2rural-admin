@@ -103,7 +103,7 @@ const Analytics = () => {
           </div>
           <CourseCompletionCountChart />
         </div>
-        <div className="w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
+        <div className="md:w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
           <div className="flex items-start gap-2 border-b pb-5 mb-3 px-5">
             <Image src={book} alt="" />
             <div>

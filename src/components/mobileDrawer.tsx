@@ -50,7 +50,7 @@ const MobileDrawer = () => {
                   ? "bg-primary text-white rounded-[6px]"
                   : ""
               } p-6 py-4 pl-3 flex gap-4 items-center cursor-pointer`}
-              onClick={() => router.push(link.name)}
+              onClick={() => router.push(`/${link.name}`)}
             >
               <Image
                 src={pathname.includes(link.name) ? link.activeIcon : link.icon}
