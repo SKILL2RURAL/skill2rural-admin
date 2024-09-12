@@ -12,6 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div
       style={{
@@ -28,14 +29,16 @@ const Login = () => {
     >
       <Image src={logo} alt="Skill 2 Rural" width={230} />
       <div className="h-[30px]" />
-      <div className="border border-white rounded-[20px] p-10 px-[50px] w-[40vw] flex flex-col justify-between glass-effect">
-        <h1 className="text-center text-[32px] font-[600]">Login</h1>
+      <div className="border border-white rounded-[20px] p-10 md:px-[50px] w-[90vw] md:w-[40vw] flex flex-col justify-between glass-effect">
+        <h1 className="text-center text-[27px] md:text-[32px] mb-5 md:mb-0 font-[600]">
+          Login
+        </h1>
         <form className="space-y-4">
           <div className="flex flex-col gap-2">
             <label className="text-[16px] font-[600]">Email Address</label>
             <input
               type="email"
-              className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] w-full border border-white rounded-[100px] px-4 py-2 h-[60px] outline-none"
+              className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] w-full border border-white rounded-[100px] px-4 py-2 h-[40px] md:h-[60px] outline-none"
               placeholder="Enter email address"
               color="white"
               value={data.email}
@@ -46,7 +49,7 @@ const Login = () => {
             <div className="border border-white rounded-[100px] flex">
               <input
                 type="password"
-                className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] w-full px-4 py-2 h-[60px] outline-none"
+                className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] w-full px-4 py-2 h-[40px] md:h-[60px] outline-none"
                 placeholder="Enter password"
                 color="white"
                 value={data.password}
@@ -60,13 +63,21 @@ const Login = () => {
               type="checkbox"
               className="outline-none cursor-pointer custom-checkbox"
             />
-            <span>Remember Me</span>
+            <span className="text-[12px] md:text-[16px]">Remember Me</span>
           </p>
-          <p className="font-[500] text-[16px]">Forget Password?</p>
+          <p className="font-[500] text-[12px] md:text-[16px]">
+            Forget Password?
+          </p>
         </div>
         <button
-          className="bg-primary w-full rounded-[100px] py-5"
-          onClick={() => router.push("/analytics")}
+          className={`bg-primary w-full rounded-[100px] py-2  md:py-5 ${
+            isLoading ? "opacity-50" : ""
+          }`}
+          disabled={isLoading}
+          onClick={() => {
+            setIsLoading(true);
+            router.push("/analytics");
+          }}
         >
           Log In
         </button>
