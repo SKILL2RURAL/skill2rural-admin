@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sf-pro font-[400]">{children}</body>
+      <body className="font-sf-pro font-[400]">
+        {children}
+      </body>
     </html>
   );
 }
