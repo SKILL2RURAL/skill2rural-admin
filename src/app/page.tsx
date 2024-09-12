@@ -1,10 +1,7 @@
-import Image from "next/image";
-import Login from "./login/page";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
+  const router = useRouter();
+  return router.push("/login");
 }

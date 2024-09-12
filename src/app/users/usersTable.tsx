@@ -1,3 +1,4 @@
+"use client";
 import {
   TableBody,
   TableCell,
@@ -8,6 +9,7 @@ import {
   Paper,
   Avatar,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function createData(
@@ -28,7 +30,12 @@ const rows = [
   createData("#005", 356, 16.0, 49, 3.9),
 ];
 
-const BasicTable = () => {
+const UsersTable = () => {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push(`/users/${1}`);
+  };
   return (
     <div className="mt-3 md:mt-7">
       <TableContainer component={Paper}>
@@ -48,7 +55,8 @@ const BasicTable = () => {
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                className="text-[10px] md:text-[14px]"
+                className="text-[10px] md:text-[14px] cursor-pointer"
+                onClick={() => handleNavigation()}
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <div className="border-b py-4 flex flex-row gap-2 items-center">
@@ -88,4 +96,4 @@ const BasicTable = () => {
   );
 };
 
-export default BasicTable;
+export default UsersTable;

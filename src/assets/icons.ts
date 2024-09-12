@@ -18,6 +18,10 @@ import green_users from "../../public/icons/green-users.svg"
 import orange_users from "../../public/icons/orange-users.svg"
 import bell from "../../public/icons/bell_icon.svg"
 import message from "../../public/icons/message_icon.svg"
+import copy from "../../public/icons/document-copy.svg"
+import purple_message from "../../public/icons/purple-message.svg"
+
+
 
 
 export {
@@ -40,5 +44,7 @@ export {
     green_users,
     blue_users,
     bell,
-    message
+    message,
+    copy,
+    purple_message
 }

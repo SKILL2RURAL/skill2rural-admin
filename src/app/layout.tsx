@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import LayoutWrapper from "@/components/layout/layoutWrapper";
 
 export const metadata: Metadata = {
   title: "Skill 2 rural",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sf-pro font-[400]">
+        <LayoutWrapper>
         {children}
+      </LayoutWrapper>
       </body>
     </html>
   );

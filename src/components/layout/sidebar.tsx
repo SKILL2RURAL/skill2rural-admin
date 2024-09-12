@@ -15,7 +15,6 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import { Avatar } from "@mui/material";
-// import { Avatar, AvatarBadge } from "@chakra-ui/react";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -29,7 +28,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="py-10 w-[20vw] px-5 flex flex-col justify-between h-[100vh] fixed bg-white">
+    <div className="hidden md:flex py-10 w-[15vw] px-5 flex flex-col justify-between h-[100vh] fixed bg-white">
       <div>
         <Image src={logo} alt="skill 2 rural" width={180} />
         <div className="h-[70px]" />
@@ -42,7 +41,7 @@ const Sidebar = () => {
                   ? "bg-primary text-white rounded-[6px]"
                   : ""
               } p-6 py-4 pl-3 flex gap-4 items-center cursor-pointer`}
-              onClick={() => router.push(link.name)}
+              onClick={() => router.push(`/${link.name}`)}
             >
               <Image
                 src={pathname.includes(link.name) ? link.activeIcon : link.icon}

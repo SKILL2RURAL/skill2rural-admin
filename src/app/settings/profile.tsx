@@ -46,7 +46,7 @@ const Profile = () => {
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChange={(e) => setData({ ...data, name: e.target.value })}
-            className="w-[550px] h-[70px] px-3 rounded-[10px] border-[#D0D5DD] border placeholder:text-[#C3C3C3] outline-none"
+            className="md:w-[550px] h-[70px] px-3 rounded-[10px] border-[#D0D5DD] border placeholder:text-[#C3C3C3] outline-none"
           />
         </div>
         <div className="grid gap-1 mb-5">
@@ -56,12 +56,12 @@ const Profile = () => {
             placeholder="oluwanifemi@motobite.com"
             value={data.email}
             disabled
-            className="w-[550px] h-[70px] px-3 rounded-[10px] border-[#D0D5DD] border placeholder:text-[#C3C3C3] outline-none"
+            className="md:w-[550px] h-[70px] px-3 rounded-[10px] border-[#D0D5DD] border placeholder:text-[#C3C3C3] outline-none"
           />
         </div>
         <button
           type="submit"
-          className="text-white bg-[var(--primary-color)] w-[550px] h-[70px] text-center rounded-[12px] my-5 cursor-pointer outline-none"
+          className="text-white bg-[var(--primary-color)] w-full md:w-[550px] h-[70px] text-center rounded-[12px] my-5 cursor-pointer outline-none"
         >
           Save Changes
         </button>
