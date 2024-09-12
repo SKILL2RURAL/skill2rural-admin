@@ -8,13 +8,12 @@ import {
   multiple_users,
   orange_users,
 } from "@/assets/icons";
-import Layout from "@/components/layout/layout";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
+import { AiOutlineDownload } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import Table from "./table";
-import { AiOutlineDownload } from "react-icons/ai";
+import UsersTable from "./usersTable";
 
 interface metric {
   icon: string;
@@ -70,7 +69,7 @@ const User = () => {
           ))}
         </div>
         <div className="h-[30px]" />
-        <div className="text-[12px] md:text-[14px] font-[400] text-[#878787] flex justify-around md:justify-start md:gap-10 bg-white md:p-4 md:px-5 rounded-[8px] font-karla">
+        <div className="py-3 md:py-0 text-[12px] md:text-[14px] font-[400] text-[#878787] flex justify-around md:justify-start md:gap-10 bg-white md:p-4 md:px-5 rounded-[8px] font-karla">
           <p
             className={`${
               activeTab === "allUsers"
@@ -133,7 +132,7 @@ const User = () => {
         </div>
       </div>
       <div>
-        <Table />
+        <UsersTable />
       </div>
     </div>
   );

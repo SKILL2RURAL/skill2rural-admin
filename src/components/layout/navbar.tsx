@@ -8,7 +8,7 @@ import MobileDrawer from "../mobileDrawer";
 const Navbar = () => {
   return (
     <div
-      className="md:max-w-[80vw] bg-white md:w-full flex justify-between items-center px-2 md:px-10 py-6 sticky top-0"
+      className="md:max-w-[85vw] bg-white md:w-full flex justify-between items-center px-2 md:px-10 py-6 sticky top-0"
       style={{ zIndex: 50 }}
     >
       <div className="flex gap-1 items-center flex">
