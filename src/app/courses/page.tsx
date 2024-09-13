@@ -8,6 +8,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Table from "../users/table";
 import BarChart from "@/components/courseBarChart";
 import SuccessFailureDonut from "@/components/successAndFailure";
+import CourseTable from "./courseTable";
 
 interface Metric {
   title: string;
@@ -94,7 +95,8 @@ const Courses = () => {
           </div>
         </div>
         <div>
-          <Table />
+          {/* <Table /> */}
+          <CourseTable />
         </div>
       </div>
     </div>

@@ -20,7 +20,9 @@ import bell from "../../public/icons/bell_icon.svg"
 import message from "../../public/icons/message_icon.svg"
 import copy from "../../public/icons/document-copy.svg"
 import purple_message from "../../public/icons/purple-message.svg"
-
+import trash_can from "../../public/icons/trash-2.svg"
+import edit from "../../public/icons/edit.svg"
+import more from "../../public/icons/more-2-fill.svg"
 
 
 
@@ -46,5 +48,8 @@ export {
     bell,
     message,
     copy,
-    purple_message
+    purple_message,
+    trash_can,
+    edit,
+    more
 }

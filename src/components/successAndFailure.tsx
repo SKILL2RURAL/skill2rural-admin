@@ -53,10 +53,6 @@ export const SuccessFailureDonut: React.FC = () => {
         },
       },
       legend: {
-        position: 'top' as const,
-        labels: {
-          usePointStyle: true, // Use a dot instead of the box in the legend
-        },
         display: false, 
       },
     },
