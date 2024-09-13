@@ -95,7 +95,7 @@ const BarChart = () => {
     }
   };
   return (
-    <div className='md:w-[39vw]'>
+    <div className='md:w-[39vw] mt-7'>
       <Bar data={data} options={options} />
     </div>
   );

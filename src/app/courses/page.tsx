@@ -42,13 +42,21 @@ const Courses = () => {
       <div className="h-[30px]" />
         <div>
           <div className="md:flex gap-5">
-            <div className="border border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
+            <div className="border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
             <div className="w-full">
               <div>
                 <h1 className="text-[14px] font-[500] text-[#A3AED0]">
                   TOTAL CERTIFICATE ISSUED
                 </h1>
-                <p className="text-[34px] font-[700] text-[#2B3674]">3,000</p>
+                <div className="flex justify-between ">
+                  <p className="text-[34px] font-[700] text-[#2B3674] mt-2">3,000</p>
+                  <div className="relative">
+                    <select className="cursor-pointer text-[13px] p-2 w-[70px] outline-none appearance-none">
+                      <option value="">Year</option>
+                    </select>
+                    <IoIosArrowDown className="absolute right-3 top-[12px]" />
+                  </div>
+                </div>
               </div>
               <div></div>
             </div>
