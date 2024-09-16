@@ -1,6 +1,8 @@
 import React from "react"
 import { calendar, multiple_users, book } from "@/assets/icons";
 import Image from "next/image";
+import VideoPlayer from "@/components/videoPlayer";
+import QuestionsList from "@/components/questions/questionList";
 
 const  Course: React.FC = (pros) => {
   return (
@@ -22,6 +24,10 @@ const  Course: React.FC = (pros) => {
             Design Thinking
           </span>
         </p>
+      </div>
+      <VideoPlayer />
+      <div>
+        <QuestionsList />
       </div>
     </>
   )

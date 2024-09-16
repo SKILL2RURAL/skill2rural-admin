@@ -14,6 +14,9 @@ const config: Config = {
          'neue-haas': ['"Neue Haas Grotesk Display Pro"', 'sans-serif'],
            inter: ['Inter', 'sans-serif'],
       },
+      backgroundImage: {
+        'thumbnail': "url('./public/images/videoplayer-thumbnail.png')",
+      }
     },
   },
   plugins: [],

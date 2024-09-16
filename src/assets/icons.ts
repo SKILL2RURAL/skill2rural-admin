@@ -23,6 +23,7 @@ import purple_message from "../../public/icons/purple-message.svg"
 import trash_can from "../../public/icons/trash-2.svg"
 import edit from "../../public/icons/edit.svg"
 import more from "../../public/icons/more-2-fill.svg"
+import play from "../../public/icons/play.svg"
 
 
 
@@ -51,5 +52,6 @@ export {
     purple_message,
     trash_can,
     edit,
-    more
+    more,
+    play
 }
