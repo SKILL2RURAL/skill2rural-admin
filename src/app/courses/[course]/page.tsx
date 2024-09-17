@@ -1,10 +1,14 @@
-import React from "react"
+'use client'
+import React,{ useState } from "react"
 import { calendar, multiple_users, book } from "@/assets/icons";
 import Image from "next/image";
 import VideoPlayer from "@/components/videoPlayer";
 import QuestionsList from "@/components/questions/questionList";
 
-const  Course: React.FC = (pros) => {
+
+const  Course: React.FC = () => {
+    const [activeTab, setActiveTab] = useState("courseDetails")
+
   return (
     <>
       <div className="flex justify-between items-center">
@@ -26,6 +30,11 @@ const  Course: React.FC = (pros) => {
         </p>
       </div>
       <VideoPlayer />
+      <div className="mt-10 text-[12px] md:text-[14px] font-[400] md:w-[80%] border-b text-[#909090] flex justify-start gap-4 font-neue-haas">
+          <p onClick={() => setActiveTab("courseDetails")} className={`${activeTab === 'courseDetails' ? 'text-[var(--primary-color)] font-[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Course Details</p>
+          <p onClick={() => setActiveTab("questions")} className={`${activeTab === 'questions' ? 'text-[var(--primary-color)] font[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Questions</p>
+          <p onClick={() => setActiveTab("reviews")} className={`${activeTab === 'reviews' ? 'text-[var(--primary-color)] font-[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Reviews</p>
+      </div>
       <div>
         <QuestionsList />
       </div>

@@ -60,7 +60,6 @@ export const SuccessFailureDonut: React.FC = () => {
 
   return (
     <div className='border p-5 rounded-[8px] w-fit shadow-md md:w-2/4'>
-      <div className=''>
       <h4 className='text-[14px] font-[500px] text-[#A3AED0] leading-6'>Quiz Questions Success & Failure Rate</h4>
       <div className=''>
         <div className='flex gap-2 items-center'>
@@ -84,7 +83,6 @@ export const SuccessFailureDonut: React.FC = () => {
           <div className='text[2.27px] font-semibold leading-3 text-[#A3AED0] text-center'>Total Quiz Attempt</div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

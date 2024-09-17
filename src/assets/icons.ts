@@ -24,6 +24,7 @@ import trash_can from "../../public/icons/trash-2.svg"
 import edit from "../../public/icons/edit.svg"
 import more from "../../public/icons/more-2-fill.svg"
 import play from "../../public/icons/play.svg"
+import applicationMenu from "../../public/icons/application-menu.svg"
 
 
 
@@ -53,5 +54,6 @@ export {
     trash_can,
     edit,
     more,
-    play
+    play,
+    applicationMenu
 }
