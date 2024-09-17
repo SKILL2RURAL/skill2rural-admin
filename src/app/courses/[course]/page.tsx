@@ -1,9 +1,10 @@
 'use client'
 import React,{ useState } from "react"
-import { calendar, multiple_users, book } from "@/assets/icons";
+import { calendar, multiple_users, book, courseEdit } from "@/assets/icons";
 import Image from "next/image";
 import VideoPlayer from "@/components/videoPlayer";
-import QuestionsList from "@/components/questions/questionList";
+import QuestionsList from "@/components/courseComponents/questionList";
+import CourseDetails from "@/components/courseComponents/CourseDetails";
 
 
 const  Course: React.FC = () => {
@@ -34,9 +35,11 @@ const  Course: React.FC = () => {
           <p onClick={() => setActiveTab("courseDetails")} className={`${activeTab === 'courseDetails' ? 'text-[var(--primary-color)] font-[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Course Details</p>
           <p onClick={() => setActiveTab("questions")} className={`${activeTab === 'questions' ? 'text-[var(--primary-color)] font[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Questions</p>
           <p onClick={() => setActiveTab("reviews")} className={`${activeTab === 'reviews' ? 'text-[var(--primary-color)] font-[600px] border-b-2 border-[var(--primary-color)] ' : ''} cursor-pointer pb-2`}>Reviews</p>
+          {activeTab === 'courseDetails' && <button className="w-[126px] h-[40px] p-[10px] bg-[var(--primary-color)] text-white flex gap-2 rounded-md mb-2 items-end ml-[400px]">Edit Course <span><Image src={courseEdit} alt="edit button" /></span></button>}
       </div>
       <div>
-        <QuestionsList />
+        {activeTab === 'courseDetails' && <CourseDetails />}
+        {activeTab === 'questions' && <QuestionsList />}
       </div>
     </>
   )

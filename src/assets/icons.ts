@@ -25,7 +25,8 @@ import edit from "../../public/icons/edit.svg"
 import more from "../../public/icons/more-2-fill.svg"
 import play from "../../public/icons/play.svg"
 import applicationMenu from "../../public/icons/application-menu.svg"
-
+import thumbnail from "../../public/icons/Image.svg"
+import courseEdit from '../../public/icons/CourseEdit.svg'
 
 
 export {
@@ -55,5 +56,7 @@ export {
     edit,
     more,
     play,
-    applicationMenu
+    applicationMenu,
+    thumbnail,
+    courseEdit,
 }

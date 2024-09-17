@@ -59,9 +59,10 @@ const Courses = () => {
                   </div>
                 </div>
               </div>
-              <div></div>
             </div>
+            <div>
             <BarChart />
+            </div>
           </div>
           <SuccessFailureDonut /> 
         </div>

@@ -17,7 +17,7 @@ const questions = [
 const QuestionsList: React.FC = (props) => {
 
   return (
-      <form action="" className='mt-10 w-[80%] h-[1029px] bg-white p-10'>
+      <form action="" className='mt-6 w-[80%] h-[1029px] bg-white p-10'>
         <ul>
           {questions.map((quest) => <Question key={quest.num} {...quest}/>)}
         </ul>
