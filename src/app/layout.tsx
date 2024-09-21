@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/layoutWrapper";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 export const metadata: Metadata = {
   title: "Skill 2 rural",
@@ -15,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sf-pro font-[400]">
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <Provider store={store}>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </Provider>
       </body>
     </html>
   );
