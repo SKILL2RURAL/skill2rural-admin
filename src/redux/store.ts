@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import counterReducer from './counterSlice'
+import adminReducer from './adminSlice'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    counter: adminReducer,
   },
 })
 
