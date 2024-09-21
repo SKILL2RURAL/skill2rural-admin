@@ -13,21 +13,13 @@
     "@emotion/styled": "^11.13.0",
     "@mui/material": "^5.16.7",
     "@mui/x-charts": "^7.15.0",
-<<<<<<< HEAD
-    "@reduxjs/toolkit": "^2.2.7",
-=======
     "chart.js": "^4.4.4",
->>>>>>> e752d707ebf776ddb01e5a0e73e18fde1e6fa52c
     "next": "14.2.7",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-icons": "^5.3.0",
-<<<<<<< HEAD
-    "react-redux": "^9.1.2",
-=======
     "react-player": "^2.16.0",
->>>>>>> e752d707ebf776ddb01e5a0e73e18fde1e6fa52c
     "recharts": "^2.12.7"
   },
   "devDependencies": {
