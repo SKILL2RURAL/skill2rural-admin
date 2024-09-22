@@ -50,7 +50,7 @@ const User = () => {
       <div className="h-[30px]" />
       <div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-          {metrics.map((metric, index) => (
+          {metrics.map((metric: any, index: number) => (
             <div
               key={index}
               className="border rounded-[8px] p-3 border-[#EAECF0] shadow-sm"

@@ -54,7 +54,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="text-[14px] flex gap-4 items-center">
+      <div className="text-[14px] flex flex-wrap gap-4 items-center">
         <Avatar />
         <div>
           <p className="font-[600]">Sunrise truck</p>
