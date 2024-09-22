@@ -1,30 +1,40 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "./store";
+import { baseUrl } from "@/utils/constants";
+import axios from "axios";
+import { AdminState } from "@/utils/adminTypes";
+import adminBuilder from "./adminBuilder";
 
-interface adminState {
-  value: number
-}
-
-const initialState: adminState = {
+const initialState: AdminState = {
   value: 0,
-}
+  loading: false,
+  error: null,
+};
 
+export const loginAsync = createAsyncThunk(
+  "connect/loginAsync",
+  async (data, thunkAPI) => {
+    try {
+      const res = await axios.post(`${baseUrl}/`, data);
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
 
-
-const adminSlice = createSlice({
-  name: 'admin',
+export const adminSlice = createSlice({
+  name: "admin",
   initialState,
-  reducers: {
-    increment: (state) => {
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    adminBuilder(builder);
   },
-})
+});
 
-export const { increment, decrement, incrementByAmount } = adminSlice.actions
-export default adminSlice.reducer
+export const {} = adminSlice.actions;
+export const selectCount = (state: RootState) => state.admin.value;
+
+export default adminSlice.reducer;

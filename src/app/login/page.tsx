@@ -5,14 +5,29 @@ import african_college_student from "../../../public/images/african-college-stud
 import logo from "../../../public/images/skill2rural1.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  console.log(data);
   const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = () => {
+    try {
+      setIsLoading(true);
+      router.push("/analytics");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       style={{
@@ -42,6 +57,7 @@ const Login = () => {
               placeholder="Enter email address"
               color="white"
               value={data.email}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -53,6 +69,7 @@ const Login = () => {
                 placeholder="Enter password"
                 color="white"
                 value={data.password}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
               />
             </div>
           </div>
@@ -74,10 +91,7 @@ const Login = () => {
             isLoading ? "opacity-50" : ""
           }`}
           disabled={isLoading}
-          onClick={() => {
-            setIsLoading(true);
-            router.push("/analytics");
-          }}
+          onClick={handleSubmit}
         >
           Log In
         </button>

@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import Layout from "@/components/layout/layout";
+import { Provider } from "react-redux";
+import { store } from "../../redux/store";
 
 export default function LayoutWrapper({
   children,
@@ -11,5 +13,17 @@ export default function LayoutWrapper({
   const pathname = usePathname();
   const isLoginPage = pathname.includes("login");
 
-  return <>{isLoginPage ? children : <Layout>{children}</Layout>}</>;
+  return (
+    <>
+      <Provider store={store}>
+        {isLoginPage ? (
+          children
+        ) : (
+          <>
+            <Layout>{children}</Layout>
+          </>
+        )}
+      </Provider>
+    </>
+  );
 }
