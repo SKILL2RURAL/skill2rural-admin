@@ -5,6 +5,7 @@ import Image from "next/image";
 import VideoPlayer from "@/components/videoPlayer";
 import QuestionsList from "@/components/courseComponents/questionList";
 import CourseDetails from "@/components/courseComponents/CourseDetails";
+import Reviews from "@/components/courseComponents/review";
 
 
 const  Course: React.FC = () => {
@@ -40,6 +41,7 @@ const  Course: React.FC = () => {
       <div>
         {activeTab === 'courseDetails' && <CourseDetails />}
         {activeTab === 'questions' && <QuestionsList />}
+        {activeTab === 'reviews' && <Reviews />}
       </div>
     </>
   )
