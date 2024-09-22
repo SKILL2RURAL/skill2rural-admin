@@ -91,7 +91,7 @@ const data = [
 const AnalyticsBarChart = () => {
   return (
     <div className="md:w-[39vw]">
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={400} minWidth={300}>
         <BarChart
           width={500}
           height={300}
@@ -108,8 +108,8 @@ const AnalyticsBarChart = () => {
           {/* <CartesianGrid strokeDasharray="3 3" /> */}
           <XAxis dataKey="name" />
           <YAxis />
-          {/* <Tooltip /> */}
-          {/* <Legend /> */}
+          <Tooltip />
+          <Legend />
           <Bar dataKey="Sales" fill="#60269E" radius={[10, 10, 0, 0]} />
           <Bar dataKey="Expenses" fill="#51A3DA" radius={[10, 10, 0, 0]} />
         </BarChart>

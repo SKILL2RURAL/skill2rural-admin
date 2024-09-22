@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/layoutWrapper";
+import { store } from "../redux/store";
 
 export const metadata: Metadata = {
   title: "Skill 2 rural",
