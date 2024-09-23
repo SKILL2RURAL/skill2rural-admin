@@ -13,14 +13,14 @@ import CourseTable from "./courseTable";
 interface Metric {
   title: string;
   icon: any;
-  amount: string;
+  amount: number;
 }
 
 const Courses = () => {
   const metrics: Metric[] = [
-    { title: "Total Courses", icon: book, amount: "16" },
-    { title: "Active Courses", icon: book, amount: "14" },
-    { title: "Archived Courses", icon: book, amount: "2" },
+    { title: "Total Courses", icon: book, amount: 16 },
+    { title: "Active Courses", icon: book, amount: 14 },
+    { title: "Archived Courses", icon: book, amount: 2 },
   ];
   return (
     <div>
@@ -41,16 +41,18 @@ const Courses = () => {
         ))}
       </div>
       <div className="h-[30px]" />
-        <div>
-          <div className="md:flex gap-5">
-            <div className="border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
+      <div>
+        <div className="md:flex gap-5">
+          <div className="border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
             <div className="w-full">
               <div>
                 <h1 className="text-[14px] font-[500] text-[#A3AED0]">
                   TOTAL CERTIFICATE ISSUED
                 </h1>
                 <div className="flex justify-between ">
-                  <p className="text-[34px] font-[700] text-[#2B3674] mt-2">3,000</p>
+                  <p className="text-[34px] font-[700] text-[#2B3674] mt-2">
+                    3,000
+                  </p>
                   <div className="relative">
                     <select className="cursor-pointer text-[13px] p-2 w-[70px] outline-none appearance-none">
                       <option value="">Year</option>
@@ -61,13 +63,13 @@ const Courses = () => {
               </div>
             </div>
             <div>
-            <BarChart />
+              <BarChart />
             </div>
           </div>
-          <SuccessFailureDonut /> 
+          <SuccessFailureDonut />
         </div>
       </div>
-      
+
       <div className="my-5">
         <div className="md:flex space-y-5 md:space-y-0 justify-between items-center">
           <div className="flex gap-3 justify-between">

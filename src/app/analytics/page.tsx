@@ -1,46 +1,64 @@
 "use client";
-import Layout from "@/components/layout/layout";
-import React from "react";
-import MetricItem from "./metricItem";
+import { useEffect } from "react";
 import { book, calendar, certificate, multiple_users } from "@/assets/icons";
-import Image from "next/image";
-import { Avatar } from "@mui/material";
-import { CiSearch } from "react-icons/ci";
-import { IoIosArrowDown } from "react-icons/io";
-import Table from "../users/table";
 import AnalyticsBarChart from "@/components/analyticsBarChart";
 import CourseCompletionCountChart from "@/components/courseCompletionCountChart";
 import CourseCompletionRateChart from "@/components/courseCompletionRateChart";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getCurrentDateFormatted } from "@/utils/date";
+import { Avatar } from "@mui/material";
+import Image from "next/image";
+import MetricItem from "./metricItem";
+import { dashboardAnalytics } from "@/redux/adminSlice";
 
 interface Metric {
   title: string;
   icon: any;
-  amount: string;
+  amount: number;
 }
 
 const Analytics = () => {
+  const dispatch = useAppDispatch();
+  const { user, analytics } = useAppSelector((state) => state.admin);
   const metrics: Metric[] = [
-    { title: "Total Users", icon: multiple_users, amount: "10.2k" },
-    { title: "Total Courses", icon: book, amount: "16" },
-    { title: "Certificate Issued ", icon: certificate, amount: "300" },
+    {
+      title: "Total Users",
+      icon: multiple_users,
+      amount: analytics?.totalUsers ?? 0,
+    },
+    {
+      title: "Total Courses",
+      icon: book,
+      amount: analytics?.totalCourses ?? 0,
+    },
+    {
+      title: "Certificate Issued ",
+      icon: certificate,
+      amount: analytics?.totalCertificates ?? 0,
+    },
   ];
+
+  useEffect(() => {
+    dispatch(dashboardAnalytics());
+  }, []);
+
   return (
     <div>
       <div className="md:flex justify-between font-neue-haas">
         <h1 className="text-[18px] md:text-[24px] font-[600] flex gap-2 items-center">
           Welcome Back,
-          <span>{`John Doe`}</span>
-          <Avatar />
+          <span>{user?.name}</span>
+          <Avatar src={user?.profile_photo} />
         </h1>
         <div className="text-[13px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
-          <p>Saturday, August 10, 2024</p>
+          <p>{getCurrentDateFormatted()}</p>
         </div>
       </div>
       <div className="h-[30px]" />
       <div className="grid md:grid-cols-3 gap-3">
-        {metrics.map((metric, index) => (
-          <MetricItem metric={metric} key={index} />
+        {metrics.map((data, index) => (
+          <MetricItem metric={data} key={index} />
         ))}
       </div>
       <div className="h-[30px]" />

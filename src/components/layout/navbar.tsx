@@ -4,8 +4,11 @@ import Image from "next/image";
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 import MobileDrawer from "../mobileDrawer";
+import { useAppSelector } from "@/redux/hooks";
 
 const Navbar = () => {
+  const { user } = useAppSelector((state) => state.admin);
+
   return (
     <div
       className="md:max-w-[85vw] bg-white md:w-full flex justify-between items-center px-2 md:px-10 py-6 sticky top-0"
@@ -30,7 +33,7 @@ const Navbar = () => {
           </div>
           <Image src={bell} alt="notification" width={20} />
         </div>
-        <Avatar sx={{ width: 40, height: 40 }} />
+        <Avatar src={user?.profile_photo} sx={{ width: 40, height: 40 }} />
       </div>
     </div>
   );

@@ -15,13 +15,41 @@ const initialState: AdminState = {
   loading: false,
   error: null,
   token: null,
+  user: null,
+  analytics: null,
 };
 
 export const login = createAsyncThunk<string, LoginData>(
-  "connect/loginAsync",
+  "login",
   async (data, thunkAPI) => {
     try {
       const res = await axios.post(`${baseUrl}/auth/login/student`, data);
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const dashboardAnalytics = createAsyncThunk(
+  "dashboardAnalytics",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+    console.log(token);
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/admin/dashboard-analytics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
