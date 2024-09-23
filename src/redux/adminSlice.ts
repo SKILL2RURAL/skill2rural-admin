@@ -5,17 +5,23 @@ import axios from "axios";
 import { AdminState } from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
 
+interface LoginData {
+  email: string;
+  password: string;
+}
+
 const initialState: AdminState = {
   value: 0,
   loading: false,
   error: null,
+  token: null,
 };
 
-export const loginAsync = createAsyncThunk(
+export const login = createAsyncThunk<string, LoginData>(
   "connect/loginAsync",
   async (data, thunkAPI) => {
     try {
-      const res = await axios.post(`${baseUrl}/`, data);
+      const res = await axios.post(`${baseUrl}/auth/login/student`, data);
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
@@ -36,5 +42,12 @@ export const adminSlice = createSlice({
 
 export const {} = adminSlice.actions;
 export const selectCount = (state: RootState) => state.admin.value;
-
 export default adminSlice.reducer;
+
+export const handleLogin = (data: LoginData) => async (dispatch: any) => {
+  try {
+    await dispatch(login(data));
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+};

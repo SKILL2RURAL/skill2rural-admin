@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import LayoutWrapper from "@/components/layout/layoutWrapper";
 import { store } from "../redux/store";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Skill 2 rural",
@@ -17,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sf-pro font-[400]">
         <LayoutWrapper>{children}</LayoutWrapper>
+        <ToastContainer />
       </body>
     </html>
   );
