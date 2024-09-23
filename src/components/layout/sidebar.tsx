@@ -10,25 +10,27 @@ import {
   analytics,
   courses,
   settings,
-  user,
+  // user,
 } from "@/assets/icons";
 import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import { Avatar } from "@mui/material";
+import { useAppSelector } from "@/redux/hooks";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAppSelector((state) => state.admin);
 
   const links = [
     { name: "analytics", activeIcon: active_analytics, icon: analytics },
-    { name: "users", activeIcon: active_user, icon: user },
+    { name: "users", activeIcon: active_user, icon: courses },
     { name: "courses", activeIcon: active_courses, icon: courses },
     { name: "settings", activeIcon: active_settings, icon: settings },
   ];
 
   return (
-    <div className="hidden md:flex py-10 w-[15vw] px-5 flex flex-col justify-between h-[100vh] fixed bg-white">
+    <div className="hidden md:flex py-10 w-[20vw] px-5 flex flex-col justify-between h-[100vh] fixed bg-white">
       <div>
         <Image src={logo} alt="skill 2 rural" width={180} />
         <div className="h-[70px]" />
@@ -54,19 +56,24 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="text-[14px] flex flex-wrap gap-4 items-center">
-        <Avatar />
-        <div>
-          <p className="font-[600]">Sunrise truck</p>
-          <p className="text-[#171717]">bola@truckie.com</p>
+      {user && (
+        <div className="text-[14px] flex flex-wrap gap-2 items-center">
+          <div className="flex gap-3 items-center">
+            <Avatar src={user.profile_photo} />
+            <div>
+              <p className="font-[600]">{user.name}</p>
+              <p className="text-[#171717] truncate w-[80%]">{user.email}</p>
+            </div>
+          </div>
+
+          <FiLogOut
+            size="25px"
+            color="#98A2B3"
+            onClick={() => router.push(`/login`)}
+            cursor="pointer"
+          />
         </div>
-        <FiLogOut
-          size="25px"
-          color="#98A2B3"
-          onClick={() => router.push(`/login`)}
-          cursor="pointer"
-        />
-      </div>
+      )}
     </div>
   );
 };

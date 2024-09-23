@@ -1,61 +1,15 @@
-// "use client";
-// import { courseCompletionDataset } from "@/utils/courseCompletionDataset";
-// import { BarChart } from "@mui/x-charts/BarChart";
-
-// const chartSetting = {
-//   //   yAxis: [
-//   //     {
-//   //       label: "rainfall (mm)",
-//   //     },
-//   //   ],
-//   width: 500,
-//   height: 300,
-// };
-
-// const CourseCompletionCountChart = () => {
-//   return (
-//     <div>
-//       <BarChart
-//         dataset={courseCompletionDataset}
-//         borderRadius={8}
-//         yAxis={[{ scaleType: "band", dataKey: "month" }]}
-//         series={[{ dataKey: "seoul", color: "#60269E" }]}
-//         layout="horizontal"
-//         {...chartSetting}
-//       />
-//     </div>
-//   );
-// };
-
-// export default CourseCompletionCountChart;
-
-import React from "react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-
-const data = [
-  { name: "Design Thinking", users: 505 },
-  { name: "Servant Leadership", users: 100 },
-  { name: "Sustainable Development", users: 100 },
-  { name: "Story Telling", users: 50 },
-  { name: "Vision Boarding", users: 140 },
-];
+import { useAppSelector } from "@/redux/hooks";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const CourseCompletionCountChart = () => {
+  const { analytics } = useAppSelector((state) => state.admin);
+
   return (
     <div className="md:w-[42vw]">
       <ResponsiveContainer width="100%" height={400}>
         <BarChart
           layout="vertical"
-          data={data}
+          data={analytics?.courseCompletionsPerCourse}
           margin={{
             top: 20,
             right: 30,
@@ -65,11 +19,14 @@ const CourseCompletionCountChart = () => {
           barGap={2}
           barCategoryGap="10%"
         >
-          {/* <CartesianGrid strokeDasharray="3 3" /> */}
-          <XAxis type="number" domain={[0, 1000]} />
-          <YAxis dataKey="name" type="category" width={40} />
-          {/* <Legend /> */}
-          <Bar dataKey="users" fill="#60269E" barSize={25} radius={10} />
+          <XAxis type="number" />
+          <YAxis dataKey="title" type="category" width={40} />
+          <Bar
+            dataKey="numberOfCourseCompletions"
+            fill="#60269E"
+            barSize={25}
+            radius={10}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
