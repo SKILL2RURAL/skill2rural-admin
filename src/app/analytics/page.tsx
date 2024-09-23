@@ -57,8 +57,8 @@ const Analytics = () => {
       </div>
       <div className="h-[30px]" />
       <div className="grid md:grid-cols-3 gap-3">
-        {metrics.map((metric, index) => (
-          <MetricItem metric={metric} key={index} />
+        {metrics.map((data, index) => (
+          <MetricItem metric={data} key={index} />
         ))}
       </div>
       <div className="h-[30px]" />
