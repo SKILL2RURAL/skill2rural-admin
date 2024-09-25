@@ -27,6 +27,7 @@ import play from "../../public/icons/play.svg"
 import applicationMenu from "../../public/icons/application-menu.svg"
 import thumbnail from "../../public/icons/Image.svg"
 import courseEdit from '../../public/icons/CourseEdit.svg'
+import cancel from "../../public/icons/cancel.svg"
 
 
 export {
@@ -59,4 +60,5 @@ export {
     applicationMenu,
     thumbnail,
     courseEdit,
+    cancel,
 }

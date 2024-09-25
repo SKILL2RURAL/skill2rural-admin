@@ -16,7 +16,7 @@ const Reviews: React.FC = (props) => {
   ];
 
   return (
-    <div className='w-[80%] h-[882px] bg-white p-10 mt-6 font-neue-haas'>
+    <div className='w-[80%] h-[1167px] bg-white p-10 mt-6 font-neue-haas'>
       <div>
         <Rating totalRating={totalRatings} averageRating={averageRating} ratings={ratings}/>
       </div>

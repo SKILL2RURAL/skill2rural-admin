@@ -4,7 +4,7 @@ import { calendar, multiple_users, book, courseEdit } from "@/assets/icons";
 import Image from "next/image";
 import VideoPlayer from "@/components/videoPlayer";
 import QuestionsList from "@/components/courseComponents/questionList";
-import CourseDetails from "@/components/courseComponents/CourseDetails";
+import CourseDetails from "@/components/courseComponents/courseDetails";
 import Reviews from "@/components/courseComponents/review";
 
 

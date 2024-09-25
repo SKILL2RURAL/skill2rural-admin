@@ -9,6 +9,7 @@ import Table from "../users/table";
 import BarChart from "@/components/courseBarChart";
 import SuccessFailureDonut from "@/components/successAndFailure";
 import CourseTable from "./courseTable";
+import ActionButton from "@/components/courseComponents/actionButton";
 
 interface Metric {
   title: string;
@@ -86,14 +87,7 @@ const Courses = () => {
               <IoIosArrowDown className="absolute right-3 top-[14px]" />
             </div>
           </div>
-          <div className="text-[14px] space-x-3">
-            <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-              Message All Users
-            </button>
-            <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-              Export CSV
-            </button>
-          </div>
+          <ActionButton />
         </div>
         <div>
           {/* <Table /> */}
