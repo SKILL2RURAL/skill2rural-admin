@@ -28,6 +28,7 @@ import applicationMenu from "../../public/icons/application-menu.svg"
 import thumbnail from "../../public/icons/Image.svg"
 import courseEdit from '../../public/icons/CourseEdit.svg'
 import cancel from "../../public/icons/cancel.svg"
+import picFrame from "../../public/icons/pic-frame.svg"
 
 
 export {
@@ -61,4 +62,5 @@ export {
     thumbnail,
     courseEdit,
     cancel,
+    picFrame
 }
