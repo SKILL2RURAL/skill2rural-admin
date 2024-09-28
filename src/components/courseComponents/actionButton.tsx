@@ -1,8 +1,7 @@
 "use client"
 import React, { useState } from 'react'
-import Modal from './modal'
-import ReusableModal from './editCourseModal'
 import CourseForm from './courseForm'
+import ReusableModal from './modal'
 
 
 const ActionButton: React.FC = () => {

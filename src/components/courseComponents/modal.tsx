@@ -1,31 +1,53 @@
-import React, { ReactNode } from 'react';
+// components/ReusableModal.tsx
+import React from 'react';
+import { Modal, Box, IconButton } from '@mui/material';
+import { cancel } from '@/assets/icons';
+import Image from 'next/image';
 
-interface ModalProps {
+interface ReusableModalProps {
   isOpen: boolean;
   onClose: () => void;
-  styles?: string; // Custom styles passed as prop
+  children: React.ReactNode;
+  styles?: React.CSSProperties; // Optional custom styles for the modal
 }
 
-type Props = {
-  children: ReactNode;
-}
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, styles }, {children} : Props) => {
-  if (!isOpen) return null;
+
+const ReusableModal: React.FC<ReusableModalProps> = ({ isOpen, onClose,children, styles }) => {
+  styles = {
+    height: 639,
+    overflowY: 'auto',
+  }
+
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50`}>
-      <div className={`bg-white rounded-lg shadow-lg p-6 w-full max-w-lg ${styles}`}>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Add New Course</h2>
-          <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>
-            &times;
-          </button>
-        </div>
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <Box
+        sx={{
+          position: 'absolute' as 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: 679,
+          maxHeight: '95vh',
+          bgcolor: 'background.paper',
+          borderRadius: 2,
+          boxShadow: 24,
+          p: 4,
+          outline: 'none',
+          ...styles, // Accept custom styles passed from props
+        }}
+      >
+        <div className='absolute right-2 top-2' onClick={onClose}><Image src={cancel} alt="cancel button"/></div>
         {children}
-      </div>
-    </div>
+      </Box>
+    </Modal>
   );
 };
 
-export default Modal;
+export default ReusableModal;

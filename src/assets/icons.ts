@@ -29,6 +29,7 @@ import thumbnail from "../../public/icons/Image.svg"
 import courseEdit from '../../public/icons/CourseEdit.svg'
 import cancel from "../../public/icons/cancel.svg"
 import picFrame from "../../public/icons/pic-frame.svg"
+import coverImage from "../../public/icons/coverImage.svg"
 
 
 export {
@@ -62,5 +63,6 @@ export {
     thumbnail,
     courseEdit,
     cancel,
-    picFrame
+    picFrame,
+    coverImage
 }
