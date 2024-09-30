@@ -5,6 +5,7 @@ export interface AdminState {
   token: string | null;
   user: userObj | null;
   analytics: Analytics | null;
+  allUsers: userObj[] | null;
 }
 
 interface userObj {

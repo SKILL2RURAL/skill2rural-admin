@@ -59,13 +59,13 @@ const UsersTable = () => {
                 onClick={() => handleNavigation()}
               >
                 <TableCell scope="row">{row.name}</TableCell>
-                <div className="border-b py-4 flex flex-row gap-2 items-center">
+                <span className="border-b py-4 flex flex-row gap-2 items-center">
                   <Avatar />
-                  <div className="text-[13px] md:text-[14px]">
+                  <span className="text-[13px] md:text-[14px]">
                     <p>John Doe</p>
                     <p className="text-[#667085]">@o.mariam</p>
-                  </div>
-                </div>
+                  </span>
+                </span>
                 <TableCell>Sept, 10, 2023</TableCell>
                 <TableCell>johndoe@gmail.com</TableCell>
                 <TableCell className="text-[var(--primary-color)]">

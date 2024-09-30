@@ -1,7 +1,8 @@
+"use client";
 import { book, calendar } from "@/assets/icons";
 import Layout from "@/components/layout/layout";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import MetricItem from "../analytics/metricItem";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,6 +10,9 @@ import Table from "../users/table";
 import BarChart from "@/components/courseBarChart";
 import SuccessFailureDonut from "@/components/successAndFailure";
 import CourseTable from "./courseTable";
+import { getCurrentDateFormatted } from "@/utils/date";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setUser } from "@/redux/adminSlice";
 
 interface Metric {
   title: string;
@@ -17,11 +21,24 @@ interface Metric {
 }
 
 const Courses = () => {
+  const dispatch = useAppDispatch();
   const metrics: Metric[] = [
     { title: "Total Courses", icon: book, amount: 16 },
     { title: "Active Courses", icon: book, amount: 14 },
     { title: "Archived Courses", icon: book, amount: 2 },
   ];
+  const { user } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (!user && storedUser) {
+      try {
+        dispatch(setUser(JSON.parse(storedUser)));
+      } catch (error) {
+        console.error("Failed to parse stored user:", error);
+      }
+    }
+  }, [user, dispatch]);
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -31,7 +48,7 @@ const Courses = () => {
         </div>
         <div className="text-[12px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
-          <p>Saturday, August 10, 2024</p>
+          <p>{getCurrentDateFormatted()}</p>
         </div>
       </div>
       <div className="h-[30px]" />
@@ -66,7 +83,7 @@ const Courses = () => {
               <BarChart />
             </div>
           </div>
-          <SuccessFailureDonut />
+          {/* <SuccessFailureDonut /> */}
         </div>
       </div>
 
@@ -93,7 +110,7 @@ const Courses = () => {
               Message All Users
             </button>
             <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-              Export CSV
+              Add Courses
             </button>
           </div>
         </div>

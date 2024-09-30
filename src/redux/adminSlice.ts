@@ -17,6 +17,7 @@ const initialState: AdminState = {
   token: null,
   user: null,
   analytics: null,
+  allUsers: null,
 };
 
 export const login = createAsyncThunk<string, LoginData>(
@@ -39,7 +40,6 @@ export const dashboardAnalytics = createAsyncThunk(
     const token = localStorage.getItem("token")
       ? localStorage.getItem("token")
       : null;
-    console.log(token);
 
     if (!token) {
       return thunkAPI.rejectWithValue("No token found");
@@ -59,16 +59,70 @@ export const dashboardAnalytics = createAsyncThunk(
   }
 );
 
+export const getAllUsers = createAsyncThunk(
+  "getAllUsers",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/user/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getAllCourses = createAsyncThunk(
+  "getAllCourses",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
 export const adminSlice = createSlice({
   name: "admin",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
 
-export const {} = adminSlice.actions;
+export const { setUser } = adminSlice.actions;
 export const selectCount = (state: RootState) => state.admin.value;
 export default adminSlice.reducer;
 

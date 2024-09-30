@@ -57,8 +57,8 @@ const Sidebar = () => {
       </div>
 
       {user && (
-        <div className="text-[14px] flex flex-wrap gap-2 items-center">
-          <div className="flex gap-3 items-center">
+        <div className="text-[14px] flex gap-2 flex-wrap items-center max-w-[20vw]">
+          <div className="flex flex-wrap gap-3 items-center">
             <Avatar src={user.profile_photo} />
             <div>
               <p className="font-[600]">{user.name}</p>
