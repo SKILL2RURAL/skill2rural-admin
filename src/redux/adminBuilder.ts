@@ -1,6 +1,11 @@
 import { ActionReducerMapBuilder, PayloadAction } from "@reduxjs/toolkit";
 import { AdminState } from "@/utils/adminTypes";
-import { dashboardAnalytics, getAllUsers, login } from "./adminSlice";
+import {
+  dashboardAnalytics,
+  getAllUsers,
+  getUserStats,
+  login,
+} from "./adminSlice";
 import { toast } from "react-toastify";
 
 const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
@@ -45,6 +50,13 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
       (state: any, action: PayloadAction<any>) => {
         state.loading = false;
         state.allUsers = action.payload;
+      }
+    )
+    .addCase(
+      getUserStats.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.userStats = action.payload;
       }
     );
 

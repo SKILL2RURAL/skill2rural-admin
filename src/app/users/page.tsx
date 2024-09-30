@@ -9,44 +9,53 @@ import {
   orange_users,
 } from "@/assets/icons";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import UsersTable from "./usersTable";
 import { getCurrentDateFormatted } from "@/utils/date";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getUserStats } from "@/redux/adminSlice";
 
 interface metric {
   icon: string;
   label: string;
-  amount: string;
+  amount: number;
   reachOut?: string;
   percentage?: number;
 }
 
 const User = () => {
+  const dispatch = useAppDispatch();
+  const { userStats } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(getUserStats());
+  }, []);
+  console.log(userStats);
   const [activeTab, setActiveTab] = useState("allUsers");
   const metrics: metric[] = [
     {
       icon: blue_users,
       label: "Total users",
-      percentage: 40,
-      amount: "10.2k",
-      // reachOut: "1.5k",
+      percentage: userStats?.totalUsers?.percentageIncreaseInTotalUsers || 0,
+      amount: userStats?.totalUsers?.value || 0,
     },
     {
       icon: green_users,
       label: "Educators",
-      percentage: 40,
-      amount: "10.2k",
+      percentage:
+        userStats?.totalEducators?.percentageIncreaseInTotalEducators || 0,
+      amount: userStats?.totalEducators?.value || 0,
       reachOut: "1.5k",
     },
     {
       icon: orange_users,
       label: "Students",
-      percentage: 40,
-      amount: "10.2k",
-      // reachOut: "1.5k",
+      percentage:
+        userStats?.totalStudents?.percentageIncreaseInTotalStudents || 0,
+      amount: userStats?.totalStudents?.value || 0,
     },
   ];
 

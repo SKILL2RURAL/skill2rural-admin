@@ -6,6 +6,7 @@ export interface AdminState {
   user: userObj | null;
   analytics: Analytics | null;
   allUsers: userObj[] | null;
+  userStats: UserStats | null;
 }
 
 interface userObj {
@@ -37,4 +38,20 @@ interface CourseCompletionsPerCourse {
 interface usersPerMonth {
   month: string;
   userCount: number;
+}
+
+interface UserStats {
+  totalUsers: {
+    value: number;
+    percentageIncreaseInTotalUsers: number;
+    usersLastMonth: number;
+  };
+  totalEducators: {
+    value: number;
+    percentageIncreaseInTotalEducators: number;
+  };
+  totalStudents: {
+    value: number;
+    percentageIncreaseInTotalStudents: number;
+  };
 }

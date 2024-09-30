@@ -18,6 +18,7 @@ const initialState: AdminState = {
   user: null,
   analytics: null,
   allUsers: null,
+  userStats: null,
 };
 
 export const login = createAsyncThunk<string, LoginData>(
@@ -96,6 +97,31 @@ export const getAllCourses = createAsyncThunk(
     }
     try {
       const res = await axios.get(`${baseUrl}/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getUserStats = createAsyncThunk(
+  "getUserStats",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/admin/users-stats`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

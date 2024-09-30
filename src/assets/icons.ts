@@ -26,7 +26,7 @@ import more from "../../public/icons/more-2-fill.svg";
 import play from "../../public/icons/play.svg";
 import applicationMenu from "../../public/icons/application-menu.svg";
 import thumbnail from "../../public/icons/Image.svg";
-import courseEdit from "../../public/icons/CourseEdit.svg";
+import courseEdit from "../../public/icons/courseEdit.svg";
 import cancel from "../../public/icons/cancel.svg";
 import picFrame from "../../public/icons/pic-frame.svg";
 import coverImage from "../../public/icons/coverImage.svg";
