@@ -16,7 +16,12 @@ const config: Config = {
       },
       backgroundImage: {
         'thumbnail': "url('./public/images/videoplayer-thumbnail.png')",
-      }
+      },
+      gridTemplateColumns: {
+        footer: "20% 80%",
+        rating: "596px 103px",
+        custom: "1fr 1fr 1fr 1fr 1fr",
+      },
     },
   },
   plugins: [],

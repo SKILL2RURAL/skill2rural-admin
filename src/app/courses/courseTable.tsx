@@ -1,4 +1,5 @@
 "use client";
+import EditButton from "@/components/courseComponents/editButton";
 import {
   TableBody,
   TableCell,
@@ -10,7 +11,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { trash_can, edit, more } from "@/assets/icons";
+
 
 function createData(
   name: string,
@@ -108,11 +109,10 @@ const CourseTable = () => {
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 className="text-[10px] md:text-[14px] cursor-pointer"
-                onClick={() => handleNavigation()}
               >
-                <TableCell scope="row">{row.name}</TableCell>
-                <TableCell>{row.course}</TableCell>
-                <TableCell>{row.courseType}</TableCell>
+                <TableCell scope="row" onClick={() => handleNavigation()}>{row.name}</TableCell>
+                <TableCell onClick={() => handleNavigation()}>{row.course}</TableCell>
+                <TableCell onClick={() => handleNavigation()}>{row.courseType}</TableCell>
                 <TableCell>
                   <div className="flex gap-2 items-center">
                     <p className="h-8 w-8 rounded-[50%] bg-[#B9DABB] text-[#102E21] text-sm text-center py-2">
@@ -130,6 +130,9 @@ const CourseTable = () => {
                   <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
                     Active
                   </p>
+                </TableCell>
+                <TableCell>
+                  <EditButton />
                 </TableCell>
               </TableRow>
             ))}

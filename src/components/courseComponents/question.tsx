@@ -14,11 +14,11 @@ const Question: React.FC = (props : any) => {
       </div>
       <div className="mt-2 ml-5">
         <label htmlFor="question" className="block mb-3 ml-2">
-          <input type="radio" value="true" />
+          <input type="checkbox" className="text-[#7F56D9] mr-2 w-4 h-4 bg-[#F9F5FF] border-[#7F56D9] rounded-lg focus:ring-[#6e48c0]" value="true" />
           True
         </label>
         <label htmlFor="question" className="block ml-2">
-          <input type="radio" value="false" />
+          <input type="checkbox" className="text-[#7F56D9] mr-2 w-4 h-4 bg-[#F9F5FF] border-[#7F56D9] rounded-lg focus:ring-[#6e48c0]" value="false" />
           False
         </label>
       </div>
