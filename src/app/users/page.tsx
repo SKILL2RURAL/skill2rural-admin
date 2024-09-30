@@ -33,7 +33,6 @@ const User = () => {
   useEffect(() => {
     dispatch(getUserStats());
   }, []);
-  console.log(userStats);
   const [activeTab, setActiveTab] = useState("allUsers");
   const metrics: metric[] = [
     {

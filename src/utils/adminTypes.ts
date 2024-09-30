@@ -14,6 +14,7 @@ interface userObj {
   id: number;
   name: string;
   profile_photo: string;
+  type: string;
 }
 
 interface Analytics {

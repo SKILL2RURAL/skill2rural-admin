@@ -71,7 +71,7 @@ export const getAllUsers = createAsyncThunk(
       return thunkAPI.rejectWithValue("No token found");
     }
     try {
-      const res = await axios.get(`${baseUrl}/user/all`, {
+      const res = await axios.get(`${baseUrl}/admin/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
