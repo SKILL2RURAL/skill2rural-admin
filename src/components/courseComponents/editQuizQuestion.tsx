@@ -16,7 +16,7 @@ interface QuizData {
   response: boolean;
 }
 
-const EditQuizQuestion: React.FC = () => {
+const EditQuizQuestion: React.FC<{onClose: () => void}> = ({onClose}) => {
   const [formData, setFormData] = useState<QuizData>({
     question: "",
     points: "1 point",
@@ -51,7 +51,7 @@ const EditQuizQuestion: React.FC = () => {
     <div className="fixed right-0 top-0 h-screen w-[400px] bg-white shadow-lg p-5">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Quiz Questions</h2>
-        <div><Image src={cancel} alt='close button'/></div>
+        <div onClick={onClose}><Image src={cancel} alt='close button'/></div>
       </div>
       <form 
         className="mt-5 space-y-4"

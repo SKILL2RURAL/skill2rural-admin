@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { coverImage } from '@/assets/icons';
 import Image from 'next/image';
+import EditQuizQuestion from './editQuizQuestion';
+
 
 interface CourseDetails {
   title: string;
@@ -9,13 +11,14 @@ interface CourseDetails {
   coverImage: File | null;
 }
 
-const EditCourse: React.FC = () => {
+const EditCourse: React.FC<{openEdit: () => void}> = ({openEdit}) => {
   const [course, setCourse] = useState<CourseDetails>({
     title: '',
     description: '',
     type: 'Free',
     coverImage: null,
   })
+
 
   const handleChange = (e : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> ) => {
     const {name, value} = e.target
@@ -96,6 +99,7 @@ const EditCourse: React.FC = () => {
           <button
             type="submit"
             className="w-full bg-white border border-[#60269E] mt-4 mb-4 text-[#60269E] py-2 rounded-lg shadow-md hover:bg-[#722abf] hover:text-white"
+            onClick={openEdit}
           >
             Edit Quiz Questions
           </button>
@@ -106,7 +110,7 @@ const EditCourse: React.FC = () => {
             Add Quiz Questions
           </button>
         </form>
-    </>
+       </>
   )
 }
 

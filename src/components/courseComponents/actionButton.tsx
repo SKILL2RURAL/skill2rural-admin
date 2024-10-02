@@ -23,11 +23,7 @@ const ActionButton: React.FC = () => {
       <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white" onClick={handleOpen}>
         Add New Course
       </button>
-      {/* <Editcourse open={open} handleClose={handleClose} /> */}
-      <ReusableModal isOpen={open} onClose={handleClose}>
-        <CourseForm />
-      </ReusableModal>
-      {/* <Modal isOpen={open} onClose={handleClose}/> */}
+      <ReusableModal isOpen={open} onClose={handleClose}><CourseForm /></ReusableModal>
     </div>
   )
 }

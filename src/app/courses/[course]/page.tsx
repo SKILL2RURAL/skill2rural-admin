@@ -14,6 +14,12 @@ const  Course: React.FC = () => {
     const [activeTab, setActiveTab] = useState("courseDetails")
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
+    const [editCourse, setEditCourse] = useState<boolean>(false)
+
+    const openEdit = () => {
+      setEditCourse(true)
+    }
+
     const handleClick = () => {
       setIsOpen(true)
      }
@@ -24,7 +30,7 @@ const  Course: React.FC = () => {
 
   return (
     <>
-      <ReusableModal isOpen={isOpen} onClose={handleClose}><EditCourse /></ReusableModal>
+      <ReusableModal isOpen={isOpen} onClose={handleClose}><EditCourse openEdit={openEdit} /></ReusableModal>
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Image src={book} alt="" width={40} />

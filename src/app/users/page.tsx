@@ -58,7 +58,7 @@ const User = () => {
               <div className="flex flex-col gap-3">
                 <Image src={metric.icon} alt={metric.label} width={50} />
                 <div>
-                  <p className="text-[#A3AED0] font-[500] font-[13px]">
+                  <p className="text-[#A3AED0] font-[500] text-[13px]">
                     {metric.label}
                   </p>
                   <p className="text-[33px] font-[600]">{metric.amount}</p>
