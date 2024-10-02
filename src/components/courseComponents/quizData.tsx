@@ -12,16 +12,16 @@ interface QuizData {
 
 const QuizDataComponent: React.FC<QuizData> = ({id, question, point, response, onRemove}) => {
   return (
-    <li>
-      <div>
+    <li className='mb-3'>
+      <div className='flex gap-3 mb-3'>
         <Image src={applicationMenu} alt='icon'/>
-        <p><span>. {id}</span>{question}</p>
+        <p><span className='mr-2'>{id}.</span>{question}</p>
       </div>
-      <div>
+      <div className='flex justify-between gap-4'>
         <p>Response: {response ? "True" : "False"}</p>
-        <div>
-          <Image src={edit} alt='edit button'/>
-          <p onClick={() => onRemove(id)}><Image src={trash_can} alt='delete button' /></p>
+        <div className='flex justify-end gap-3'>
+          <Image src={edit} alt='edit button' className='cursor-pointer'/>
+          <p onClick={() => onRemove(id)} className='cursor-pointer'><Image src={trash_can} alt='delete button' /></p>
         </div>
       </div>
     </li>
