@@ -1,6 +1,16 @@
 import { ActionReducerMapBuilder, PayloadAction } from "@reduxjs/toolkit";
 import { AdminState } from "@/utils/adminTypes";
-import { dashboardAnalytics, login } from "./adminSlice";
+import {
+  dashboardAnalytics,
+  getAllCourses,
+  getAllUsers,
+  getCourseDetails,
+  getCoursesStats,
+  getUser,
+  getUserCourses,
+  getUserStats,
+  login,
+} from "./adminSlice";
 import { toast } from "react-toastify";
 
 const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
@@ -21,7 +31,7 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
     .addCase(login.rejected, (state: any, action: any) => {
       state.loading = false;
       toast.error(action?.payload || "An error occurred");
-      console.log(action.payload);
+      console.error(action.payload);
       state.error = (action.payload as string) || "An error occurred";
     })
 
@@ -37,8 +47,55 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
     )
     .addCase(dashboardAnalytics.rejected, (state: any, action: any) => {
       state.loading = false;
-      console.log(action);
-    });
+      console.error(action);
+    })
+
+    .addCase(
+      getAllUsers.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.allUsers = action.payload;
+      }
+    )
+    .addCase(
+      getAllCourses.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.allCourses = action.payload.data;
+      }
+    )
+    .addCase(
+      getCourseDetails.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.courseDetails = action.payload.data;
+      }
+    )
+    .addCase(
+      getUserStats.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.userStats = action.payload;
+      }
+    )
+    .addCase(getUser.fulfilled, (state: any, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.singleUser = action.payload;
+    })
+    .addCase(
+      getUserCourses.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.userCourses = action.payload;
+      }
+    )
+    .addCase(
+      getCoursesStats.fulfilled,
+      (state: any, action: PayloadAction<any>) => {
+        state.loading = false;
+        state.coursesStats = action.payload;
+      }
+    );
 
   return builder;
 };

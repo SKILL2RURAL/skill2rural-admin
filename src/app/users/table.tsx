@@ -53,10 +53,9 @@ const BasicTable = () => {
                 <TableCell scope="row">{row.name}</TableCell>
                 <div className="border-b py-4 flex flex-row gap-2 items-center">
                   <Avatar />
-                  <div className="text-[13px] md:text-[14px]">
-                    <p>John Doe</p>
-                    <p className="text-[#667085]">@o.mariam</p>
-                  </div>
+                  {/* <div > */}
+                  <p className="text-[13px] md:text-[14px]">John Doe</p>
+                  {/* <p className="text-[#667085]">@o.mariam</p> */}
                 </div>
                 <TableCell>Sept, 10, 2023</TableCell>
                 <TableCell>johndoe@gmail.com</TableCell>

@@ -1,27 +1,56 @@
+"use client";
 import { book, calendar } from "@/assets/icons";
-import Layout from "@/components/layout/layout";
+import BarChart from "@/components/courseBarChart";
+import ActionButton from "@/components/courseComponents/actionButton";
+import SuccessFailureDonut from "@/components/successAndFailure";
+import { getCoursesStats, setUser } from "@/redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getCurrentDateFormatted } from "@/utils/date";
 import Image from "next/image";
-import React from "react";
-import MetricItem from "../analytics/metricItem";
+import { useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import Table from "../users/table";
-import BarChart from "@/components/courseBarChart";
-import SuccessFailureDonut from "@/components/successAndFailure";
+import MetricItem from "../analytics/metricItem";
 import CourseTable from "./courseTable";
 
 interface Metric {
   title: string;
   icon: any;
-  amount: number;
+  amount: number | undefined;
 }
 
 const Courses = () => {
+  const dispatch = useAppDispatch();
+  const { coursesStats } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(getCoursesStats());
+  }, []);
   const metrics: Metric[] = [
-    { title: "Total Courses", icon: book, amount: 16 },
-    { title: "Active Courses", icon: book, amount: 14 },
-    { title: "Archived Courses", icon: book, amount: 2 },
+    { title: "Total Courses", icon: book, amount: coursesStats?.totalCourses },
+    {
+      title: "Active Courses",
+      icon: book,
+      amount: coursesStats?.totalActiveCourses,
+    },
+    {
+      title: "Archived Courses",
+      icon: book,
+      amount: coursesStats?.totalArchivedCourses,
+    },
   ];
+  const { user } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (!user && storedUser) {
+      try {
+        dispatch(setUser(JSON.parse(storedUser)));
+      } catch (error) {
+        console.error("Failed to parse stored user:", error);
+      }
+    }
+  }, [user, dispatch]);
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -31,7 +60,7 @@ const Courses = () => {
         </div>
         <div className="text-[12px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
-          <p>Saturday, August 10, 2024</p>
+          <p>{getCurrentDateFormatted()}</p>
         </div>
       </div>
       <div className="h-[30px]" />
@@ -51,7 +80,7 @@ const Courses = () => {
                 </h1>
                 <div className="flex justify-between ">
                   <p className="text-[34px] font-[700] text-[#2B3674] mt-2">
-                    3,000
+                    {coursesStats?.totalCertificates}
                   </p>
                   <div className="relative">
                     <select className="cursor-pointer text-[13px] p-2 w-[70px] outline-none appearance-none">
@@ -88,14 +117,7 @@ const Courses = () => {
               <IoIosArrowDown className="absolute right-3 top-[14px]" />
             </div>
           </div>
-          <div className="text-[14px] space-x-3">
-            <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-              Message All Users
-            </button>
-            <button className="bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-              Export CSV
-            </button>
-          </div>
+          <ActionButton />
         </div>
         <div>
           {/* <Table /> */}

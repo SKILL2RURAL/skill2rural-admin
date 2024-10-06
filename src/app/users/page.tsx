@@ -9,30 +9,53 @@ import {
   orange_users,
 } from "@/assets/icons";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import UsersTable from "./usersTable";
+import { getCurrentDateFormatted } from "@/utils/date";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getUserStats } from "@/redux/adminSlice";
 
 interface metric {
   icon: string;
   label: string;
-  amount: string;
+  amount: number;
   reachOut?: string;
+  percentage?: number;
 }
 
 const User = () => {
+  const dispatch = useAppDispatch();
+  const { userStats } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(getUserStats());
+  }, []);
   const [activeTab, setActiveTab] = useState("allUsers");
   const metrics: metric[] = [
-    { icon: blue_users, label: "Total users", amount: "10.2k" },
+    {
+      icon: blue_users,
+      label: "Total users",
+      percentage: userStats?.totalUsers?.percentageIncreaseInTotalUsers || 0,
+      amount: userStats?.totalUsers?.value || 0,
+    },
     {
       icon: green_users,
-      label: "Total users",
-      amount: "10.2k",
+      label: "Educators",
+      percentage:
+        userStats?.totalEducators?.percentageIncreaseInTotalEducators || 0,
+      amount: userStats?.totalEducators?.value || 0,
       reachOut: "1.5k",
     },
-    { icon: orange_users, label: "Total users", amount: "10.2k" },
+    {
+      icon: orange_users,
+      label: "Students",
+      percentage:
+        userStats?.totalStudents?.percentageIncreaseInTotalStudents || 0,
+      amount: userStats?.totalStudents?.value || 0,
+    },
   ];
 
   return (
@@ -44,16 +67,16 @@ const User = () => {
         </div>
         <div className="text-[12px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
-          <p>Saturday, August 10, 2024</p>
+          <p>{getCurrentDateFormatted()}</p>
         </div>
       </div>
       <div className="h-[30px]" />
       <div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {metrics.map((metric: any, index: number) => (
             <div
               key={index}
-              className="border rounded-[8px] p-3 border-[#EAECF0] shadow-sm"
+              className="flex justify-between border rounded-[8px] p-3 border-[#EAECF0] shadow-sm"
             >
               <div className="flex flex-col gap-3">
                 <Image src={metric.icon} alt={metric.label} width={50} />
@@ -64,12 +87,32 @@ const User = () => {
                   <p className="text-[33px] font-[600]">{metric.amount}</p>
                 </div>
               </div>
-              <div></div>
+              <div className="flex flex-col justify-end space-y-1 items-end">
+                {metric?.reachOut && (
+                  <div className="space-x-1">
+                    <span className="text-[#101828] text-[16px] font-[600]">
+                      {metric.reachOut}
+                    </span>
+                    <span className="text-[#A3AED0] text-[11px] font-[400]">
+                      Total reach out
+                    </span>
+                  </div>
+                )}
+
+                <div className="space-x-1">
+                  <span className="text-[#027A48] text-[16px] font-[500]">
+                    {metric.percentage}%
+                  </span>
+                  <span className="text-[#A3AED0] text-[11px] font-[400]">
+                    vs last month
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
         <div className="h-[30px]" />
-        <div className="py-3 md:py-0 text-[12px] md:text-[14px] font-[400] text-[#878787] flex justify-around md:justify-start md:gap-10 bg-white md:p-4 md:px-5 rounded-[8px] font-karla">
+        <div className="py-3 md:py-3 text-[12px] md:text-[14px] font-[400] text-[#878787] flex justify-around md:justify-start md:gap-10 bg-white md:p-4 md:px-5 rounded-[8px] font-karla">
           <p
             className={`${
               activeTab === "allUsers"
