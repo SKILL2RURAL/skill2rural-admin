@@ -1,30 +1,36 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import african_college_student from "../../../public/images/african-college-student.svg";
 import logo from "../../../public/images/skill2rural1.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { handleLogin } from "@/redux/adminSlice";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.admin);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
 
-  console.log(data);
-  const [isLoading, setIsLoading] = useState(false);
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (token) {
+      router.push("/analytics");
+    }
+  }, [token]);
+
+  const handleSubmit = async () => {
     try {
       setIsLoading(true);
-      router.push("/analytics");
+      await dispatch(
+        handleLogin({ email: data.email, password: data.password })
+      );
     } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      console.error(error);
     }
   };
 

@@ -8,7 +8,7 @@ interface MetricsProps {
 interface Metric {
   title: string;
   icon: any;
-  amount: string;
+  amount: number | undefined;
 }
 
 const MetricItem: React.FC<MetricsProps> = ({ metric }) => {

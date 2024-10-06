@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Profile from "./profile";
 import Password from "./password";
 import Team from "./team";
+import { getCurrentDateFormatted } from "@/utils/date";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -32,7 +33,7 @@ const Settings = () => {
         </div>
         <div className="text-[12px] md:text-[16px] font-[300] flex gap-2 items-center">
           <Image src={calendar} alt="date" width={40} />
-          <p>Saturday, August 10, 2024</p>
+          <p>{getCurrentDateFormatted()}</p>
         </div>
       </div>
       <div className="h-[30px]" />

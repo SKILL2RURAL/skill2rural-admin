@@ -1,4 +1,6 @@
 "use client";
+import { getAllUsers } from "@/redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   TableBody,
   TableCell,
@@ -10,31 +12,19 @@ import {
   Avatar,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React from "react";
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("#001", 159, 6.0, 24, 4.0),
-  createData("#002", 237, 9.0, 37, 4.3),
-  createData("#003", 262, 16.0, 24, 6.0),
-  createData("#004", 305, 3.7, 67, 4.3),
-  createData("#005", 356, 16.0, 49, 3.9),
-];
+import React, { useEffect } from "react";
 
 const UsersTable = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { allUsers } = useAppSelector((state) => state.admin);
 
-  const handleNavigation = () => {
-    router.push(`/users/${1}`);
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, []);
+
+  const handleNavigation = (id: number) => {
+    router.push(`/users/${id}`);
   };
   return (
     <div className="mt-3 md:mt-7">
@@ -43,6 +33,8 @@ const UsersTable = () => {
           <TableHead>
             <TableRow className="bg-[#F9FAFB] border border-[#EAECF0]">
               <TableCell>User ID</TableCell>
+
+              {/* <TableCell>User ID</TableCell> */}
               <TableCell>User</TableCell>
               <TableCell>Joined Data</TableCell>
               <TableCell>Email Address</TableCell>
@@ -51,25 +43,27 @@ const UsersTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {allUsers?.map((row) => (
               <TableRow
-                key={row.name}
+                key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 className="text-[10px] md:text-[14px] cursor-pointer"
-                onClick={() => handleNavigation()}
+                onClick={() => handleNavigation(row.id)}
               >
-                <TableCell scope="row">{row.name}</TableCell>
-                <div className="border-b py-4 flex flex-row gap-2 items-center">
+                <TableCell scope="row">{row.id}</TableCell>
+
+                {/* <TableCell scope="row">{row.name}</TableCell> */}
+                <span className="border-b py-[2rem] md:py-4 flex flex-row gap-2 items-center">
                   <Avatar />
-                  <div className="text-[13px] md:text-[14px]">
-                    <p>John Doe</p>
+                  <span className="text-[13px] md:text-[14px]">
+                    <p>{row.name}</p>
                     <p className="text-[#667085]">@o.mariam</p>
-                  </div>
-                </div>
+                  </span>
+                </span>
                 <TableCell>Sept, 10, 2023</TableCell>
-                <TableCell>johndoe@gmail.com</TableCell>
+                <TableCell>{row.email}</TableCell>
                 <TableCell className="text-[var(--primary-color)]">
-                  Student
+                  {row.type}
                 </TableCell>
                 <TableCell>
                   <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">

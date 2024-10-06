@@ -1,30 +1,54 @@
-import Image from 'next/image';
-import React from 'react';
-import { IoIosArrowDown } from "react-icons/io";
-import { thumbnail } from '@/assets/icons';
+import { useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
+import React from "react";
 
 const CourseDetails: React.FC = (props) => {
+  const { courseDetails } = useAppSelector((state) => state.admin);
 
   return (
-    <div className='w-[80%] h-[882px] bg-white p-10 mt-6 font-neue-haas'>
-      <div className='flex gap-12 mb-10'>
-        <p className='text-[#253B4B] w-500 font-neue-haas text-lg'>Course title</p>
-        <p className='w-[410px] h-[55px] border border-[#C4C4C4] rounded-lg py-4 pl-3'>Design Thinking</p>
+    <div className="bg-white p-10 mt-6 font-neue-haas">
+      <div className="flex mb-10">
+        <p className="text-[#253B4B] w-[10rem]">Course title</p>
+        <input
+          type="type"
+          value={courseDetails?.title}
+          className="w-full border border-[#C4C4C4] rounded-[10px] pl-2 py-4 outline-none"
+          disabled
+        />
       </div>
-      <div className='flex gap-12 mb-10'>
-        <p className='text-[#253B4B] w-500 font-neue-haas text-lg'>Description</p>
-        <p className='w-[410px] h-[143px] border border-[#C4C4C4] rounded-lg px-2 py-4'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque culpa et nesciunt, voluptatum impedit id natus reiciendis neque fuga quos quod illo, aperiam, animi veniam quibusdam odio eligendi commodi? Aliquam.</p>
+      <div className="flex mb-10">
+        <p className="text-[#253B4B] w-[10rem]">Description</p>
+
+        <textarea
+          value={courseDetails?.description}
+          className="border border-[#C4C4C4] w-full p-4 min-h-[200px] rounded-[10px]"
+          disabled
+        />
       </div>
-      <div className='flex gap-10 mb-10'>
-          <p className='text-[#253B4B] w-500 font-neue-haas text-lg'>Course type</p>
-          <p className='w-[410px] h-[55px] border border-[#C4C4C4] rounded-lg px-4 py-4'>Free</p>
+      <div className="flex mb-10">
+        <p className="text-[#253B4B] w-[10rem]">Course type</p>
+        <select
+          className="outline-none w-full border border-[#C4C4C4] rounded-[10px] py-4 pl-2"
+          disabled
+        >
+          <option value="free">Free</option>
+          <option value="paid">Paid</option>
+        </select>
       </div>
-      <div className='flex gap-12'>
-        <p className='text-[#253B4B] w-500 font-neue-haas text-lg'>Thumbnail</p>
-        <p className='w-[110px] h-[95px] border border-[#C4C4C4] rounded-md relative'><Image src={thumbnail} alt='thumbnail' className='absolute top-7 left-10'/></p>
+      <div className="flex gap-12">
+        <p className="text-[#253B4B] w-500 text-lg">Thumbnail</p>
+        <p className="w-[110px] h-[95px] border border-[#C4C4C4] rounded-md relative">
+          <Image
+            src={courseDetails?.thumbnail_image || ""}
+            alt="thumbnail"
+            className="h-full w-full"
+            width={20}
+            height={20}
+          />
+        </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CourseDetails
+export default CourseDetails;

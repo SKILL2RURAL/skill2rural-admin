@@ -2,20 +2,274 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import { baseUrl } from "@/utils/constants";
 import axios from "axios";
-import { AdminState } from "@/utils/adminTypes";
+import { AdminState, CourseObj, userCoursesObj } from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  type: string;
+  organisation: string;
+  role: string;
+  no_of_students_to_reach: number;
+  work_with_maginalized_populations: boolean;
+  profile_photo: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface UserDetailsResponse {
+  user: User;
+  totalCertificates: number;
+  quizesByUser: number;
+  quizSuccessRate: number;
+  totalCoursesTakenByUser: number;
+  totalCourseCompletedbyUser: number;
+  percentageCompleted: number;
+}
 
 const initialState: AdminState = {
   value: 0,
   loading: false,
   error: null,
+  token: null,
+  user: null,
+  analytics: null,
+  allUsers: null,
+  allCourses: null,
+  courseDetails: null,
+  userStats: null,
+  singleUser: null,
+  userCourses: null,
+  coursesStats: null,
 };
 
-export const loginAsync = createAsyncThunk(
-  "connect/loginAsync",
+// Auth Enpoints
+export const login = createAsyncThunk<string, LoginData>(
+  "login",
   async (data, thunkAPI) => {
     try {
-      const res = await axios.post(`${baseUrl}/`, data);
+      const res = await axios.post(`${baseUrl}/auth/login/student`, data);
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+// Analytics Endpoint
+
+export const dashboardAnalytics = createAsyncThunk(
+  "dashboardAnalytics",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/admin/dashboard-analytics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+// Courses Endpoints
+export const getCoursesStats = createAsyncThunk(
+  "getCoursesStats",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(
+        `${baseUrl}/admin/course/dashboard-analytics`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getAllCourses = createAsyncThunk(
+  "getAllCourses",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/course`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getCourseDetails = createAsyncThunk<CourseObj, string>(
+  "getCourseDetails",
+  async (id, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get<CourseObj>(`${baseUrl}/course/public/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+// Users Endpoints
+export const getUser = createAsyncThunk<UserDetailsResponse, string>(
+  "getUser",
+  async (id, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get<UserDetailsResponse>(
+        `${baseUrl}/admin/user/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "getAllUsers",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/admin/users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getUserStats = createAsyncThunk(
+  "getUserStats",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get(`${baseUrl}/admin/users-stats`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "An error occurred"
+      );
+    }
+  }
+);
+
+export const getUserCourses = createAsyncThunk<userCoursesObj, string>(
+  "getUserCourses",
+  async (id, thunkAPI) => {
+    const token = localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : null;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+    try {
+      const res = await axios.get<userCoursesObj>(
+        `${baseUrl}/admin/user/${id}/courses`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
@@ -28,13 +282,32 @@ export const loginAsync = createAsyncThunk(
 export const adminSlice = createSlice({
   name: "admin",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
 
-export const {} = adminSlice.actions;
+export const { setUser } = adminSlice.actions;
 export const selectCount = (state: RootState) => state.admin.value;
-
 export default adminSlice.reducer;
+
+export const handleLogin = (data: LoginData) => async (dispatch: any) => {
+  try {
+    await dispatch(login(data));
+  } catch (error) {
+    console.error("Login error:", error);
+  }
+};
+
+export const getSingleUserDetails = (id: string) => async (dispatch: any) => {
+  try {
+    await dispatch(getUser(id));
+  } catch (error) {
+    console.error("error", error);
+  }
+};
