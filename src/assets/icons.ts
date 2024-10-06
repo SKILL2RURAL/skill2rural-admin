@@ -30,6 +30,8 @@ import courseEdit from "../../public/icons/courseEdit.svg";
 import cancel from "../../public/icons/cancel.svg";
 import picFrame from "../../public/icons/pic-frame.svg";
 import coverImage from "../../public/icons/coverImage.svg";
+import teacher from "../../public/icons/teacher.svg";
+import learning from "../../public/icons/learning.svg";
 
 export {
   active_analytics,
@@ -64,4 +66,6 @@ export {
   cancel,
   picFrame,
   coverImage,
+  teacher,
+  learning,
 };

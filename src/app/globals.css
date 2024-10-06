@@ -34,7 +34,7 @@
 }
 
 /* globals.css */
-@font-face {
+/* @font-face {
   font-family: "Neue Haas Grotesk Display Pro";
   src: url("/fonts/NeueHaasGrotesk/NeueHaasDisplayBlack.ttf") format("truetype");
   font-weight: 900;
@@ -153,7 +153,7 @@
     format("truetype");
   font-weight: 50;
   font-style: italic;
-}
+} */
 
 :root {
   --primary-color: #60269e;

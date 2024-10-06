@@ -6,16 +6,16 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-   theme: {
+  theme: {
     extend: {
       fontFamily: {
-         karla: ['Karla', 'sans-serif'],
-        'sf-pro': ['SF Pro Display', 'sans-serif'],
-         'neue-haas': ['"Neue Haas Grotesk Display Pro"', 'sans-serif'],
-           inter: ['Inter', 'sans-serif'],
+        karla: ["Karla", "sans-serif"],
+        "sf-pro": ["SF Pro Display", "sans-serif"],
+        //  'neue-haas': ['"Neue Haas Grotesk Display Pro"', 'sans-serif'],
+        inter: ["Inter", "sans-serif"],
       },
       backgroundImage: {
-        'thumbnail': "url('./public/images/videoplayer-thumbnail.png')",
+        thumbnail: "url('./public/images/videoplayer-thumbnail.png')",
       },
       gridTemplateColumns: {
         footer: "20% 80%",

@@ -4,6 +4,8 @@ import LayoutWrapper from "@/components/layout/layoutWrapper";
 import { store } from "../redux/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect } from "react";
 
 export const metadata: Metadata = {
   title: "Skill 2 rural",

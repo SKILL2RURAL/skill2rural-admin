@@ -30,9 +30,7 @@ const Login = () => {
         handleLogin({ email: data.email, password: data.password })
       );
     } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      console.error(error);
     }
   };
 

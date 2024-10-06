@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import Layout from "@/components/layout/layout";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";
+import { useAppSelector } from "@/redux/hooks";
+import { useEffect } from "react";
 
 export default function LayoutWrapper({
   children,

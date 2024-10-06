@@ -1,5 +1,7 @@
 "use client";
 import EditButton from "@/components/courseComponents/editButton";
+import { getAllCourses } from "@/redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   TableBody,
   TableCell,
@@ -8,85 +10,47 @@ import {
   TableRow,
   Table,
   Paper,
+  Avatar,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React from "react";
-
-
-function createData(
-  name: string,
-  course: string,
-  courseType: string,
-  publishby: string,
-  publishDate: number,
-  courseCompletion: string,
-  status: string
-) {
-  return {
-    name,
-    course,
-    courseType,
-    publishby,
-    publishDate,
-    courseCompletion,
-    status,
-  };
-}
-
-const rows = [
-  createData(
-    "#002",
-    "Design Thinking",
-    "Free",
-    "Admin",
-    2024,
-    "100 users",
-    "Active"
-  ),
-  createData(
-    "#001",
-    "Servant Leadership",
-    "Free",
-    "Admin",
-    2024,
-    "100 users",
-    "Active"
-  ),
-  createData(
-    "#003",
-    "Vision Boarding",
-    "Paid",
-    "Admin",
-    2024,
-    "100 users",
-    "Active"
-  ),
-  createData(
-    "#004",
-    "Sustainable Development Goal",
-    "Free",
-    "Admin",
-    2024,
-    "100 users",
-    "Active"
-  ),
-  createData(
-    "#005",
-    "Money Management",
-    "Paid",
-    "Admin",
-    2024,
-    "100 users",
-    "Active"
-  ),
-];
+import React, { useEffect } from "react";
 
 const CourseTable = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { allCourses } = useAppSelector((state) => state.admin);
 
-  const handleNavigation = () => {
-    router.push(`/courses/${1}`);
+  console.log(allCourses);
+
+  const handleNavigation = (id: number) => {
+    router.push(`/courses/${id}`);
   };
+
+  function formatDate(isoDate: string) {
+    const date = new Date(isoDate);
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month}, ${day}, ${year}`;
+  }
+  useEffect(() => {
+    dispatch(getAllCourses());
+  }, []);
+
   return (
     <div className="mt-3 md:mt-7">
       <TableContainer component={Paper}>
@@ -104,38 +68,39 @@ const CourseTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                className="text-[10px] md:text-[14px] cursor-pointer"
-              >
-                <TableCell scope="row" onClick={() => handleNavigation()}>{row.name}</TableCell>
-                <TableCell onClick={() => handleNavigation()}>{row.course}</TableCell>
-                <TableCell onClick={() => handleNavigation()}>{row.courseType}</TableCell>
-                <TableCell>
-                  <div className="flex gap-2 items-center">
-                    <p className="h-8 w-8 rounded-[50%] bg-[#B9DABB] text-[#102E21] text-sm text-center py-2">
-                      AD
-                    </p>
-                    <div className="flex flex-col">
-                      <p>{row.publishby}</p>
-                      <span className="text-[#667085]">@admin</span>
+            {allCourses &&
+              allCourses.length > 0 &&
+              allCourses?.map((row) => (
+                <TableRow
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  className="text-[10px] md:text-[14px] cursor-pointer"
+                  onClick={() => handleNavigation(row.id)}
+                >
+                  <TableCell scope="row">{row.id}</TableCell>
+                  <TableCell>{row.title}</TableCell>
+                  <TableCell>Paid</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 items-center">
+                      <Avatar />
+                      <div className="flex flex-col">
+                        <p>Admin</p>
+                        <span className="text-[#667085]">@admin</span>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>{row.publishDate}</TableCell>
-                <TableCell>{row.courseCompletion}</TableCell>
-                <TableCell>
-                  <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
-                    Active
-                  </p>
-                </TableCell>
-                <TableCell>
-                  <EditButton />
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>{formatDate(row.createdAt)}</TableCell>
+                  <TableCell>100 users</TableCell>
+                  <TableCell>
+                    <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
+                      Active
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <EditButton />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

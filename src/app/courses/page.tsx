@@ -1,32 +1,43 @@
 "use client";
 import { book, calendar } from "@/assets/icons";
-import Layout from "@/components/layout/layout";
+import BarChart from "@/components/courseBarChart";
+import ActionButton from "@/components/courseComponents/actionButton";
+import SuccessFailureDonut from "@/components/successAndFailure";
+import { getCoursesStats, setUser } from "@/redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getCurrentDateFormatted } from "@/utils/date";
 import Image from "next/image";
-import React, { useEffect } from "react";
-import MetricItem from "../analytics/metricItem";
+import { useEffect } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import Table from "../users/table";
-import BarChart from "@/components/courseBarChart";
-import SuccessFailureDonut from "@/components/successAndFailure";
+import MetricItem from "../analytics/metricItem";
 import CourseTable from "./courseTable";
-import { getCurrentDateFormatted } from "@/utils/date";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setUser } from "@/redux/adminSlice";
-import ActionButton from "@/components/courseComponents/actionButton";
 
 interface Metric {
   title: string;
   icon: any;
-  amount: number;
+  amount: number | undefined;
 }
 
 const Courses = () => {
   const dispatch = useAppDispatch();
+  const { coursesStats } = useAppSelector((state) => state.admin);
+
+  useEffect(() => {
+    dispatch(getCoursesStats());
+  }, []);
   const metrics: Metric[] = [
-    { title: "Total Courses", icon: book, amount: 16 },
-    { title: "Active Courses", icon: book, amount: 14 },
-    { title: "Archived Courses", icon: book, amount: 2 },
+    { title: "Total Courses", icon: book, amount: coursesStats?.totalCourses },
+    {
+      title: "Active Courses",
+      icon: book,
+      amount: coursesStats?.totalActiveCourses,
+    },
+    {
+      title: "Archived Courses",
+      icon: book,
+      amount: coursesStats?.totalArchivedCourses,
+    },
   ];
   const { user } = useAppSelector((state) => state.admin);
 
@@ -69,7 +80,7 @@ const Courses = () => {
                 </h1>
                 <div className="flex justify-between ">
                   <p className="text-[34px] font-[700] text-[#2B3674] mt-2">
-                    3,000
+                    {coursesStats?.totalCertificates}
                   </p>
                   <div className="relative">
                     <select className="cursor-pointer text-[13px] p-2 w-[70px] outline-none appearance-none">
@@ -84,7 +95,7 @@ const Courses = () => {
               <BarChart />
             </div>
           </div>
-          {/* <SuccessFailureDonut /> */}
+          <SuccessFailureDonut />
         </div>
       </div>
 

@@ -53,7 +53,7 @@ const UsersTable = () => {
                 <TableCell scope="row">{row.id}</TableCell>
 
                 {/* <TableCell scope="row">{row.name}</TableCell> */}
-                <span className="border-b py-4 flex flex-row gap-2 items-center">
+                <span className="border-b py-[2rem] md:py-4 flex flex-row gap-2 items-center">
                   <Avatar />
                   <span className="text-[13px] md:text-[14px]">
                     <p>{row.name}</p>
