@@ -12,12 +12,14 @@ import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getCourseDetails } from "@/redux/adminSlice";
 import { getCurrentDateFormatted } from "@/utils/date";
+import QuestionsDrawer from "@/components/courseComponents/questionsDrawer";
 
 const Course: React.FC = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState("courseDetails");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const id = params.course;
 
   const { courseDetails } = useAppSelector((state) => state.admin);
@@ -36,11 +38,24 @@ const Course: React.FC = () => {
     setIsOpen(false);
   };
 
+  const handleOpenDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
   return (
     <>
       <ReusableModal isOpen={isOpen} onClose={handleClose}>
-        <EditCourse />
+        <EditCourse
+          id={1}
+          onClose={handleClose}
+          openDrawer={handleOpenDrawer}
+          editCourse={true}
+        />
       </ReusableModal>
+      <QuestionsDrawer
+        isOpen={isDrawerOpen}
+        closeDrawer={() => setIsDrawerOpen(false)}
+      />
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Image src={book} alt="" width={40} />
@@ -113,7 +128,7 @@ const Course: React.FC = () => {
         </div>
         <div>
           {activeTab === "courseDetails" && <CourseDetails />}
-          {activeTab === "questions" && <QuestionsList />}
+          {activeTab === "questions" && <QuestionsList courseId={id} />}
           {activeTab === "reviews" && <Reviews />}
         </div>
       </div>

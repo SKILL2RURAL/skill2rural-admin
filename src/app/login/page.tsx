@@ -19,7 +19,14 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      router.push("/analytics");
+      const intendedRoute = localStorage.getItem("intendedRoute");
+      console.log(intendedRoute);
+      if (intendedRoute) {
+        router.push(intendedRoute);
+        // localStorage.removeItem("intendedRoute");
+      } else {
+        router.push("/analytics");
+      }
     }
   }, [token]);
 
@@ -29,6 +36,7 @@ const Login = () => {
       await dispatch(
         handleLogin({ email: data.email, password: data.password })
       );
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +79,7 @@ const Login = () => {
             <div className="border border-white rounded-[100px] flex">
               <input
                 type="password"
-                className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] w-full px-4 py-2 h-[40px] md:h-[60px] outline-none"
+                className="bg-transparent placeholder:text-white placeholder:text-[14px] text-white text-[14px] font-[500] rounded-[100px]  w-full px-4 py-2 h-[40px] md:h-[60px] outline-none"
                 placeholder="Enter password"
                 color="white"
                 value={data.password}

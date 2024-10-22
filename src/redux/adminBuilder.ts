@@ -24,8 +24,8 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
       toast.success(action?.payload?.message || "Login successful");
       state.token = action.payload.data.accessToken;
       state.error = null;
-      state.user = action.payload.data.user;
-      localStorage.setItem(`user`, JSON.stringify(action.payload.data.user));
+      // state.user = action.payload.data.user;
+      // localStorage.setItem(`user`, JSON.stringify(action.payload.data.user));
       localStorage.setItem(`token`, action.payload.data.accessToken);
     })
     .addCase(login.rejected, (state: any, action: any) => {
@@ -61,7 +61,7 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
       getAllCourses.fulfilled,
       (state: any, action: PayloadAction<any>) => {
         state.loading = false;
-        state.allCourses = action.payload.data;
+        state.allCourses = action.payload;
       }
     )
     .addCase(

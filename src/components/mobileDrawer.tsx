@@ -18,7 +18,7 @@ import {
   analytics,
   courses,
   settings,
-  user,
+  user_icon,
 } from "@/assets/icons";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -34,7 +34,7 @@ const MobileDrawer = () => {
   };
   const links = [
     { name: "analytics", activeIcon: active_analytics, icon: analytics },
-    { name: "users", activeIcon: active_user, icon: user },
+    { name: "users", activeIcon: active_user, icon: user_icon },
     { name: "courses", activeIcon: active_courses, icon: courses },
     { name: "settings", activeIcon: active_settings, icon: settings },
   ];

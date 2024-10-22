@@ -2,8 +2,16 @@ import { CiSearch } from "react-icons/ci";
 import { RxPerson } from "react-icons/rx";
 import Table from "../users/table";
 import { MdOutlineFileDownload } from "react-icons/md";
+import UsersTable from "../users/usersTable";
+import ReusableModal from "@/components/courseComponents/modal";
+import InviteUser from "@/components/invite-user";
+import { useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
 
 const Team = () => {
+  const { allUsers } = useAppSelector((state) => state.admin);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="my-5">
       <div className="md:flex space-y-5 justify-between items-center">
@@ -22,16 +30,23 @@ const Team = () => {
             <MdOutlineFileDownload size={20} />
             Message All Users
           </div>
-          <div className="bg-[var(--primary-color)] px-4 py-3 rounded-[8px] text-white flex gap-1 items-center">
-            <RxPerson size={20} />
+          <div
+            className="bg-[var(--primary-color)] px-4 py-3 rounded-[8px] text-white flex gap-1 items-center cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <RxPerson size={20} cursor="pointer" />
             Invite Members
           </div>
         </div>
       </div>
-      <div className="mt-5">Team Members - 4</div>
+      <div className="mt-5">Team Members - {allUsers?.length || 0}</div>
+
       {/* <div> */}
-      <Table />
+      <UsersTable />
       {/* </div> */}
+      <ReusableModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <InviteUser onClose={() => setIsModalOpen(false)} />
+      </ReusableModal>
     </div>
   );
 };

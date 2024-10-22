@@ -3,7 +3,7 @@ import active_user from "../../public/icons/active_user_icon.svg";
 import active_courses from "../../public/icons/active_courses_icon.svg";
 import active_settings from "../../public/icons/active_settings_icon.svg";
 import analytics from "../../public/icons/analytics_icon.svg";
-import user from "../../public/icons/user_icon.svg";
+import user_icon from "../../public/icons/user_icon.svg";
 import courses from "../../public/icons/courses_icon.svg";
 import settings from "../../public/icons/settings_icon.svg";
 import multiple_users from "../../public/icons/multiple-user.svg";
@@ -32,6 +32,7 @@ import picFrame from "../../public/icons/pic-frame.svg";
 import coverImage from "../../public/icons/coverImage.svg";
 import teacher from "../../public/icons/teacher.svg";
 import learning from "../../public/icons/learning.svg";
+import growth from "../../public/images/growth.svg";
 
 export {
   active_analytics,
@@ -39,7 +40,7 @@ export {
   active_courses,
   active_settings,
   analytics,
-  user,
+  user_icon,
   courses,
   settings,
   multiple_users,
@@ -68,4 +69,5 @@ export {
   coverImage,
   teacher,
   learning,
+  growth,
 };

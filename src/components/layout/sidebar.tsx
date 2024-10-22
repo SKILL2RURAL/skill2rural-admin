@@ -10,24 +10,33 @@ import {
   analytics,
   courses,
   settings,
-  // user,
+  user_icon,
 } from "@/assets/icons";
 import { usePathname, useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import { Avatar } from "@mui/material";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setToken, setUser } from "@/redux/adminSlice";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const { user } = useAppSelector((state) => state.admin);
+  const { user, token } = useAppSelector((state) => state.admin);
 
   const links = [
     { name: "analytics", activeIcon: active_analytics, icon: analytics },
-    { name: "users", activeIcon: active_user, icon: courses },
+    { name: "users", activeIcon: active_user, icon: user_icon },
     { name: "courses", activeIcon: active_courses, icon: courses },
     { name: "settings", activeIcon: active_settings, icon: settings },
   ];
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    dispatch(setUser(null));
+    dispatch(setToken(null));
+    await router.push("/login");
+  };
 
   return (
     <div className="hidden md:flex py-10 w-[20vw] px-5 flex flex-col justify-between h-[100vh] fixed bg-white">
@@ -67,10 +76,11 @@ const Sidebar = () => {
           </div>
 
           <FiLogOut
-            size="25px"
+            size={25}
             color="#98A2B3"
-            onClick={() => router.push(`/login`)}
-            cursor="pointer"
+            onClick={handleLogout}
+            style={{ cursor: "pointer" }}
+            aria-label="Logout"
           />
         </div>
       )}

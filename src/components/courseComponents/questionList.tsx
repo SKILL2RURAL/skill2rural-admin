@@ -1,62 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Question from "./question";
+import { useAppSelector } from "@/redux/hooks";
+import { baseUrl } from "@/utils/constants";
+import axios from "axios";
 
-function createQuestion(
-  num: number,
-  question: string,
-  answer: string,
-  point: string
-) {
-  return { num, question, answer, point };
+interface QuestionProps {
+  courseId: string | string[];
 }
+interface QuestionData {
+  id: string;
+  question: string;
+  options: string[];
+  point: number;
+  answer: number;
+}
+const QuestionsList: React.FC<QuestionProps> = ({ courseId }) => {
+  const { token } = useAppSelector((state) => state.admin);
+  const [questions, setQuestions] = useState<QuestionData[]>([]);
 
-const questions = [
-  createQuestion(
-    1,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-  createQuestion(
-    2,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-  createQuestion(
-    3,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-  createQuestion(
-    4,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-  createQuestion(
-    5,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-  createQuestion(
-    6,
-    "Hello if i miss assignment deadline or fail an assignment, i fail this course.",
-    "True",
-    "1 point"
-  ),
-];
+  useEffect(() => {
+    const getQuestions = async (id: string) => {
+      try {
+        const res = await axios.get(`${baseUrl}/questions/question/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setQuestions(res.data.data);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
 
-const QuestionsList: React.FC = (props) => {
+    if (typeof courseId === "string" && token) {
+      getQuestions(courseId);
+    }
+  }, [courseId, token]);
+
   return (
-    <form action="" className="mt-6 h-[1029px] bg-white p-10">
-      <ul>
-        {questions.map((quest) => (
-          <Question key={quest.num} {...quest} />
-        ))}
-      </ul>
+    <form action="" className="mt-6  bg-white p-10 pb-5">
+      <div>
+        {questions.length > 0 ? (
+          questions.map((quest) => (
+            <div key={quest.id}>
+              <Question question={quest} />
+            </div>
+          ))
+        ) : (
+          <div>No Question</div>
+        )}
+      </div>
       <button className="bg-[#60269E] text-white w-[588px] h-[60px] rounded-xl mt-8">
         Save Changes
       </button>

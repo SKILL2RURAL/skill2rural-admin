@@ -1,8 +1,8 @@
 // components/ReusableModal.tsx
-import React from 'react';
-import { Modal, Box, IconButton } from '@mui/material';
-import { cancel } from '@/assets/icons';
-import Image from 'next/image';
+import React from "react";
+import { Modal, Box, IconButton } from "@mui/material";
+import { cancel } from "@/assets/icons";
+import Image from "next/image";
 
 interface ReusableModalProps {
   isOpen: boolean;
@@ -11,14 +11,16 @@ interface ReusableModalProps {
   styles?: React.CSSProperties; // Optional custom styles for the modal
 }
 
-
-
-const ReusableModal: React.FC<ReusableModalProps> = ({ isOpen, onClose,children, styles }) => {
+const ReusableModal: React.FC<ReusableModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  styles,
+}) => {
   styles = {
-    height: 639,
-    overflowY: 'auto',
-  }
-
+    // height: 639,
+    // overflowY: "auto",
+  };
 
   return (
     <Modal
@@ -29,22 +31,26 @@ const ReusableModal: React.FC<ReusableModalProps> = ({ isOpen, onClose,children,
     >
       <Box
         sx={{
-          position: 'absolute' as 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: "absolute" as "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           width: 679,
-          maxHeight: '95vh',
-          bgcolor: 'background.paper',
+          maxHeight: "95vh",
+          bgcolor: "background.paper",
           borderRadius: 2,
           boxShadow: 24,
           p: 4,
-          outline: 'none',
-          ...styles, // Accept custom styles passed from props
+          outline: "none",
         }}
       >
-        <div className='absolute right-2 top-2' onClick={onClose}><Image src={cancel} alt="cancel button"/></div>
-        {children}
+        <div
+          className="absolute right-2 top-2 cursor-pointer"
+          onClick={onClose}
+        >
+          <Image src={cancel} alt="cancel button" className="cursor-pointer" />
+        </div>
+        <div>{children}</div>
       </Box>
     </Modal>
   );
