@@ -3,57 +3,12 @@ import React from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useAppSelector } from "@/redux/hooks";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const SuccessFailureDonut: React.FC = () => {
   const { coursesStats } = useAppSelector((state) => state.admin);
-  // Chart data
-  const successData = {
-    labels: ["Successful Quiz Response"],
-    datasets: [
-      {
-        label: "Quiz Response",
-        data: [70, 30], // The percentage values (70% success, 30% remainder)
-        backgroundColor: ["#008000", "#FFFFFF"], // Green for success, white for transparency
-        // hoverBackgroundColor: ['#008000', '#ffffff'], // Hover colors
-        borderWidth: 2,
-        borderRadius: 10,
-        cutout: "90%", // Donut hole size
-      },
-    ],
-  };
-
-  const failureData = {
-    labels: ["Failure Quiz Response"],
-    datasets: [
-      {
-        label: "Quiz Response",
-        data: [30, 70], // The percentage values (70% failure, 30% remainder)
-        backgroundColor: ["#E71D36", "#FFFFFF"], // red for success, white for transparency
-        // hoverBackgroundColor: ['#E71D36', '#ffffff'], // Hover colors
-        borderWidth: 2,
-        borderRadius: 10,
-        cutout: "90%", // Donut hole size
-      },
-    ],
-  };
-
-  // Chart options
-  const options = {
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: function (tooltipItem: any) {
-            return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-          },
-        },
-      },
-      legend: {
-        display: false,
-      },
-    },
-  };
 
   return (
     <div className="border p-5 rounded-[8px] w-fit shadow-md md:w-2/4">
@@ -76,18 +31,37 @@ export const SuccessFailureDonut: React.FC = () => {
           </p>
         </div>
       </div>
-      {/* <div className="relative inline-block w-full h-[400px] bg-black flex">
-        <Doughnut data={successData} options={options} />
-        <div className="absolute top-[30px] left-[30px] w-[130px] h-[340px]">
-          <Doughnut data={failureData} options={options} />
+      <div className="relative flex items-center justify-center mt-5">
+        <div className="absolute text-[#A3AED0] text-[13px] font-[500] text-center">
+          <p className="text-[32px] font-[700] text-[#2B3674]">
+            {coursesStats?.totalQuizes || 0}
+          </p>
+          <p>Total Quiz Attempt</p>
         </div>
-        <div className="text-[#2B3674] font-[500px] text-[32.46px] text-center absolute top-[35%] left-[15%] leading-10">
-          {coursesStats?.totalQuizes}
-          <div className="text[2.27px] font-semibold leading-3 text-[#A3AED0] text-center">
-            Total Quiz Attempt
-          </div>
+        <div
+          style={{ width: 180, height: 180 }}
+          className="absolute h-full w-full"
+        >
+          <CircularProgressbar
+            value={coursesStats?.failedQuizesRate || 0}
+            styles={buildStyles({
+              pathColor: "#E71D36",
+              trailColor: "#ddd",
+              pathTransitionDuration: 0.5,
+            })}
+          />
         </div>
-      </div> */}
+        <div style={{ width: 230, height: 230 }}>
+          <CircularProgressbar
+            value={coursesStats?.quizSuccessRate || 0}
+            styles={buildStyles({
+              pathColor: "#008000",
+              trailColor: "#ddd",
+              pathTransitionDuration: 0.5,
+            })}
+          />
+        </div>
+      </div>
     </div>
   );
 };

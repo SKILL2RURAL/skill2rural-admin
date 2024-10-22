@@ -2,7 +2,12 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import { baseUrl } from "@/utils/constants";
 import axios from "axios";
-import { AdminState, CourseObj, userCoursesObj } from "@/utils/adminTypes";
+import {
+  AdminState,
+  CourseObj,
+  PasswordChangeObj,
+  userCoursesObj,
+} from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
 
 interface LoginData {
@@ -56,7 +61,7 @@ export const login = createAsyncThunk<string, LoginData>(
   "login",
   async (data, thunkAPI) => {
     try {
-      const res = await axios.post(`${baseUrl}/auth/login/student`, data);
+      const res = await axios.post(`${baseUrl}/admin/login`, data);
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
@@ -78,6 +83,7 @@ export const dashboardAnalytics = createAsyncThunk(
     if (!token) {
       return thunkAPI.rejectWithValue("No token found");
     }
+    thunkAPI.dispatch(setToken(token));
     try {
       const res = await axios.get(`${baseUrl}/admin/dashboard-analytics`, {
         headers: {
@@ -133,7 +139,7 @@ export const getAllCourses = createAsyncThunk(
       return thunkAPI.rejectWithValue("No token found");
     }
     try {
-      const res = await axios.get(`${baseUrl}/course`, {
+      const res = await axios.get(`${baseUrl}/admin/course`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -279,6 +285,70 @@ export const getUserCourses = createAsyncThunk<userCoursesObj, string>(
   }
 );
 
+interface PasswordChangeResponse {
+  message: string;
+}
+
+export const changePassword = createAsyncThunk<
+  PasswordChangeResponse,
+  PasswordChangeObj,
+  { rejectValue: string }
+>("changePassword", async (payload, thunkAPI) => {
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue("No token found");
+  }
+  try {
+    const res = await axios.patch<PasswordChangeResponse>(
+      `${baseUrl}/user/change-password`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "An error occurred"
+    );
+  }
+});
+
+export const addNewCourse = createAsyncThunk<
+  PasswordChangeResponse,
+  CourseObj,
+  { rejectValue: string }
+>("addNewCourse", async (payload, thunkAPI) => {
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue("No token found");
+  }
+  try {
+    const res = await axios.post<PasswordChangeResponse>(
+      `${baseUrl}/course`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || "An error occurred"
+    );
+  }
+});
+
 export const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -286,13 +356,16 @@ export const adminSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
   },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
 
-export const { setUser } = adminSlice.actions;
+export const { setUser, setToken } = adminSlice.actions;
 export const selectCount = (state: RootState) => state.admin.value;
 export default adminSlice.reducer;
 

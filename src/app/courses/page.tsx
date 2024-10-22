@@ -26,6 +26,7 @@ const Courses = () => {
   useEffect(() => {
     dispatch(getCoursesStats());
   }, []);
+
   const metrics: Metric[] = [
     { title: "Total Courses", icon: book, amount: coursesStats?.totalCourses },
     {
@@ -41,16 +42,6 @@ const Courses = () => {
   ];
   const { user } = useAppSelector((state) => state.admin);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (!user && storedUser) {
-      try {
-        dispatch(setUser(JSON.parse(storedUser)));
-      } catch (error) {
-        console.error("Failed to parse stored user:", error);
-      }
-    }
-  }, [user, dispatch]);
   return (
     <div>
       <div className="flex justify-between items-center">

@@ -20,8 +20,6 @@ const CourseTable = () => {
   const dispatch = useAppDispatch();
   const { allCourses } = useAppSelector((state) => state.admin);
 
-  console.log(allCourses);
-
   const handleNavigation = (id: number) => {
     router.push(`/courses/${id}`);
   };
@@ -75,12 +73,20 @@ const CourseTable = () => {
                   key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   className="text-[10px] md:text-[14px] cursor-pointer"
-                  onClick={() => handleNavigation(row.id)}
                 >
-                  <TableCell scope="row">{row.id}</TableCell>
-                  <TableCell>{row.title}</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>
+                  <TableCell
+                    scope="row"
+                    onClick={() => handleNavigation(row.id)}
+                  >
+                    {row.id}
+                  </TableCell>
+                  <TableCell onClick={() => handleNavigation(row.id)}>
+                    {row.title}
+                  </TableCell>
+                  <TableCell onClick={() => handleNavigation(row.id)}>
+                    Paid
+                  </TableCell>
+                  <TableCell onClick={() => handleNavigation(row.id)}>
                     <div className="flex gap-2 items-center">
                       <Avatar />
                       <div className="flex flex-col">
@@ -89,15 +95,17 @@ const CourseTable = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{formatDate(row.createdAt)}</TableCell>
+                  <TableCell onClick={() => handleNavigation(row.id)}>
+                    {formatDate(row.createdAt)}
+                  </TableCell>
                   <TableCell>100 users</TableCell>
                   <TableCell>
                     <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
                       Active
                     </p>
                   </TableCell>
-                  <TableCell>
-                    <EditButton />
+                  <TableCell width={50}>
+                    <EditButton id={row.id} courseDetails={row} />
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,40 +1,47 @@
 "use client";
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
-import thumbnail from "../../public/images/videoplayer-thumbnail.png";
-import { play } from "@/assets/icons";
 import Image from "next/image";
-
-const thumbImg: any = thumbnail;
+import { play } from "@/assets/icons";
+import { useAppSelector } from "@/redux/hooks";
 
 const VideoPlayer: React.FC = () => {
   const [playing, setPlaying] = useState<boolean>(false);
+  const { courseDetails } = useAppSelector((state) => state.admin);
 
   const handlePlay = () => {
     setPlaying(!playing);
   };
 
   return (
-    <div className="text-center relative rounded-lg bg-[url(../../public/images/videoplayer-thumbnail.png)] object-contain">
+    <div
+      className="relative rounded-lg overflow-hidden"
+      style={{
+        backgroundImage: `url(${courseDetails?.thumbnail_image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <ReactPlayer
-        url=""
-        light="../../public/images/videoplayer-thumbnail.png" // Custom image URL as thumbnail
+        url={courseDetails?.video_url}
         playing={playing}
         controls
-        width="80%"
+        width="100%"
         height="387px"
+        light={courseDetails?.thumbnail_image}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
       />
 
-      <button
-        onClick={handlePlay}
-        className="px-[10px] py-5 mt-5 cursor-pointer bg-[#60269E] h-[112px] w-[112px] rounded-[50%] absolute top-[35%] left-[40%]"
-      >
-        {playing ? (
-          "Pause"
-        ) : (
-          <Image className="mx-auto" src={play} alt="play btn" />
-        )}
-      </button>
+      {/* {!playing && (
+        <button
+          onClick={handlePlay}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-[#60269E] rounded-full hover:bg-opacity-90 transition-colors"
+          aria-label="Play video"
+        >
+          <Image src={play} alt="Play button" width={56} height={56} />
+        </button>
+      )} */}
     </div>
   );
 };

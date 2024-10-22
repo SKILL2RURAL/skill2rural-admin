@@ -14,7 +14,6 @@ interface AnalyticsData {
 
 const AnalyticsBarChart: React.FC = () => {
   const { analytics } = useAppSelector((state) => state.admin);
-  console.log(analytics);
 
   const usersPerMonth: AnalyticsData[] = analytics?.usersPerMonth || [];
 

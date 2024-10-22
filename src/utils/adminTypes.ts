@@ -15,16 +15,16 @@ export interface AdminState {
 }
 
 export interface CourseObj {
-  id: number;
+  id?: number;
   title: string;
   description: string;
-  thumbnail_image: string;
-  video_url: string;
-  createdAt: string;
-  updatedAt: string;
-  duration: number;
-  objectives: string[];
-  status: string;
+  thumbnail_image?: string;
+  video_url?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  duration?: number;
+  objectives?: string[];
+  status?: string;
 }
 
 export interface userCoursesObj {
@@ -123,4 +123,10 @@ interface CoursesStats {
   totalQuizes: number;
   quizSuccessRate: number;
   failedQuizesRate: number;
+}
+
+export interface PasswordChangeObj {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
