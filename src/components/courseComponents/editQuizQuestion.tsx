@@ -1,188 +1,188 @@
-import React, { useEffect, useState } from "react";
-import { cancel } from "@/assets/icons";
-import Image from "next/image";
-import QuizDataComponent from "./quizData";
-import QuestionsDrawer from "./questionsDrawer";
-
-interface Question {
-  id: number;
-  question: string;
-  points: string;
-  response: boolean;
-}
-
-interface QuizData {
-  question: string;
-  points: string;
-  response: boolean;
-  optionType: string;
-}
+import React, { useEffect, useRef, useState } from "react";
+import { IoIosClose } from "react-icons/io";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { useAppSelector } from "@/redux/hooks";
+import { baseUrl } from "@/utils/constants";
+import QuestionItem from "./questions/QuestionItem";
+import QuizHeader from "./questions/QuizHeader";
+import QuizFooter from "./questions/QuizFooter";
+import { Question, QuizData } from "@/types/quizTypes";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 
 interface Props {
   closeDrawer: () => void;
+  isEdit: boolean;
+  existingCourseId: number | string;
 }
 
-const EditQuizQuestion: React.FC<Props> = ({ closeDrawer }) => {
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [formData, setFormData] = useState<QuizData>({
-    question: "",
-    points: "1 point",
-    response: true,
-    optionType: "boolean",
+const EditQuizQuestion: React.FC<Props> = ({
+  closeDrawer,
+  isEdit,
+  existingCourseId,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingQuestions, setIsFetchingQuestions] = useState(true);
+  const { token } = useAppSelector((state) => state.admin); // Get Token from redux state
+  const params = useParams();
+  const id = params.course; // Get course Id from params
+  const questionsContainerRef = useRef<HTMLDivElement | null>(null);
+  const courseId = localStorage.getItem("courseId"); // Get Course Id if it exists in local storage
+
+  const [questions, setQuestions] = useState<Question>({
+    courseId: "",
+    questions: [{ question: "", answer: 0, point: 1, options: [""] }],
   });
 
-  const courseId = localStorage.getItem("newCourse");
-  console.log("courseId", courseId);
+  console.log(questions);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "radio" ? checked : value,
-    }));
-  };
+  // Function to add courseId to questions state
+  useEffect(() => {
+    if (typeof id === "string") {
+      setQuestions((prev) => ({ ...prev, courseId: parseInt(id) }));
+    } else if (courseId) {
+      setQuestions((prev) => ({ ...prev, courseId: parseInt(courseId) }));
+    }
+  }, [id, courseId]);
 
-  const addQuestion = () => {
-    if (formData.question.trim() === "") return;
-    setQuestions([...questions, { id: questions.length + 1, ...formData }]);
-  };
-
-  const removeQuestion = (id: number) => {
-    setQuestions(questions.filter((q) => q.id !== id));
-  };
-
-  const getOptionBasedOnType = () => {
-    if (formData.optionType === "boolean") {
-      return (
-        <div className="mt-1 grid">
-          <label className="inline-flex items-center">
-            <input
-              type="radio"
-              name="response"
-              value="true"
-              // checked={formData.response === true}
-              className="accent-purple-600"
-              onChange={() =>
-                setFormData((prevData) => ({ ...prevData, response: true }))
-              }
-            />
-            <span className="ml-2">True</span>
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="response"
-              value="false"
-              className="accent-purple-600"
-              // checked={formData.response === false}
-              onChange={(prev) => ({ ...prev, response: false })}
-            />
-            <span className="ml-2">False</span>
-          </label>
-        </div>
+  // Function to fetch quiz questions using id
+  useEffect(() => {
+    const fetchQuizQuestions = async () => {
+      const res = await axios.get(
+        `${baseUrl}/admin/course/${id || existingCourseId}/questions`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+      if (res.status === 200) {
+        const fetchedQuestions = res.data.data.map((q: any) => ({
+          id: q.id,
+          question: q.question,
+          answer: q.answer,
+          point: q.point,
+          options: q.options,
+        }));
+
+        setQuestions((prev) => ({
+          ...prev,
+          questions: fetchedQuestions,
+        }));
+        setIsFetchingQuestions(false);
+      }
+    };
+
+    if (id || existingCourseId) {
+      fetchQuizQuestions();
     } else {
-      return <div>HEllo</div>;
+      setIsFetchingQuestions(false);
+    }
+  }, []);
+
+  // Function to add a new question
+  const addQuestion = () => {
+    const newQuestion = { question: "", answer: 0, point: 1, options: [""] };
+    const updatedQuestions = [...questions.questions, newQuestion];
+    setQuestions({ ...questions, questions: updatedQuestions });
+
+    setTimeout(() => {
+      if (questionsContainerRef.current) {
+        questionsContainerRef.current.scrollTo({
+          top: questionsContainerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }, 100);
+  };
+
+  // Function to submit all questions
+  const handleSubmit = async () => {
+    const isValid = questions.questions.every((q) => {
+      return q.question.trim() !== "" && q.options.length > 1;
+    });
+
+    if (!isValid) {
+      toast.error(
+        "Each question must have a valid question text and at least two options."
+      );
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const res = await axios.post(
+        `${baseUrl}/admin/course/create-questions`,
+        {
+          courseId: questions.courseId,
+          questions: questions.questions.map((q) => ({
+            question: q.question,
+            answer: q.answer,
+            point: q.point,
+            options: q.options,
+          })),
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log(res);
+
+      if (res.status === 201) {
+        console.log(res);
+        toast.success(res.data.message || "Questions submitted successfully");
+        closeDrawer();
+      } else {
+        toast.error(res.data.message || "Failed to submit questions");
+      }
+    } catch (error) {
+      console.error("Error submitting questions:", error);
+      toast.error(
+        "An error occurred while submitting the quiz. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (isFetchingQuestions) {
+    return (
+      <div className="flex flex-col justify-center items-center fixed right-0 top-0 h-screen w-[45vw] bg-white shadow-lg z-50">
+        <CircularProgress />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col justify-between fixed right-0 top-0 h-screen w-[45vw] bg-white shadow-lg z-50">
-      <div>
-        <div className="relative flex justify-between items-center border-b p-5 w-full">
-          <div className="w-full">
-            <h2 className="text-[20px] font-[500] text-[#262424]">
-              Quiz Questions
-            </h2>
-            <div className="flex justify-between items-center w-full">
-              <p className="text-[#A09D9D] text-[14px] font-[400]">
-                Create quiz questions for this course
-              </p>
-              <p className="text-[#60269E] text-[16px] font-[600]">
-                Add New Question
-              </p>
-            </div>
-          </div>
-          <div
-            onClick={closeDrawer}
-            className="absolute top-2 right-5 cursor-pointer"
-          >
-            <Image src={cancel} alt="close button" height={30} width={30} />
-          </div>
-        </div>
-        <div
-          className="mt-5 space-y-4 p-5 m-5 bg-[#F9F9F9] rounded-[10px] text-[#253B4B]"
-          // onSubmit={(e) => {
-          //   e.preventDefault();
-          //   addQuestion();
-          // }}
-        >
-          <div>
-            <label className="block text-sm font-medium">Question</label>
-            <input
-              type="text"
-              name="question"
-              value={formData.question}
-              onChange={handleChange}
-              className="border w-full border-[#C4C4C4] rounded-[10px] h-[45px] px-3 outline-none"
-              required
+      <QuizHeader
+        closeDrawer={closeDrawer}
+        addQuestion={addQuestion}
+        isEdit={isEdit}
+      />
+
+      <div className="h-[80vh] overflow-auto" ref={questionsContainerRef}>
+        {questions.questions.length > 0 ? (
+          questions.questions.map((question, index) => (
+            <QuestionItem
+              key={index}
+              question={question}
+              index={index}
+              setQuestions={setQuestions}
+              questions={questions}
+              isEdit={isEdit}
+              courseId={
+                questions.courseId ? questions.courseId : existingCourseId
+              }
             />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Points</label>
-            <select className="w-full border border-[#C4C4C4] rounded-[10px] h-[45px] px-3 outline-none">
-              <option value="1">1 point</option>
-            </select>
-          </div>
-          <div>
-            <div className="flex justify-between items-center">
-              <p className="block text-[16px] font-[400]">Response</p>
-              <select
-                className="text-[16px] font-[500] border border-[#C4C4C4] p-2 text-[#253B4B] outline-none"
-                value={formData.optionType}
-                onChange={(e) =>
-                  setFormData({ ...formData, optionType: e.target.value })
-                }
-              >
-                <option value="multipleChoice">Multiple Choice</option>
-                <option value="boolean">Boolean</option>
-              </select>
-            </div>
-
-            {getOptionBasedOnType()}
-          </div>
-          <button
-            type="submit"
-            className="bg-[#60269E] text-white py-2 rounded-[8px] text-[16px] font-[500] mt-4 px-5"
-          >
-            Add Question
-          </button>
-        </div>
-        {/* <div className="px-5">
-          <h3 className="text-lg font-medium">Questions</h3>
-          <ul className="mt-3 space-y-3">
-            {questions.map((ques) => (
-              <QuizDataComponent
-                key={ques.id}
-                id={ques.id}
-                question={ques.question}
-                point={ques.points}
-                response={ques.response}
-                onRemove={removeQuestion}
-              />
-            ))}
-          </ul>
-        </div> */}
+          ))
+        ) : (
+          <p className="p-5">No quiz question </p>
+        )}
       </div>
-
-      <div className="flex justify-end p-5 gap-2 border-t">
-        <button className="bg-white text-[#60269E] border border-[#60269E] py-2 px-4 rounded w-full">
-          Cancel
-        </button>
-        <button className="bg-[#60269E] text-white py-2 px-4 rounded w-full">
-          Save
-        </button>
-      </div>
+      <QuizFooter
+        closeDrawer={closeDrawer}
+        handleSubmit={handleSubmit}
+        isLoading={isLoading}
+        isEdit={true}
+      />
     </div>
   );
 };

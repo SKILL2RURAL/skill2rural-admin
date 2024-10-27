@@ -5,13 +5,22 @@ export interface AdminState {
   token: string | null;
   user: userObj | null;
   analytics: Analytics | null;
-  allUsers: userObj[] | null;
-  allCourses: CoursesObj[] | null;
+  allUsers: allUsers | null;
+  allCourses: allCourses | null;
   userStats: UserStats | null;
   singleUser: singleUserObj | null;
   userCourses: userCoursesObj[] | null;
   coursesStats: CoursesStats | null;
   courseDetails: CourseObj | null;
+  courseQuestions: Question[] | null;
+}
+
+interface Question {
+  id: number;
+  question: string;
+  answer: number;
+  point: number;
+  options: string[];
 }
 
 export interface CourseObj {
@@ -35,6 +44,10 @@ export interface userCoursesObj {
   highestQuizGrade: string | null;
 }
 
+interface allCourses {
+  courses: CoursesObj[];
+}
+
 interface CoursesObj {
   id: number;
   title: string;
@@ -42,6 +55,7 @@ interface CoursesObj {
   thumbnail_image: string;
   createdAt: string;
   updatedAt: string;
+  status: string;
 }
 
 interface singleUserObj {
@@ -65,6 +79,10 @@ interface singleUserObj {
   totalCoursesTakenByUser: number;
   totalCourseCompletedbyUser: number;
   percentageCompleted: number;
+}
+
+interface allUsers {
+  users: userObj[];
 }
 
 interface userObj {

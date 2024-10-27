@@ -39,7 +39,7 @@ const Team = () => {
           </div>
         </div>
       </div>
-      <div className="mt-5">Team Members - {allUsers?.length || 0}</div>
+      <div className="mt-5">Team Members - {allUsers?.users?.length || 0}</div>
 
       {/* <div> */}
       <UsersTable />

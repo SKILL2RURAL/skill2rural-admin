@@ -32,6 +32,8 @@ import picFrame from "../../public/icons/pic-frame.svg";
 import coverImage from "../../public/icons/coverImage.svg";
 import teacher from "../../public/icons/teacher.svg";
 import learning from "../../public/icons/learning.svg";
+import question_icon from "../../public/icons/question_icon.svg";
+import delete_icon from "../../public/icons/delete_icon.svg";
 import growth from "../../public/images/growth.svg";
 
 export {
@@ -70,4 +72,6 @@ export {
   teacher,
   learning,
   growth,
+  question_icon,
+  delete_icon,
 };

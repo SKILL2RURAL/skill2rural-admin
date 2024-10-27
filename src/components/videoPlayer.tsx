@@ -16,11 +16,11 @@ const VideoPlayer: React.FC = () => {
   return (
     <div
       className="relative rounded-lg overflow-hidden"
-      style={{
-        backgroundImage: `url(${courseDetails?.thumbnail_image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      // style={{
+      //   backgroundImage: `url(${courseDetails?.thumbnail_image})`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
     >
       <ReactPlayer
         url={courseDetails?.video_url}
