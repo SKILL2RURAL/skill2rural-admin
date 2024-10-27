@@ -3,7 +3,7 @@ import { applicationMenu } from "@/assets/icons";
 import Image from "next/image";
 
 interface QuestionData {
-  id: string;
+  id: number;
   question: string;
   point: number;
   options: string[];

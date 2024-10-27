@@ -53,8 +53,8 @@ const ActionButton: React.FC = () => {
       <QuestionsDrawer
         isOpen={isDrawerOpen}
         closeDrawer={() => setIsDrawerOpen(false)}
+        isEdit={true}
       />
-      {/* <Modal isOpen={open} onClose={handleClose}/> */}
     </div>
   );
 };

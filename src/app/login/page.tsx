@@ -20,10 +20,8 @@ const Login = () => {
   useEffect(() => {
     if (token) {
       const intendedRoute = localStorage.getItem("intendedRoute");
-      console.log(intendedRoute);
-      if (intendedRoute) {
+      if (intendedRoute && intendedRoute !== "/") {
         router.push(intendedRoute);
-        // localStorage.removeItem("intendedRoute");
       } else {
         router.push("/analytics");
       }

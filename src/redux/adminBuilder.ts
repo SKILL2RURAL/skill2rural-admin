@@ -54,14 +54,14 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
       getAllUsers.fulfilled,
       (state: any, action: PayloadAction<any>) => {
         state.loading = false;
-        state.allUsers = action.payload;
+        state.allUsers = action.payload.data;
       }
     )
     .addCase(
       getAllCourses.fulfilled,
       (state: any, action: PayloadAction<any>) => {
         state.loading = false;
-        state.allCourses = action.payload;
+        state.allCourses = action.payload.data;
       }
     )
     .addCase(

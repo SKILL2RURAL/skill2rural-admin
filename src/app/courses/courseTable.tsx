@@ -67,8 +67,8 @@ const CourseTable = () => {
           </TableHead>
           <TableBody>
             {allCourses &&
-              allCourses.length > 0 &&
-              allCourses?.map((row) => (
+              allCourses?.courses?.length > 0 &&
+              allCourses?.courses?.map((row, index) => (
                 <TableRow
                   key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -100,12 +100,18 @@ const CourseTable = () => {
                   </TableCell>
                   <TableCell>100 users</TableCell>
                   <TableCell>
-                    <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
-                      Active
+                    <p
+                      className={` w-fit p-2 rounded-[16px] ${
+                        row.status === "ACTIVE"
+                          ? "text-[#027A48] bg-[#ECFDF3]"
+                          : "text-red-500 bg-red-100"
+                      }`}
+                    >
+                      {row?.status}
                     </p>
                   </TableCell>
                   <TableCell width={50}>
-                    <EditButton id={row.id} courseDetails={row} />
+                    <EditButton id={row.id} courseDetails={row} index={index} />
                   </TableCell>
                 </TableRow>
               ))}

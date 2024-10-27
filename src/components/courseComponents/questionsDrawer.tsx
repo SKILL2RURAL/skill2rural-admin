@@ -13,13 +13,24 @@ import EditQuizQuestion from "./editQuizQuestion";
 interface QuestionProps {
   isOpen: boolean;
   closeDrawer: () => void;
+  isEdit: boolean;
+  existingCourseId?: number | string;
 }
 
-const QuestionsDrawer: React.FC<QuestionProps> = ({ isOpen, closeDrawer }) => {
+const QuestionsDrawer: React.FC<QuestionProps> = ({
+  isOpen,
+  closeDrawer,
+  isEdit,
+  existingCourseId,
+}) => {
   return (
     <div>
       <Drawer open={isOpen} onClose={closeDrawer}>
-        <EditQuizQuestion closeDrawer={closeDrawer} />
+        <EditQuizQuestion
+          closeDrawer={closeDrawer}
+          isEdit={isEdit}
+          existingCourseId={existingCourseId ?? ""}
+        />
       </Drawer>
     </div>
   );

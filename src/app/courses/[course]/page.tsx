@@ -50,11 +50,13 @@ const Course: React.FC = () => {
           onClose={handleClose}
           openDrawer={handleOpenDrawer}
           editCourse={true}
+          existingCourseDetails={courseDetails}
         />
       </ReusableModal>
       <QuestionsDrawer
         isOpen={isDrawerOpen}
         closeDrawer={() => setIsDrawerOpen(false)}
+        isEdit={true}
       />
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">

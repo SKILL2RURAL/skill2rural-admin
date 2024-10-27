@@ -18,6 +18,7 @@ const UsersTable = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { allUsers } = useAppSelector((state) => state.admin);
+  const userCount = allUsers?.users?.length ?? 0;
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -43,38 +44,39 @@ const UsersTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {allUsers?.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                className="text-[10px] md:text-[14px] cursor-pointer"
-                onClick={() => handleNavigation(row.id)}
-              >
-                <TableCell scope="row">{row.id}</TableCell>
+            {userCount > 0 &&
+              allUsers?.users?.map((row) => (
+                <TableRow
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  className="text-[10px] md:text-[14px] cursor-pointer"
+                  onClick={() => handleNavigation(row.id)}
+                >
+                  <TableCell scope="row">{row.id}</TableCell>
 
-                {/* <TableCell scope="row">{row.name}</TableCell> */}
+                  {/* <TableCell scope="row">{row.name}</TableCell> */}
 
-                <TableCell>
-                  <div className="py-[2rem] md:py-4 flex flex-row gap-2 items-center">
-                    <Avatar />
-                    <div className="text-[13px] md:text-[14px]">
-                      <p>{row.name}</p>
-                      <p className="text-[#667085]">@o.mariam</p>
+                  <TableCell>
+                    <div className="py-[2rem] md:py-4 flex flex-row gap-2 items-center">
+                      <Avatar />
+                      <div className="text-[13px] md:text-[14px]">
+                        <p>{row.name}</p>
+                        <p className="text-[#667085]">@o.mariam</p>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell>Sept, 10, 2023</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell className="text-[var(--primary-color)]">
-                  {row.type}
-                </TableCell>
-                <TableCell>
-                  <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
-                    Active
-                  </p>
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell>Sept, 10, 2023</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell className="text-[var(--primary-color)]">
+                    {row.type}
+                  </TableCell>
+                  <TableCell>
+                    <p className="text-[#027A48] bg-[#ECFDF3] w-fit p-2 rounded-[16px]">
+                      Active
+                    </p>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
