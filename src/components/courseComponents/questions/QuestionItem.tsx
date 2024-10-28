@@ -27,6 +27,7 @@ const QuestionItem: React.FC<Props> = ({
 }) => {
   const { token } = useAppSelector((state) => state.admin);
   const [isLoading, setIsLoading] = useState(false);
+
   // Function to delete a single option
   const deleteOption = (optionIndex: number) => {
     const updatedQuestions = [...questions.questions];
@@ -37,6 +38,18 @@ const QuestionItem: React.FC<Props> = ({
       options: updatedOptions,
     };
     setQuestions({ ...questions, questions: updatedQuestions });
+  };
+
+  // Function to delete question
+  const deleteQuestion = (index: number) => {
+    // Create a new array without the question at the given index
+    const updatedQuestions = questions.questions.filter((_, i) => i !== index);
+
+    // Update the state with the new array
+    setQuestions((prev) => ({
+      ...prev,
+      questions: updatedQuestions,
+    }));
   };
 
   // Function to add new option to a question
@@ -118,7 +131,10 @@ const QuestionItem: React.FC<Props> = ({
 
   return (
     <div className="relative mt-5 space-y-4 p-5 py-2 m-5 bg-[#F9F9F9] rounded-[10px] text-[#253B4B]">
-      <div className="absolute top-3 right-5 cursor-pointer">
+      <div
+        className="absolute top-3 right-5 cursor-pointer"
+        onClick={() => deleteQuestion(index)}
+      >
         <IoIosClose size={25} color="#667085" />
       </div>
       <div>

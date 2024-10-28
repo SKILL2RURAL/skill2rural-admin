@@ -126,6 +126,7 @@ interface UserStats {
   totalEducators: {
     value: number;
     percentageIncreaseInTotalEducators: number;
+    totalReached: number;
   };
   totalStudents: {
     value: number;

@@ -22,18 +22,29 @@ interface metric {
   icon: string;
   label: string;
   amount: number;
-  reachOut?: string;
+  reachOut?: number | string;
   percentage?: number;
 }
 
 const User = () => {
   const dispatch = useAppDispatch();
   const { userStats } = useAppSelector((state) => state.admin);
-
+  const [activeTab, setActiveTab] = useState("allUsers");
   useEffect(() => {
     dispatch(getUserStats());
   }, []);
-  const [activeTab, setActiveTab] = useState("allUsers");
+
+  function formatNumber(num: number): string | number {
+    if (num >= 1000000) {
+      // For millions
+      return (num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1) + "m";
+    } else if (num >= 1000) {
+      // For thousands
+      return (num / 1000).toFixed(num % 1000 === 0 ? 0 : 1) + "k";
+    }
+    return num;
+  }
+
   const metrics: metric[] = [
     {
       icon: blue_users,
@@ -47,7 +58,7 @@ const User = () => {
       percentage:
         userStats?.totalEducators?.percentageIncreaseInTotalEducators || 0,
       amount: userStats?.totalEducators?.value || 0,
-      reachOut: "1.5k",
+      reachOut: formatNumber(userStats?.totalEducators?.totalReached || 0),
     },
     {
       icon: orange_users,
