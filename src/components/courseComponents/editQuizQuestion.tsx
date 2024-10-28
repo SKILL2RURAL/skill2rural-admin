@@ -56,18 +56,20 @@ const EditQuizQuestion: React.FC<Props> = ({
         }
       );
       if (res.status === 200) {
-        const fetchedQuestions = res.data.data.map((q: any) => ({
-          id: q.id,
-          question: q.question,
-          answer: q.answer,
-          point: q.point,
-          options: q.options,
-        }));
+        if (res.data.data.length > 0) {
+          const fetchedQuestions = res.data.data.map((q: any) => ({
+            id: q.id,
+            question: q.question,
+            answer: q.answer,
+            point: q.point,
+            options: q.options,
+          }));
 
-        setQuestions((prev) => ({
-          ...prev,
-          questions: fetchedQuestions,
-        }));
+          setQuestions((prev) => ({
+            ...prev,
+            questions: fetchedQuestions,
+          }));
+        }
         setIsFetchingQuestions(false);
       }
     };
