@@ -3,15 +3,16 @@ import { book, calendar } from "@/assets/icons";
 import BarChart from "@/components/courseBarChart";
 import ActionButton from "@/components/courseComponents/actionButton";
 import SuccessFailureDonut from "@/components/successAndFailure";
-import { getCoursesStats, setUser } from "@/redux/adminSlice";
+import { getAllCourses, getCoursesStats, setUser } from "@/redux/adminSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getCurrentDateFormatted } from "@/utils/date";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import MetricItem from "../analytics/metricItem";
 import CourseTable from "./courseTable";
+import CourseFilterMenu from "@/components/courseComponents/courseFilterMenu";
 
 interface Metric {
   title: string;
@@ -21,7 +22,14 @@ interface Metric {
 
 const Courses = () => {
   const dispatch = useAppDispatch();
+  const [search, setSearch] = useState("");
   const { coursesStats } = useAppSelector((state) => state.admin);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  useEffect(() => {
+    dispatch(getAllCourses(search));
+  }, [search]);
 
   useEffect(() => {
     dispatch(getCoursesStats());
@@ -40,7 +48,7 @@ const Courses = () => {
       amount: coursesStats?.totalArchivedCourses,
     },
   ];
-  const { user } = useAppSelector((state) => state.admin);
+  // const { user } = useAppSelector((state) => state.admin);
 
   return (
     <div>
@@ -97,16 +105,30 @@ const Courses = () => {
               <CiSearch color="#667085" size={20} />
               <input
                 type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
                 className="md:w-[300px] bg-transparent placeholder:text-[#667085] outline-none"
               />
             </div>
-            <div className="relative">
-              <select className="cursor-pointer bg-[#BDD4F114] border border-[#BDD4F199] h-full text-[13px] p-2 w-[70px] outline-none appearance-none">
-                <option value="">Filter</option>
-              </select>
-              <IoIosArrowDown className="absolute right-3 top-[14px]" />
-            </div>
+            <button
+              id="coursesFilter"
+              className="relative"
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+                setIsMenuOpen(true);
+              }}
+            >
+              <div className="cursor-pointer bg-[#BDD4F114] border border-[#BDD4F199] h-full text-[13px] p-2 pr-8 w-[70px] outline-none appearance-none">
+                <p>Filter</p>
+              </div>
+              <IoIosArrowDown className="absolute right-3 top-[12px]" />
+              <CourseFilterMenu
+                isOpen={isMenuOpen}
+                onClose={() => setIsMenuOpen(false)}
+                anchorEl={anchorEl}
+              />
+            </button>
           </div>
           <ActionButton />
         </div>

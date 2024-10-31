@@ -9,6 +9,7 @@ import {
   userCoursesObj,
 } from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
+import { type } from "os";
 
 interface LoginData {
   email: string;
@@ -131,7 +132,7 @@ export const getCoursesStats = createAsyncThunk(
 
 export const getAllCourses = createAsyncThunk(
   "getAllCourses",
-  async (_, thunkAPI) => {
+  async (search: string | undefined, thunkAPI) => {
     const token = localStorage.getItem("token")
       ? localStorage.getItem("token")
       : null;
@@ -140,7 +141,7 @@ export const getAllCourses = createAsyncThunk(
       return thunkAPI.rejectWithValue("No token found");
     }
     try {
-      const res = await axios.get(`${baseUrl}/admin/course`, {
+      const res = await axios.get(`${baseUrl}/admin/course?search=${search}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -210,7 +211,14 @@ export const getUser = createAsyncThunk<UserDetailsResponse, string>(
 
 export const getAllUsers = createAsyncThunk(
   "getAllUsers",
-  async (_, thunkAPI) => {
+  async (
+    {
+      search,
+      status,
+      type,
+    }: { search?: string; status?: string; type?: string },
+    thunkAPI
+  ) => {
     const token = localStorage.getItem("token")
       ? localStorage.getItem("token")
       : null;
@@ -219,7 +227,12 @@ export const getAllUsers = createAsyncThunk(
       return thunkAPI.rejectWithValue("No token found");
     }
     try {
-      const res = await axios.get(`${baseUrl}/admin/users`, {
+      const queryParams = [];
+      if (search) queryParams.push(`search=${search}`);
+      if (status) queryParams.push(`status=${status}`);
+      if (type) queryParams.push(`userType=${type}`);
+      const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
+      const res = await axios.get(`${baseUrl}/admin/users${queryString}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -363,13 +376,17 @@ export const adminSlice = createSlice({
     setCourseQuestions: (state, action) => {
       state.courseQuestions = action.payload;
     },
+    setAllUser: (state, action) => {
+      state.allUsers = action.payload;
+    },
   },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
 
-export const { setUser, setToken, setCourseQuestions } = adminSlice.actions;
+export const { setUser, setToken, setCourseQuestions, setAllUser } =
+  adminSlice.actions;
 
 export default adminSlice.reducer;
 

@@ -21,7 +21,7 @@ const UsersTable = () => {
   const userCount = allUsers?.users?.length ?? 0;
 
   useEffect(() => {
-    dispatch(getAllUsers());
+    dispatch(getAllUsers({ search: "" }));
   }, []);
 
   const handleNavigation = (id: number) => {
