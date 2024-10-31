@@ -1,7 +1,7 @@
 import { getAllUsers } from "@/redux/adminSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Menu } from "@mui/material";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 const UserFilterMenu = ({
   isOpen,
@@ -12,9 +12,17 @@ const UserFilterMenu = ({
   onClose: () => void;
   anchorEl: HTMLElement | null;
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [type, setType] = useState("STUDENT");
+  const [userType, setUserType] = useState("STUDENT");
+
+  const handleApply = (e: any) => {
+    e.stopPropagation();
+    setIsLoading(true);
+    dispatch(getAllUsers({ type: userType }));
+    onClose(); // Close the menu
+    setIsLoading(false);
+  };
   return (
     <Menu
       open={isOpen}
@@ -30,8 +38,8 @@ const UserFilterMenu = ({
           <div>
             <label className="text-[14px] font-[400]">User Type</label>
             <select
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={userType}
+              onChange={(e) => setUserType(e.target.value)}
               className="w-full outline-none border rounded-[4px] border-[#E8E8E8] p-2 mt-1 mb-5"
             >
               <option value="STUDENT" defaultValue="STUDENT">
@@ -47,13 +55,7 @@ const UserFilterMenu = ({
             className={`${
               isLoading ? "opacity-50" : ""
             } py-2 text-white bg-[#60269E] rounded-[4px]`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLoading(true);
-              dispatch(getAllUsers({ type: type }));
-              onClose(); // Close the menu
-              setIsLoading(false);
-            }}
+            onClick={(e) => handleApply(e)}
           >
             Apply
           </button>
