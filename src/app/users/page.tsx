@@ -16,7 +16,9 @@ import { IoIosArrowDown } from "react-icons/io";
 import UsersTable from "./usersTable";
 import { getCurrentDateFormatted } from "@/utils/date";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getUserStats } from "@/redux/adminSlice";
+import { getAllUsers, getUserStats, setAllUser } from "@/redux/adminSlice";
+import axios from "axios";
+import UserFilterMenu from "@/components/userComponents/userFilterMenu";
 
 interface metric {
   icon: string;
@@ -28,18 +30,32 @@ interface metric {
 
 const User = () => {
   const dispatch = useAppDispatch();
-  const { userStats } = useAppSelector((state) => state.admin);
+  const [search, setSearch] = useState("");
+  const { userStats, allUsers, token } = useAppSelector((state) => state.admin);
   const [activeTab, setActiveTab] = useState("allUsers");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  // console.log("anchorEl", anchorEl);
+  // console.log("isMenuOpen", isMenuOpen);
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+    setAnchorEl(null);
+  };
+
   useEffect(() => {
     dispatch(getUserStats());
   }, []);
 
+  useEffect(() => {
+    dispatch(getAllUsers({ search }));
+  }, [search]);
+
   function formatNumber(num: number): string | number {
     if (num >= 1000000) {
-      // For millions
       return (num / 1000000).toFixed(num % 1000000 === 0 ? 0 : 1) + "m";
     } else if (num >= 1000) {
-      // For thousands
       return (num / 1000).toFixed(num % 1000 === 0 ? 0 : 1) + "k";
     }
     return num;
@@ -130,7 +146,10 @@ const User = () => {
                 ? "border-b border-[var(--primary-color)] text-[var(--primary-color)]"
                 : ""
             } cursor-pointer pb-2 md:px-10`}
-            onClick={() => setActiveTab("allUsers")}
+            onClick={() => {
+              setActiveTab("allUsers");
+              dispatch(getAllUsers({ status: "" }));
+            }}
           >
             All Users
           </p>
@@ -140,7 +159,10 @@ const User = () => {
                 ? "border-b border-[var(--primary-color)] text-[var(--primary-color)]"
                 : ""
             } cursor-pointer pb-2 md:px-10`}
-            onClick={() => setActiveTab("activeUsers")}
+            onClick={() => {
+              setActiveTab("activeUsers");
+              dispatch(getAllUsers({ status: "ACTIVE" }));
+            }}
           >
             Active Users
           </p>
@@ -150,7 +172,10 @@ const User = () => {
                 ? "border-b border-[var(--primary-color)] text-[var(--primary-color)]"
                 : ""
             } cursor-pointer pb-2 md:px-10`}
-            onClick={() => setActiveTab("deactivatedUsers")}
+            onClick={() => {
+              setActiveTab("deactivatedUsers");
+              dispatch(getAllUsers({ status: "DEACTIVATED" }));
+            }}
           >
             Deactivated Users
           </p>
@@ -162,16 +187,30 @@ const User = () => {
               <CiSearch color="#667085" size={20} />
               <input
                 type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search"
                 className="w-[50vw] md:w-[300px] bg-transparent placeholder:text-[#667085] outline-none"
               />
             </div>
-            <div className="relative">
-              <select className="cursor-pointer bg-[#BDD4F114] border border-[#BDD4F199] h-full text-[13px] p-2 w-[70px] outline-none appearance-none">
-                <option value="">Filter</option>
-              </select>
-              <IoIosArrowDown className="absolute right-3 top-[14px]" />
-            </div>
+            <button
+              id="usersFilter"
+              className="relative"
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+                setIsMenuOpen(true);
+              }}
+            >
+              <div className="cursor-pointer bg-[#BDD4F114] border border-[#BDD4F199] h-full text-[13px] p-2 pr-8 w-[70px] outline-none appearance-none">
+                <p>Filter</p>
+              </div>
+              <IoIosArrowDown className="absolute right-3 top-[12px]" />
+              <UserFilterMenu
+                isOpen={isMenuOpen}
+                onClose={handleMenuClose}
+                anchorEl={anchorEl}
+              />
+            </button>
           </div>
           <div className="flex gap-3 text-[14px] space-x-3">
             <button className="flex gap-2 items-center bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">

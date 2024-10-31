@@ -1,6 +1,7 @@
 "use client";
 
 import { image_add } from "@/assets/icons";
+import { setUser } from "@/redux/adminSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { baseUrl } from "@/utils/constants";
 import { Avatar } from "@mui/material";
@@ -8,6 +9,7 @@ import axios from "axios";
 import Image from "next/image";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -17,39 +19,45 @@ interface FormData {
 const Profile = () => {
   const dispatch = useAppDispatch();
   const { user, token } = useAppSelector((state) => state.admin);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [data, setData] = useState<FormData>({
     name: user?.name || "",
     profile_photo: user?.profile_photo || "",
   });
 
+  console.log(data);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.profile_photo instanceof File) {
+      formData.append("profile_photo", data.profile_photo); // Append the file
+    }
     try {
-      // Update admin details
-      const response = await axios.patch(`${baseUrl}/admin`, data, {
+      const response = await axios.patch(`${baseUrl}/admin`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data", // Important for file uploads
         },
       });
-      console.log("Updated data:", response.data);
-
-      // Fetch updated user data
+      toast.success("Profile updated successfully");
       const updatedUser = await axios.get(`${baseUrl}/admin/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log("Fetched updated user:", updatedUser.data);
+      dispatch(setUser(updatedUser.data));
     } catch (error) {
       console.error("Error updating profile:", error);
+      toast.error("An Error occured, try again later");
+    } finally {
+      setIsLoading(false);
     }
-
-    console.log("Form submitted:", data);
   };
 
   const handleButtonClick = () => {
@@ -60,8 +68,6 @@ const Profile = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // setSelectedFile(file);
-      console.log(file);
       setData({ ...data, profile_photo: file });
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -150,7 +156,10 @@ const Profile = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full h-[70px] bg-[var(--primary-color)] text-white rounded-lg font-medium text-[16px] hover:bg-opacity-90 transition-colors duration-200"
+          disabled={isLoading}
+          className={`w-full h-[70px] bg-[var(--primary-color)] text-white rounded-lg font-medium text-[16px] hover:bg-opacity-90 transition-colors duration-200 ${
+            isLoading ? "opacity-50" : ""
+          }`}
         >
           Save Changes
         </button>
