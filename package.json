@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pm2:start": "pm2 start npm --name 'skill2rural-admin' -- start",
+    "pm2:stop": "pm2 stop skill2rural-admin"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
