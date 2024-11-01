@@ -82,6 +82,7 @@ interface singleUserObj {
 }
 
 interface allUsers {
+  totalCount: number;
   users: userObj[];
 }
 

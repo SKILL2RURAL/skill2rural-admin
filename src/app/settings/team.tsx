@@ -10,8 +10,12 @@ import { useAppSelector } from "@/redux/hooks";
 
 const Team = () => {
   const { allUsers } = useAppSelector((state) => state.admin);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  console.log(allUsers);
   return (
     <div className="my-5">
       <div className="md:flex space-y-5 justify-between items-center">
@@ -39,10 +43,15 @@ const Team = () => {
           </div>
         </div>
       </div>
-      <div className="mt-5">Team Members - {allUsers?.users?.length || 0}</div>
+      <div className="mt-5">Team Members - {allUsers?.totalCount || 0}</div>
 
       {/* <div> */}
-      <UsersTable />
+      <UsersTable
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        setTotalPages={setTotalPages}
+      />
       {/* </div> */}
       <ReusableModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <InviteUser onClose={() => setIsModalOpen(false)} />
