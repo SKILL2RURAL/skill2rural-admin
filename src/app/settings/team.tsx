@@ -15,7 +15,6 @@ const Team = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(allUsers);
   return (
     <div className="my-5">
       <div className="md:flex space-y-5 justify-between items-center">

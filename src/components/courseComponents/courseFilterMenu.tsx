@@ -43,8 +43,8 @@ const CourseFilterMenu = ({
               onChange={(e) => setData({ ...data, type: e.target.value })}
               className="w-full outline-none border border-[#E8E8E8] rounded-[4px] p-3"
             >
-              <option value="Free">Free</option>
-              <option value="Paid">Paid</option>
+              <option value="FREE">Free</option>
+              <option value="PAID">Paid</option>
             </select>
           </div>
           <div className="mb-3">
