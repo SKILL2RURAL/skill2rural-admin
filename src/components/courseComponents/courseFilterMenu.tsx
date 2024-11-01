@@ -1,3 +1,5 @@
+import { getAllCourses } from "@/redux/adminSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Menu } from "@mui/material";
 import React, { useState } from "react";
 
@@ -10,6 +12,18 @@ const CourseFilterMenu = ({
   onClose: () => void;
   anchorEl: HTMLElement | null;
 }) => {
+  const dispatch = useAppDispatch();
+  const [data, setData] = useState({
+    type: "Free",
+    status: "ACTIVE",
+  });
+  // console.log(data);
+
+  const handleApply = (e: any) => {
+    e.stopPropagation();
+    dispatch(getAllCourses({ type: data.type, status: data.status }));
+    onClose();
+  };
   return (
     <Menu
       open={isOpen}
@@ -18,31 +32,47 @@ const CourseFilterMenu = ({
       MenuListProps={{
         "aria-labelledby": `coursesFilter`,
       }}
-      //   sx={{ width: "300px", maxWidth: "300px" }}
     >
       <div className="p-3 px-2 w-[300px]">
         <h1>Filter by</h1>
         <div>
           <div>
             <label className="text-[14px] font-[400]">Course Type</label>
-            <select className="w-full outline-none">
+            <select
+              value={data.type}
+              onChange={(e) => setData({ ...data, type: e.target.value })}
+              className="w-full outline-none border border-[#E8E8E8] rounded-[4px] p-3"
+            >
               <option value="Free">Free</option>
               <option value="Paid">Paid</option>
             </select>
           </div>
-          <div>
+          <div className="mb-3">
             <label className="text-[14px] font-[400]">Status</label>
-            <select className="w-full outline-none">
+            <select
+              value={data.status}
+              onChange={(e) => setData({ ...data, status: e.target.value })}
+              className="w-full outline-none border border-[#E8E8E8] rounded-[4px] p-3"
+            >
               <option value="ACTIVE">Active</option>
               <option value="INACTIVE">Inactive</option>
             </select>
           </div>
         </div>
         <div className="grid gap-2">
-          <button className="py-2 text-white bg-[#60269E] rounded-[4px]">
+          <button
+            className="py-2 text-white bg-[#60269E] rounded-[4px]"
+            onClick={(e) => handleApply(e)}
+          >
             Apply
           </button>
-          <button className="py-2 text-[#60269E] border border-[#60269E] rounded-[4px]">
+          <button
+            className="py-2 text-[#60269E] border border-[#60269E] rounded-[4px]"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+          >
             Cancel
           </button>
         </div>

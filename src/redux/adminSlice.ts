@@ -132,7 +132,15 @@ export const getCoursesStats = createAsyncThunk(
 
 export const getAllCourses = createAsyncThunk(
   "getAllCourses",
-  async (search: string | undefined, thunkAPI) => {
+  async (
+    {
+      search,
+      status,
+      type,
+      page,
+    }: { search?: string; status?: string; type?: string; page?: number | 1 },
+    thunkAPI
+  ) => {
     const token = localStorage.getItem("token")
       ? localStorage.getItem("token")
       : null;
@@ -141,11 +149,20 @@ export const getAllCourses = createAsyncThunk(
       return thunkAPI.rejectWithValue("No token found");
     }
     try {
-      const res = await axios.get(`${baseUrl}/admin/course?search=${search}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const queryParams = [];
+      if (search) queryParams.push(`search=${search}`);
+      if (status) queryParams.push(`status=${status}`);
+      if (type) queryParams.push(`userType=${type}`);
+      if (page) queryParams.push(`page=${page}`);
+      const queryString = queryParams.length ? `${queryParams.join("&")}` : "";
+      const res = await axios.get(
+        `${baseUrl}/admin/course?${queryString}&pageSize=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(
@@ -216,7 +233,8 @@ export const getAllUsers = createAsyncThunk(
       search,
       status,
       type,
-    }: { search?: string; status?: string; type?: string },
+      page,
+    }: { search?: string; status?: string; type?: string; page?: number | 1 },
     thunkAPI
   ) => {
     const token = localStorage.getItem("token")
@@ -231,12 +249,16 @@ export const getAllUsers = createAsyncThunk(
       if (search) queryParams.push(`search=${search}`);
       if (status) queryParams.push(`status=${status}`);
       if (type) queryParams.push(`userType=${type}`);
-      const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
-      const res = await axios.get(`${baseUrl}/admin/users${queryString}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      if (page) queryParams.push(`page=${page}`);
+      const queryString = queryParams.length ? `${queryParams.join("&")}` : "";
+      const res = await axios.get(
+        `${baseUrl}/admin/users?${queryString}&pageSize=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return res.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(

@@ -18,10 +18,8 @@ const UserFilterMenu = ({
 
   const handleApply = (e: any) => {
     e.stopPropagation();
-    setIsLoading(true);
+    onClose();
     dispatch(getAllUsers({ type: userType }));
-    onClose(); // Close the menu
-    setIsLoading(false);
   };
   return (
     <Menu
@@ -64,10 +62,8 @@ const UserFilterMenu = ({
               isLoading ? "opacity-50" : ""
             }`}
             onClick={(e) => {
-              setIsLoading(true);
               e.stopPropagation();
               onClose();
-              setIsLoading(false);
             }}
           >
             Cancel

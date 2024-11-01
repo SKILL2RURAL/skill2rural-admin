@@ -15,7 +15,19 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const CourseTable = () => {
+interface Props {
+  page: number;
+  setPage: (page: number) => void;
+  totalPages: number;
+  setTotalPages: (totalPage: number) => void;
+}
+
+const CourseTable: React.FC<Props> = ({
+  page,
+  setPage,
+  totalPages,
+  setTotalPages,
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { allCourses } = useAppSelector((state) => state.admin);
@@ -46,9 +58,32 @@ const CourseTable = () => {
     return `${month}, ${day}, ${year}`;
   }
   useEffect(() => {
-    dispatch(getAllCourses());
+    const getCourses = async () => {
+      const res = await dispatch(getAllCourses({ search: "" }));
+      if (res?.payload?.data?.totalPages) {
+        setTotalPages(res.payload.data.totalPages);
+      } else {
+        setTotalPages(1);
+      }
+    };
+    getCourses();
   }, []);
 
+  const handleNext = async () => {
+    const res = await dispatch(getAllCourses({ search: "", page: page + 1 }));
+    if (res?.payload?.data?.totalPages) {
+      setPage(res.payload.data.currentPage);
+      setTotalPages(res.payload.data.totalPages);
+    }
+  };
+
+  const handlePrev = async () => {
+    const res = await dispatch(getAllCourses({ search: "", page: page - 1 }));
+    if (res?.payload?.data?.totalPages) {
+      setPage(res.payload.data.currentPage);
+      setTotalPages(res.payload.data.totalPages);
+    }
+  };
   return (
     <div className="mt-3 md:mt-7">
       <TableContainer component={Paper}>
@@ -119,12 +154,34 @@ const CourseTable = () => {
         </Table>
       </TableContainer>
       <div className="text-[14px] flex justify-between items-center p-3 border rounded-b-[8px] bg-white">
-        <div>Page 1 of 10</div>
+        <div>
+          Page {page} of {totalPages}
+        </div>
         <div className="flex gap-2">
-          <button className="shadow-md rounded-[8px] border border-[#D0D5DD] p-4 py-2">
+          <button
+            disabled={page <= 1}
+            className={`shadow-md rounded-[8px] border border-[#D0D5DD] p-4 py-2 ${
+              page <= 1 ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              if (page > 1) {
+                handlePrev();
+              }
+            }}
+          >
             Previous
           </button>
-          <button className="border border-[#D0D5DD] shadow-md rounded-[8px] p-4 py-2">
+          <button
+            disabled={totalPages <= 1 || totalPages === page}
+            className={`border border-[#D0D5DD] shadow-md rounded-[8px] p-4 py-2 ${
+              totalPages <= 1 || totalPages === page ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              if (totalPages > 1 && totalPages !== page) {
+                handleNext();
+              }
+            }}
+          >
             Next
           </button>
         </div>

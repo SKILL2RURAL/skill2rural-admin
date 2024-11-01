@@ -26,9 +26,24 @@ const Courses = () => {
   const { coursesStats } = useAppSelector((state) => state.admin);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    dispatch(getAllCourses(search));
+    const handleSearch = async () => {
+      const res = await dispatch(getAllCourses({ search }));
+      if (res.payload.data.currentPage) {
+        setPage(res.payload.data.currentPage);
+      } else {
+        setPage(1);
+      }
+      if (res.payload.data.totalPages) {
+        setTotalPages(res.payload.data.totalPages);
+      } else {
+        setTotalPages(1);
+      }
+    };
+    handleSearch();
   }, [search]);
 
   useEffect(() => {
@@ -125,7 +140,10 @@ const Courses = () => {
               <IoIosArrowDown className="absolute right-3 top-[12px]" />
               <CourseFilterMenu
                 isOpen={isMenuOpen}
-                onClose={() => setIsMenuOpen(false)}
+                onClose={() => {
+                  setIsMenuOpen(false);
+                  setAnchorEl(null);
+                }}
                 anchorEl={anchorEl}
               />
             </button>
@@ -133,8 +151,12 @@ const Courses = () => {
           <ActionButton />
         </div>
         <div>
-          {/* <Table /> */}
-          <CourseTable />
+          <CourseTable
+            page={page}
+            setPage={setPage}
+            totalPages={totalPages}
+            setTotalPages={setTotalPages}
+          />
         </div>
       </div>
     </div>

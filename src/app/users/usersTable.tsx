@@ -12,20 +12,56 @@ import {
   Avatar,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-const UsersTable = () => {
+interface Props {
+  page: number;
+  setPage: (page: number) => void;
+  totalPages: number;
+  setTotalPages: (totalPage: number) => void;
+}
+
+const UsersTable: React.FC<Props> = ({
+  page,
+  setPage,
+  totalPages,
+  setTotalPages,
+}) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { allUsers } = useAppSelector((state) => state.admin);
   const userCount = allUsers?.users?.length ?? 0;
 
   useEffect(() => {
-    dispatch(getAllUsers({ search: "" }));
+    const getUsers = async () => {
+      const res = await dispatch(getAllUsers({ search: "", page: page }));
+      if (res?.payload?.data?.totalPages) {
+        setTotalPages(res.payload.data.totalPages);
+      } else {
+        setTotalPages(1);
+      }
+    };
+    getUsers();
   }, []);
 
   const handleNavigation = (id: number) => {
     router.push(`/users/${id}`);
+  };
+
+  const handleNext = async () => {
+    const res = await dispatch(getAllUsers({ search: "", page: page + 1 }));
+    if (res?.payload?.data?.totalPages) {
+      setPage(res.payload.data.currentPage);
+      setTotalPages(res.payload.data.totalPages);
+    }
+  };
+
+  const handlePrev = async () => {
+    const res = await dispatch(getAllUsers({ search: "", page: page - 1 }));
+    if (res?.payload?.data?.totalPages) {
+      setPage(res.payload.data.currentPage);
+      setTotalPages(res.payload.data.totalPages);
+    }
   };
   return (
     <div className="mt-3 md:mt-7">
@@ -81,12 +117,34 @@ const UsersTable = () => {
         </Table>
       </TableContainer>
       <div className="text-[14px] flex justify-between items-center p-3 border rounded-b-[8px] bg-white">
-        <div>Page 1 of 10</div>
+        <div>
+          Page {page} of {totalPages}
+        </div>
         <div className="flex gap-2">
-          <button className="shadow-md rounded-[8px] border border-[#D0D5DD] p-4 py-2">
+          <button
+            disabled={page <= 1}
+            className={`shadow-md rounded-[8px] border border-[#D0D5DD] p-4 py-2 ${
+              page <= 1 ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              if (page > 1) {
+                handlePrev();
+              }
+            }}
+          >
             Previous
           </button>
-          <button className="border border-[#D0D5DD] shadow-md rounded-[8px] p-4 py-2">
+          <button
+            disabled={totalPages <= 1 || totalPages === page}
+            className={`border border-[#D0D5DD] shadow-md rounded-[8px] p-4 py-2 ${
+              totalPages <= 1 || totalPages === page ? "opacity-50" : ""
+            }`}
+            onClick={() => {
+              if (totalPages > 1 && totalPages !== page) {
+                handleNext();
+              }
+            }}
+          >
             Next
           </button>
         </div>

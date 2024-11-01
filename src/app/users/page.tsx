@@ -35,21 +35,28 @@ const User = () => {
   const [activeTab, setActiveTab] = useState("allUsers");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  // console.log("anchorEl", anchorEl);
-  // console.log("isMenuOpen", isMenuOpen);
-
-  const handleMenuClose = () => {
-    setIsMenuOpen(false);
-    setAnchorEl(null);
-  };
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     dispatch(getUserStats());
   }, []);
 
   useEffect(() => {
-    dispatch(getAllUsers({ search }));
+    const handleSearch = async () => {
+      const res = await dispatch(getAllUsers({ search }));
+      if (res.payload.data.currentPage) {
+        setPage(res.payload.data.currentPage);
+      } else {
+        setPage(1);
+      }
+      if (res.payload.data.totalPages) {
+        setTotalPages(res.payload.data.totalPages);
+      } else {
+        setTotalPages(1);
+      }
+    };
+    handleSearch();
   }, [search]);
 
   function formatNumber(num: number): string | number {
@@ -207,7 +214,10 @@ const User = () => {
               <IoIosArrowDown className="absolute right-3 top-[12px]" />
               <UserFilterMenu
                 isOpen={isMenuOpen}
-                onClose={handleMenuClose}
+                onClose={() => {
+                  setIsMenuOpen(false);
+                  setAnchorEl(null);
+                }}
                 anchorEl={anchorEl}
               />
             </button>
@@ -225,7 +235,12 @@ const User = () => {
         </div>
       </div>
       <div>
-        <UsersTable />
+        <UsersTable
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+          setTotalPages={setTotalPages}
+        />
       </div>
     </div>
   );
