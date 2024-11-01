@@ -26,7 +26,7 @@ const QuizDataComponent: React.FC<QuizData> = ({
           {question}
         </p>
       </div>
-      <div>
+      <div className="flex justify-between gap-4">
         <p>Response: {response ? "True" : "False"}</p>
         <div>
           <Image src={edit} alt="edit button" />

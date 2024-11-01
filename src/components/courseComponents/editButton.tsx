@@ -69,7 +69,7 @@ const EditButton: React.FC<EditButtonProps> = ({
       if (res.status === 200) {
         toast.success(res.data.messsage || "Course deleted successfully");
         handleCloseDialog();
-        dispatch(getAllCourses());
+        dispatch(getAllCourses({}));
       } else {
         toast.error(
           res.data.message || "An error occured while deleting course"
@@ -81,6 +81,8 @@ const EditButton: React.FC<EditButtonProps> = ({
       setIsLoading(false);
     }
   };
+
+  //  className="fixed right-0 top-0 h-screen w-[400px] bg-white shadow-lg p-5"
 
   return (
     <div className="flex gap-3 items-center w-[3rem]">

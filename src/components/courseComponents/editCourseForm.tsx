@@ -104,7 +104,7 @@ const EditCourse: React.FC<EditProps> = ({
             "Changes saved successfully. The course has been updated."
         );
         onClose();
-        dispatch(getAllCourses());
+        dispatch(getAllCourses({}));
         dispatch(getCourseDetails(JSON.stringify(id)));
       } else {
         toast.error(res?.data?.message || "Failed to save changes.");

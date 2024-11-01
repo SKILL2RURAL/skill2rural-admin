@@ -6,9 +6,10 @@ import Image from "next/image";
 
 interface ReusableModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
   styles?: React.CSSProperties; // Optional custom styles for the modal
+  editCourse?: boolean;
 }
 
 const ReusableModal: React.FC<ReusableModalProps> = ({
@@ -16,6 +17,7 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
   onClose,
   children,
   styles,
+  editCourse,
 }) => {
   styles = {
     // height: 639,
@@ -29,29 +31,37 @@ const ReusableModal: React.FC<ReusableModalProps> = ({
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      <Box
-        sx={{
-          position: "absolute" as "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 679,
-          maxHeight: "95vh",
-          bgcolor: "background.paper",
-          borderRadius: 2,
-          boxShadow: 24,
-          p: 4,
-          outline: "none",
-        }}
-      >
-        <div
-          className="absolute right-2 top-2 cursor-pointer"
-          onClick={onClose}
+      {editCourse ? (
+        <Box>{children}</Box>
+      ) : (
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 679,
+            maxHeight: "95vh",
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+            outline: "none",
+          }}
         >
-          <Image src={cancel} alt="cancel button" className="cursor-pointer" />
-        </div>
-        <div>{children}</div>
-      </Box>
+          <div
+            className="absolute right-2 top-2 cursor-pointer"
+            onClick={onClose}
+          >
+            <Image
+              src={cancel}
+              alt="cancel button"
+              className="cursor-pointer"
+            />
+          </div>
+          <div>{children}</div>
+        </Box>
+      )}
     </Modal>
   );
 };
