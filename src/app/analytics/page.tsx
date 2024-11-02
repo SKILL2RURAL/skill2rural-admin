@@ -17,9 +17,15 @@ interface Metric {
   amount: number;
 }
 
+type UserPerMonth = {
+  month: string;
+  userCount: number;
+};
+
 const Analytics = () => {
   const dispatch = useAppDispatch();
   const { user, analytics } = useAppSelector((state) => state.admin);
+  console.log(analytics);
   const metrics: Metric[] = [
     {
       title: "Total Users",
@@ -41,6 +47,13 @@ const Analytics = () => {
   useEffect(() => {
     dispatch(dashboardAnalytics());
   }, []);
+
+  function getTotalUserCount(usersPerMonth: UserPerMonth[]): number {
+    return usersPerMonth.reduce(
+      (total, current) => total + current.userCount,
+      0
+    );
+  }
 
   return (
     <div>
@@ -70,7 +83,9 @@ const Analytics = () => {
                 <h1 className="text-[14px] font-[500] text-[#A3AED0]">
                   USERS ACQUISITION
                 </h1>
-                <p className="text-[34px] font-[700] text-[#2B3674]">3,000</p>
+                <p className="text-[34px] font-[700] text-[#2B3674]">
+                  {getTotalUserCount(analytics?.usersPerMonth as any)}
+                </p>
               </div>
               <div></div>
             </div>

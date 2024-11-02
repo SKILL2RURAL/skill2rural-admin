@@ -19,6 +19,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getAllUsers, getUserStats, setAllUser } from "@/redux/adminSlice";
 import axios from "axios";
 import UserFilterMenu from "@/components/userComponents/userFilterMenu";
+import ReusableModal from "@/components/courseComponents/modal";
+import MessageAllUsersModal from "@/components/MessageAllUsersModal";
 
 interface metric {
   icon: string;
@@ -31,6 +33,8 @@ interface metric {
 const User = () => {
   const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
+  const [isMessageAllUsersModalOpen, setIsMessageAllUsersModalOpen] =
+    useState(false);
   const { userStats, allUsers, token } = useAppSelector((state) => state.admin);
   const [activeTab, setActiveTab] = useState("allUsers");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -223,7 +227,10 @@ const User = () => {
             </button>
           </div>
           <div className="flex gap-3 text-[14px] space-x-3">
-            <button className="flex gap-2 items-center bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
+            <button
+              className="flex gap-2 items-center bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white"
+              onClick={() => setIsMessageAllUsersModalOpen(true)}
+            >
               Message All Users
               <Image src={message} alt="" width={24} />
             </button>
@@ -241,6 +248,14 @@ const User = () => {
           totalPages={totalPages}
           setTotalPages={setTotalPages}
         />
+        <ReusableModal
+          isOpen={isMessageAllUsersModalOpen}
+          onClose={() => setIsMessageAllUsersModalOpen(false)}
+        >
+          <MessageAllUsersModal
+            closeModal={() => setIsMessageAllUsersModalOpen(false)}
+          />
+        </ReusableModal>
       </div>
     </div>
   );

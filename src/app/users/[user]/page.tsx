@@ -3,7 +3,7 @@ import { calendar, copy, message, multiple_users } from "@/assets/icons";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import CoursesCompletedTable from "./coursesCompletedTable";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   getSingleUserDetails,
@@ -17,6 +17,7 @@ import EducatorInformation from "@/components/userComponents/educatorInformation
 const User = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { singleUser, userCourses } = useAppSelector((state) => state.admin);
   const id = params.user;
   useEffect(() => {
@@ -25,7 +26,6 @@ const User = () => {
       dispatch(getUserCourses(id));
     }
   }, [id]);
-
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -39,7 +39,7 @@ const User = () => {
         </div>
       </div>
       <div className="flex justify-between items-center my-5">
-        <p>
+        <p onClick={() => router.back()} className="cursor-pointer">
           User /{" "}
           <span className="text-[var(--primary-color)] text-[14px] font-[600]">
             {singleUser?.user?.name}
@@ -148,7 +148,8 @@ const User = () => {
           </div>
         </div>
         <div className="h-[40px]" />
-        <EducatorInformation />
+        {singleUser?.user?.type !== "STUDENT" && <EducatorInformation />}
+
         <div className="h-[40px]" />
 
         <div>
