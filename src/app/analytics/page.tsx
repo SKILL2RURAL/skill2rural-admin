@@ -49,7 +49,7 @@ const Analytics = () => {
   }, []);
 
   function getTotalUserCount(usersPerMonth: UserPerMonth[]): number {
-    return usersPerMonth.reduce(
+    return usersPerMonth?.reduce(
       (total, current) => total + current.userCount,
       0
     );
