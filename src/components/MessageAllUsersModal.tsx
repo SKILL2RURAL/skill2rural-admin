@@ -1,6 +1,10 @@
 import { thumbnail } from "@/assets/icons";
+import { useAppSelector } from "@/redux/hooks";
+import { baseUrl } from "@/utils/constants";
+import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 interface FormDataObj {
   title: string;
@@ -9,6 +13,8 @@ interface FormDataObj {
 }
 
 const MessageAllUsersModal = ({ closeModal }: { closeModal: () => void }) => {
+  const { token } = useAppSelector((state) => state.admin);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormDataObj>({
     title: "",
     message: "",
@@ -19,15 +25,45 @@ const MessageAllUsersModal = ({ closeModal }: { closeModal: () => void }) => {
     if (files && files.length > 0) {
       setFormData((prev) => ({
         ...prev,
-        image: files[0] || null, // Use 'files[0]' instead of 'file[0]'
+        image: files[0] || null,
       }));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    closeModal();
+    if (!formData.title || !formData.message) {
+      toast.error("Title and Message are required.");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(
+        `${baseUrl}/admin/send-message`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.status === 201) {
+        closeModal();
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message || "An unexpected error occurred.");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Network or server error";
+        toast.error(Array.isArray(message) ? message[0] : message);
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div>
@@ -94,7 +130,12 @@ const MessageAllUsersModal = ({ closeModal }: { closeModal: () => void }) => {
           </div>
         </div>
         <div className="h-[1rem]" />
-        <button className="text-white bg-[#60269E] rounded-[10px] w-full py-3 mt-10">
+        <button
+          type="submit"
+          className={`${
+            isLoading ? "opacity-50" : ""
+          } text-white bg-[#60269E] rounded-[10px] w-full py-3 mt-10`}
+        >
           Send Message
         </button>
       </form>

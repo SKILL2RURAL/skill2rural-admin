@@ -13,6 +13,15 @@ export interface AdminState {
   coursesStats: CoursesStats | null;
   courseDetails: CourseObj | null;
   courseQuestions: Question[] | null;
+  adminList: adminObj[] | null;
+}
+
+export interface adminObj {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  profile_photo: string | null;
 }
 
 interface Question {

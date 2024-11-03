@@ -5,15 +5,42 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import UsersTable from "../users/usersTable";
 import ReusableModal from "@/components/courseComponents/modal";
 import InviteUser from "@/components/invite-user";
-import { useState } from "react";
-import { useAppSelector } from "@/redux/hooks";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import axios from "axios";
+import { baseUrl } from "@/utils/constants";
+import AdminTable from "@/components/adminTable";
+import { setAdminList } from "@/redux/adminSlice";
 
 const Team = () => {
-  const { allUsers } = useAppSelector((state) => state.admin);
+  const dispatch = useAppDispatch();
+  const { allUsers, token, adminList } = useAppSelector((state) => state.admin);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const getAdminList = async () => {
+      const response = await axios.get(
+        `${baseUrl}/admin/admins?page=${page}&pageSize=10`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.status === 200) {
+        console.log(response);
+        const { admins, currentPage, totalPages } = response.data.data;
+        dispatch(setAdminList(admins));
+        if (currentPage) {
+          setPage(currentPage);
+        } else {
+          setPage(1);
+        }
+        if (totalPages) {
+          setTotalPages(totalPages);
+        }
+      }
+    };
+    getAdminList();
+  }, []);
 
   return (
     <div className="my-5">
@@ -31,7 +58,7 @@ const Team = () => {
         <div className="text-[14px] space-x-3 flex ">
           <div className="bg-[var(--primary-color)] px-4 py-3 rounded-[8px] text-white flex gap-1 items-center">
             <MdOutlineFileDownload size={20} />
-            Message All Users
+            Export CSV
           </div>
           <div
             className="bg-[var(--primary-color)] px-4 py-3 rounded-[8px] text-white flex gap-1 items-center cursor-pointer"
@@ -42,10 +69,10 @@ const Team = () => {
           </div>
         </div>
       </div>
-      <div className="mt-5">Team Members - {allUsers?.totalCount || 0}</div>
+      <div className="mt-5">Team Members - {adminList?.length}</div>
 
       {/* <div> */}
-      <UsersTable
+      <AdminTable
         page={page}
         setPage={setPage}
         totalPages={totalPages}

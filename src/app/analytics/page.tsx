@@ -25,7 +25,6 @@ type UserPerMonth = {
 const Analytics = () => {
   const dispatch = useAppDispatch();
   const { user, analytics } = useAppSelector((state) => state.admin);
-  console.log(analytics);
   const metrics: Metric[] = [
     {
       title: "Total Users",

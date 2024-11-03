@@ -56,6 +56,7 @@ const initialState: AdminState = {
   userCourses: null,
   coursesStats: null,
   courseQuestions: null,
+  adminList: null,
 };
 
 // Auth Enpoints
@@ -401,14 +402,22 @@ export const adminSlice = createSlice({
     setAllUser: (state, action) => {
       state.allUsers = action.payload;
     },
+    setAdminList: (state, action) => {
+      state.adminList = action.payload;
+    },
   },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
 
-export const { setUser, setToken, setCourseQuestions, setAllUser } =
-  adminSlice.actions;
+export const {
+  setUser,
+  setToken,
+  setCourseQuestions,
+  setAllUser,
+  setAdminList,
+} = adminSlice.actions;
 
 export default adminSlice.reducer;
 
