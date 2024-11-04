@@ -42,8 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const storedToken = localStorage.getItem("token");
     if (!token && storedToken) {
       retrieveToken();
-    }
-    if (token && !user) {
+    } else if (token && !user) {
       fetchUser();
     } else if (!token && !user && !storedToken) {
       localStorage.setItem("intendedRoute", pathname);
