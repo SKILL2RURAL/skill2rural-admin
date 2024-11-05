@@ -52,6 +52,8 @@ const AdminTable: React.FC<Props> = ({
       setTotalPages(totalPages);
     }
   };
+
+  // console.log(adminList);
   return (
     <div className="mt-3 md:mt-7">
       <TableContainer component={Paper}>
@@ -86,7 +88,7 @@ const AdminTable: React.FC<Props> = ({
                     </div>
                   </TableCell>
                   <TableCell>Admin</TableCell>
-                  <TableCell>Sept, 10, 2023</TableCell>
+                  <TableCell>Sept, 10, 2024</TableCell>
 
                   <TableCell>
                     <p
