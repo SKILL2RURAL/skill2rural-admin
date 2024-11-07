@@ -45,7 +45,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     } else if (token && !user) {
       fetchUser();
     } else if (!token && !user && !storedToken) {
-      localStorage.setItem("intendedRoute", pathname);
       router.push("/login");
     }
   }, [token, user, retrieveToken, fetchUser, router]);
