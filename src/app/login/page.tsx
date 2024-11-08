@@ -19,12 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      const intendedRoute = localStorage.getItem("intendedRoute");
-      if (intendedRoute && intendedRoute !== "/") {
-        router.push(intendedRoute);
-      } else {
-        router.push("/analytics");
-      }
+      router.push("/analytics");
     }
   }, [token]);
 
