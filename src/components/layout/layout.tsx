@@ -38,25 +38,25 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     }
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem("token");
-  //   if (!token && storedToken) {
-  //     retrieveToken();
-  //   } else if (token && !user) {
-  //     fetchUser();
-  //   } else if (!token && !user && !storedToken) {
-  //     router.push("/login");
-  //   }
-  // }, [token, user, retrieveToken, fetchUser, router]);
-
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (!storedToken) {
+    if (!token && storedToken) {
+      retrieveToken();
+    } else if (token && !user) {
+      fetchUser();
+    } else if (!token && !user && !storedToken) {
       router.push("/login");
-    } else {
-      dispatch(setToken(storedToken));
     }
-  }, []);
+  }, [token, user, retrieveToken, fetchUser, router]);
+
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem("token");
+  //   if (!storedToken) {
+  //     router.push("/login");
+  //   } else {
+  //     dispatch(setToken(storedToken));
+  //   }
+  // }, []);
 
   return (
     <div className="flex">
