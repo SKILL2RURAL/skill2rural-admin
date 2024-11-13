@@ -31,6 +31,7 @@ const CourseTable: React.FC<Props> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { allCourses } = useAppSelector((state) => state.admin);
+  console.log(allCourses);
 
   const handleNavigation = (id: number) => {
     router.push(`/courses/${id}`);
@@ -133,7 +134,7 @@ const CourseTable: React.FC<Props> = ({
                   <TableCell onClick={() => handleNavigation(row.id)}>
                     {formatDate(row.createdAt)}
                   </TableCell>
-                  <TableCell>100 users</TableCell>
+                  <TableCell>{row?._count?.progress}</TableCell>
                   <TableCell>
                     <p
                       className={` w-fit p-2 rounded-[16px] ${

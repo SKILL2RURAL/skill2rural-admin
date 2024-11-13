@@ -254,6 +254,7 @@ const User = () => {
         >
           <MessageAllUsersModal
             closeModal={() => setIsMessageAllUsersModalOpen(false)}
+            isSingleMessage={false}
           />
         </ReusableModal>
       </div>

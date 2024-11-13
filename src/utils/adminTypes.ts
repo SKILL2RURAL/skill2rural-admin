@@ -66,6 +66,9 @@ interface CoursesObj {
   updatedAt: string;
   status: string;
   type: string;
+  _count: {
+    progress: number;
+  };
 }
 
 interface singleUserObj {

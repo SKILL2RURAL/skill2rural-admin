@@ -163,7 +163,11 @@ const User = () => {
         </div>
       </div>
       <ReusableModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <MessageAllUsersModal closeModal={() => setIsModalOpen(false)} />
+        <MessageAllUsersModal
+          closeModal={() => setIsModalOpen(false)}
+          isSingleMessage={true}
+          userId={"1"}
+        />
       </ReusableModal>
     </div>
   );

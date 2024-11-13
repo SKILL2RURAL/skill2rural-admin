@@ -12,7 +12,15 @@ interface FormDataObj {
   image: File | string;
 }
 
-const MessageAllUsersModal = ({ closeModal }: { closeModal: () => void }) => {
+const MessageAllUsersModal = ({
+  closeModal,
+  isSingleMessage = false,
+  userId,
+}: {
+  closeModal: () => void;
+  isSingleMessage: boolean;
+  userId?: string;
+}) => {
   const { token } = useAppSelector((state) => state.admin);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormDataObj>({
@@ -37,15 +45,14 @@ const MessageAllUsersModal = ({ closeModal }: { closeModal: () => void }) => {
       return;
     }
 
+    const url =
+      isSingleMessage && userId ? `send-message/${userId}` : "send-message";
+
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        `${baseUrl}/admin/send-message`,
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/admin/${url}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.status === 201) {
         closeModal();
