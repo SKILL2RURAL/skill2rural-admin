@@ -1,24 +1,23 @@
 "use client";
-import { calendar, copy, message, multiple_users } from "@/assets/icons";
-import Image from "next/image";
-import React, { useEffect } from "react";
-import CoursesCompletedTable from "./coursesCompletedTable";
-import { useParams, useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  getSingleUserDetails,
-  getUser,
-  getUserCourses,
-} from "@/redux/adminSlice";
-import { getCurrentDateFormatted } from "@/utils/date";
+import { calendar, message, multiple_users } from "@/assets/icons";
+import MessageAllUsersModal from "@/components/MessageAllUsersModal";
+import ReusableModal from "@/components/courseComponents/modal";
 import CircularProgressBar from "@/components/ui/circularProgressBar";
 import EducatorInformation from "@/components/userComponents/educatorInformation";
+import { getUser, getUserCourses } from "@/redux/adminSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { getCurrentDateFormatted } from "@/utils/date";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import CoursesCompletedTable from "./coursesCompletedTable";
 
 const User = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { singleUser, userCourses } = useAppSelector((state) => state.admin);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const id = params.user;
   useEffect(() => {
     if (typeof id === "string") {
@@ -45,8 +44,11 @@ const User = () => {
             {singleUser?.user?.name}
           </span>
         </p>
-        <button className="flex gap-2 text-[12px] md:text-[16px] items-center bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white">
-          Message All Users
+        <button
+          className="flex gap-2 text-[12px] md:text-[16px] items-center bg-[var(--primary-color)] px-4 py-3 rounded-[4px] text-white"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Message User
           <Image src={message} alt="" width={24} />
         </button>
       </div>
@@ -54,7 +56,6 @@ const User = () => {
         <div className="grid md:grid-cols-2 gap-5">
           <div>
             <p className="text-[18px] font-[600]">User Information</p>
-
             <div className="shadow-md p-5 h-full">
               <div className="flex justify-between items-center">
                 <div>
@@ -161,6 +162,9 @@ const User = () => {
           <CoursesCompletedTable />
         </div>
       </div>
+      <ReusableModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <MessageAllUsersModal closeModal={() => setIsModalOpen(false)} />
+      </ReusableModal>
     </div>
   );
 };

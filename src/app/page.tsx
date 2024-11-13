@@ -7,9 +7,10 @@ import { useEffect } from "react";
 export default function Home() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const storedToken = localStorage.getItem("token");
 
   const { token } = useAppSelector((state) => state.admin);
-  if (token) {
+  if (storedToken) {
     return router.push("/analytics");
   } else {
     return router.push("/login");

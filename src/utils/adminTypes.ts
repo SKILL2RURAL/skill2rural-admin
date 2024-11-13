@@ -65,6 +65,7 @@ interface CoursesObj {
   createdAt: string;
   updatedAt: string;
   status: string;
+  type: string;
 }
 
 interface singleUserObj {

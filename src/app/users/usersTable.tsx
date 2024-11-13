@@ -97,7 +97,6 @@ const UsersTable: React.FC<Props> = ({
                       <Avatar />
                       <div className="text-[13px] md:text-[14px]">
                         <p>{row.name}</p>
-                        <p className="text-[#667085]">@o.mariam</p>
                       </div>
                     </div>
                   </TableCell>

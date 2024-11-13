@@ -119,7 +119,7 @@ const CourseTable: React.FC<Props> = ({
                     {row.title}
                   </TableCell>
                   <TableCell onClick={() => handleNavigation(row.id)}>
-                    Paid
+                    {row.type || ""}
                   </TableCell>
                   <TableCell onClick={() => handleNavigation(row.id)}>
                     <div className="flex gap-2 items-center">
