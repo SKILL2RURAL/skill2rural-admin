@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
-import { baseUrl } from "@/utils/constants";
 import axios from "axios";
 import {
   AdminState,
@@ -10,6 +9,8 @@ import {
 } from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
 import { type } from "os";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL as string;
 
 interface LoginData {
   email: string;
