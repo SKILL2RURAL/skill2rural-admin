@@ -8,7 +8,6 @@ import {
   userCoursesObj,
 } from "@/utils/adminTypes";
 import adminBuilder from "./adminBuilder";
-import { type } from "os";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL as string;
 
@@ -80,8 +79,8 @@ export const login = createAsyncThunk<string, LoginData>(
 export const dashboardAnalytics = createAsyncThunk(
   "dashboardAnalytics",
   async (_, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -107,8 +106,8 @@ export const dashboardAnalytics = createAsyncThunk(
 export const getCoursesStats = createAsyncThunk(
   "getCoursesStats",
   async (_, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -143,8 +142,8 @@ export const getAllCourses = createAsyncThunk(
     }: { search?: string; status?: string; type?: string; page?: number | 1 },
     thunkAPI
   ) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -177,8 +176,8 @@ export const getAllCourses = createAsyncThunk(
 export const getCourseDetails = createAsyncThunk<CourseObj, string>(
   "getCourseDetails",
   async (id, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -203,8 +202,8 @@ export const getCourseDetails = createAsyncThunk<CourseObj, string>(
 export const getUser = createAsyncThunk<UserDetailsResponse, string>(
   "getUser",
   async (id, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -239,8 +238,8 @@ export const getAllUsers = createAsyncThunk(
     }: { search?: string; status?: string; type?: string; page?: number | 1 },
     thunkAPI
   ) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -273,8 +272,8 @@ export const getAllUsers = createAsyncThunk(
 export const getUserStats = createAsyncThunk(
   "getUserStats",
   async (_, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -298,8 +297,8 @@ export const getUserStats = createAsyncThunk(
 export const getUserCourses = createAsyncThunk<userCoursesObj, string>(
   "getUserCourses",
   async (id, thunkAPI) => {
-    const token = localStorage.getItem("token")
-      ? localStorage.getItem("token")
+    const token = sessionStorage.getItem("token")
+      ? sessionStorage.getItem("token")
       : null;
 
     if (!token) {
@@ -332,8 +331,8 @@ export const changePassword = createAsyncThunk<
   PasswordChangeObj,
   { rejectValue: string }
 >("changePassword", async (payload, thunkAPI) => {
-  const token = localStorage.getItem("token")
-    ? localStorage.getItem("token")
+  const token = sessionStorage.getItem("token")
+    ? sessionStorage.getItem("token")
     : null;
 
   if (!token) {
@@ -362,8 +361,8 @@ export const addNewCourse = createAsyncThunk<
   CourseObj,
   { rejectValue: string }
 >("addNewCourse", async (payload, thunkAPI) => {
-  const token = localStorage.getItem("token")
-    ? localStorage.getItem("token")
+  const token = sessionStorage.getItem("token")
+    ? sessionStorage.getItem("token")
     : null;
 
   if (!token) {

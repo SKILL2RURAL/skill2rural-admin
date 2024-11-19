@@ -94,8 +94,7 @@ const CourseForm: React.FC<ComponentProps> = ({ onClose, openSucessModal }) => {
         }
       );
       toast.success("Course created successfully!");
-      console.log(res.data);
-      localStorage.setItem("newCourse", res.data.data.id);
+      sessionStorage.setItem("newCourse", res?.data?.data?.id);
       setFormData({
         title: "",
         description: "",
