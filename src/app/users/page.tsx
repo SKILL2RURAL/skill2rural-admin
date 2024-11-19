@@ -49,12 +49,12 @@ const User = () => {
   useEffect(() => {
     const handleSearch = async () => {
       const res = await dispatch(getAllUsers({ search }));
-      if (res.payload.data.currentPage) {
+      if (res?.payload?.data?.currentPage) {
         setPage(res.payload.data.currentPage);
       } else {
         setPage(1);
       }
-      if (res.payload.data.totalPages) {
+      if (res?.payload?.data?.totalPages) {
         setTotalPages(res.payload.data.totalPages);
       } else {
         setTotalPages(1);

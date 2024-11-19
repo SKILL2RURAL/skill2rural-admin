@@ -19,7 +19,7 @@ const InviteUser: React.FC<ComponentProps> = ({ onClose }) => {
       return;
     }
 
-    const retreiveToken = localStorage.getItem("token") || "";
+    const retreiveToken = sessionStorage.getItem("token") || "";
     try {
       setIsLoading(true);
       const res = await axios.post(

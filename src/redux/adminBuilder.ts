@@ -24,9 +24,7 @@ const adminBuilder = (builder: ActionReducerMapBuilder<AdminState>) => {
       toast.success(action?.payload?.message || "Login successful");
       state.token = action.payload.data.accessToken;
       state.error = null;
-      // state.user = action.payload.data.user;
-      // localStorage.setItem(`user`, JSON.stringify(action.payload.data.user));
-      localStorage.setItem(`token`, action.payload.data.accessToken);
+      sessionStorage.setItem(`token`, action.payload.data.accessToken);
     })
     .addCase(login.rejected, (state: any, action: any) => {
       state.loading = false;

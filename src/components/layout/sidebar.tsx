@@ -32,7 +32,7 @@ const Sidebar = () => {
   ];
 
   const handleLogout = async () => {
-    localStorage.clear();
+    sessionStorage.clear();
     dispatch(setUser(null));
     dispatch(setToken(null));
     await router.push("/login");

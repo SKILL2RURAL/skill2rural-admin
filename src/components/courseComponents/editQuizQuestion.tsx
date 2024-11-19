@@ -28,7 +28,7 @@ const EditQuizQuestion: React.FC<Props> = ({
   const params = useParams();
   const id = params.course; // Get course Id from params
   const questionsContainerRef = useRef<HTMLDivElement | null>(null);
-  const courseId = localStorage.getItem("courseId"); // Get Course Id if it exists in local storage
+  const courseId = sessionStorage.getItem("courseId"); // Get Course Id if it exists in local storage
 
   const [questions, setQuestions] = useState<Question>({
     courseId: "",

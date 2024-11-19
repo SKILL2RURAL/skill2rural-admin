@@ -26,20 +26,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       dispatch(setUser(res.data.data));
     } catch (error) {
       console.error("Error fetching user data", error);
-      router.push("/login");
     }
   }, [dispatch, router, token]);
 
   // Function to handle token retrieval
   const retrieveToken = useCallback((): void => {
-    const storedToken = localStorage.getItem("token");
+    const storedToken = sessionStorage.getItem("token");
     if (storedToken) {
       dispatch(setToken(storedToken));
     }
   }, [dispatch]);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
+    const storedToken = sessionStorage.getItem("token");
     if (!token && storedToken) {
       retrieveToken();
     } else if (token && !user) {
@@ -48,15 +47,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       router.push("/login");
     }
   }, [token, user, retrieveToken, fetchUser, router]);
-
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem("token");
-  //   if (!storedToken) {
-  //     router.push("/login");
-  //   } else {
-  //     dispatch(setToken(storedToken));
-  //   }
-  // }, []);
 
   return (
     <div className="flex">
