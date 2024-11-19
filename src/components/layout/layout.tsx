@@ -26,6 +26,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       dispatch(setUser(res.data.data));
     } catch (error) {
       console.error("Error fetching user data", error);
+      dispatch(setToken(null));
+      sessionStorage.clear();
+      router.push("/login");
     }
   }, [dispatch, router, token]);
 
