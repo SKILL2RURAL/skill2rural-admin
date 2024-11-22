@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setToken, setUser } from "@/redux/adminSlice";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
-import { baseUrl } from "@/utils/constants";
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,10 +19,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Function to fetch user data
   const fetchUser = useCallback(async (): Promise<void> => {
     try {
-      const res = await axios.get(`${baseUrl}/user/me`, {
+      const res = await axios.get(`https://api.skill2rural.org/admin/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      dispatch(setUser(res.data.data));
+      dispatch(setUser(res.data));
     } catch (error) {
       console.error("Error fetching user data", error);
       dispatch(setToken(null));
