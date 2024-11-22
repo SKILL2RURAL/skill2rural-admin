@@ -23,6 +23,7 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { user, token } = useAppSelector((state) => state.admin);
+  console.log(user);
 
   const links = [
     { name: "analytics", activeIcon: active_analytics, icon: analytics },
