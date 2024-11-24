@@ -1,12 +1,30 @@
 "use client";
+
 import { calendar, gear } from "@/assets/icons";
-import Layout from "@/components/layout/layout";
 import Image from "next/image";
 import React, { useState } from "react";
-import Profile from "../../components/settings/profile";
-import Password from "../../components/settings/password";
-import Team from "../../components/settings/team";
-import { getCurrentDateFormatted } from "@/utils/date";
+import dynamic from "next/dynamic";
+
+// Dynamically import components with ssr disabled
+const Profile = dynamic(() => import("../../components/settings/profile"), {
+  ssr: false,
+});
+const Password = dynamic(() => import("../../components/settings/password"), {
+  ssr: false,
+});
+const Team = dynamic(() => import("../../components/settings/team"), {
+  ssr: false,
+});
+
+// Move date formatting to client-side
+const getCurrentDateFormatted = () => {
+  const date = new Date();
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -20,7 +38,7 @@ const Settings = () => {
       case "team":
         return <Team />;
       default:
-        break;
+        return null;
     }
   };
 
