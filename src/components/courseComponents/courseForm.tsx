@@ -1,13 +1,11 @@
-import React, { useRef, useState } from "react";
-import { picFrame } from "@/assets/icons";
-import Image from "next/image";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { baseUrl } from "@/utils/constants";
 import { useAppSelector } from "@/redux/hooks";
+import { baseUrl } from "@/utils/constants";
+import axios from "axios";
+import Image from "next/image";
+import React, { useState } from "react";
 import { CiImageOn } from "react-icons/ci";
-import { BsCameraVideo } from "react-icons/bs";
 import { FaPlayCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 interface FormData {
   title: string;

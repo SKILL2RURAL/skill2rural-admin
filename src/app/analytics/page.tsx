@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getCurrentDateFormatted } from "@/utils/date";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
-import MetricItem from "./metricItem";
+import MetricItem from "../../components/analytics/metricItem";
 import { dashboardAnalytics } from "@/redux/adminSlice";
 
 interface Metric {

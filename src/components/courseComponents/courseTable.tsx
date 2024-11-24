@@ -31,7 +31,6 @@ const CourseTable: React.FC<Props> = ({
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { allCourses } = useAppSelector((state) => state.admin);
-  console.log(allCourses);
 
   const handleNavigation = (id: number) => {
     router.push(`/courses/${id}`);

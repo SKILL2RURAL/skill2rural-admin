@@ -8,7 +8,11 @@ import { CiImageOn } from "react-icons/ci";
 import axios from "axios";
 import { baseUrl } from "@/utils/constants";
 import { toast } from "react-toastify";
-import { getAllCourses, getCourseDetails } from "@/redux/adminSlice";
+import {
+  getAllCourses,
+  getCourseDetails,
+  setEditedCourseDetails,
+} from "@/redux/adminSlice";
 
 interface CourseDetails {
   title: string;
@@ -91,7 +95,6 @@ const EditCourse: React.FC<EditProps> = ({
 
   const handleSaveChanges = async () => {
     try {
-      console.log(id);
       setIsLoading(true);
       const res = await axios.patch(`${baseUrl}/admin/course/${id}`, course, {
         headers: {
@@ -208,14 +211,10 @@ const EditCourse: React.FC<EditProps> = ({
           <label className="block text-sm font-medium text-[#253B4B] mb-1">
             Course Video
           </label>
-          <div
-            className="flex items-center border border-[#B8B8B8] px-2 py-3 rounded-lg"
-            // onClick={handleVideoClick}
-          >
+          <div className="flex items-center border border-[#B8B8B8] px-2 py-3 rounded-lg">
             <input
               type="file"
               accept=".mp4, .mov, .avi"
-              // onChange={(e) => handleFileChange(e, "video")}
               className="hidden"
               id="videoUpload"
             />
@@ -223,7 +222,6 @@ const EditCourse: React.FC<EditProps> = ({
               className="border border-[#C4C4C4] h-[78px] w-[121px] rounded-[5px] flex justify-center items-center bg-cover bg-center"
               style={{
                 backgroundImage: `url(${course?.thumbnail_image})`,
-                // filter: "blur(8px)",
               }}
             >
               {course?.video ? (
@@ -245,10 +243,12 @@ const EditCourse: React.FC<EditProps> = ({
         </div>
       </div>
       <button
-        // type="submit"
         className="w-full bg-white border border-[#60269E] mt-4  text-[#60269E] py-2 rounded-lg shadow-md hover:bg-[#722abf] hover:text-white"
         onClick={async () => {
-          // await onClose();
+          if (existingCourseDetails !== course) {
+            dispatch(setEditedCourseDetails(course));
+            sessionStorage.setItem("courseId", JSON.stringify(id));
+          }
           onClose();
           openDrawer();
         }}

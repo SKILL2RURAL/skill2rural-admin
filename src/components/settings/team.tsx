@@ -1,8 +1,8 @@
 import { CiSearch } from "react-icons/ci";
 import { RxPerson } from "react-icons/rx";
-import Table from "../users/table";
+import Table from "../userComponents/table";
 import { MdOutlineFileDownload } from "react-icons/md";
-import UsersTable from "../users/usersTable";
+import UsersTable from "../userComponents/usersTable";
 import ReusableModal from "@/components/courseComponents/modal";
 import InviteUser from "@/components/invite-user";
 import { useEffect, useState } from "react";
