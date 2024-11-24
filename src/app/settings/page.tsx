@@ -3,9 +3,9 @@ import { calendar, gear } from "@/assets/icons";
 import Layout from "@/components/layout/layout";
 import Image from "next/image";
 import React, { useState } from "react";
-import Profile from "./profile";
-import Password from "./password";
-import Team from "./team";
+import Profile from "../../components/settings/profile";
+import Password from "../../components/settings/password";
+import Team from "../../components/settings/team";
 import { getCurrentDateFormatted } from "@/utils/date";
 
 const Settings = () => {

@@ -14,6 +14,7 @@ export interface AdminState {
   courseDetails: CourseObj | null;
   courseQuestions: Question[] | null;
   adminList: adminObj[] | null;
+  editedCourseDetails: CourseObj | null;
 }
 
 export interface adminObj {

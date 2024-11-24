@@ -1,3 +1,4 @@
+import { CourseObj } from "@/utils/adminTypes";
 import React from "react";
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
   handleSubmit: () => void;
   isLoading: boolean;
   isEdit: boolean;
+  editedCourseDetails: CourseObj | null;
 }
 
 const QuizFooter: React.FC<Props> = ({
@@ -12,6 +14,7 @@ const QuizFooter: React.FC<Props> = ({
   handleSubmit,
   isLoading,
   isEdit,
+  editedCourseDetails,
 }) => (
   <div className="flex justify-end border-t p-5 space-x-4">
     <button
@@ -20,7 +23,7 @@ const QuizFooter: React.FC<Props> = ({
     >
       Cancel
     </button>
-    {isEdit ? (
+    {isEdit && !editedCourseDetails ? (
       <button
         onClick={closeDrawer}
         className={`bg-[#60269E] px-[5rem] py-2 rounded-[8px] text-white ${

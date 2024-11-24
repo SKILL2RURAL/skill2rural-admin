@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { AiOutlineDownload } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import UsersTable from "./usersTable";
+import UsersTable from "../../components/userComponents/usersTable";
 import { getCurrentDateFormatted } from "@/utils/date";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getAllUsers, getUserStats, setAllUser } from "@/redux/adminSlice";

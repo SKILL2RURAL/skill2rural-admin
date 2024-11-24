@@ -10,7 +10,7 @@ import { getCurrentDateFormatted } from "@/utils/date";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import CoursesCompletedTable from "./coursesCompletedTable";
+import CoursesCompletedTable from "../../../components/userComponents/coursesCompletedTable";
 
 const User = () => {
   const params = useParams();

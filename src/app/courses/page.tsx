@@ -10,8 +10,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import MetricItem from "../analytics/metricItem";
-import CourseTable from "./courseTable";
+import MetricItem from "../../components/analytics/metricItem";
+import CourseTable from "../../components/courseComponents/courseTable";
 import CourseFilterMenu from "@/components/courseComponents/courseFilterMenu";
 
 interface Metric {

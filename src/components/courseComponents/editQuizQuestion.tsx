@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { baseUrl } from "@/utils/constants";
 import QuestionItem from "./questions/QuestionItem";
 import QuizHeader from "./questions/QuizHeader";
@@ -10,6 +10,11 @@ import QuizFooter from "./questions/QuizFooter";
 import { Question, QuizData } from "@/types/quizTypes";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import {
+  getAllCourses,
+  getCourseDetails,
+  setEditedCourseDetails,
+} from "@/redux/adminSlice";
 
 interface Props {
   closeDrawer: () => void;
@@ -22,9 +27,11 @@ const EditQuizQuestion: React.FC<Props> = ({
   isEdit,
   existingCourseId,
 }) => {
+  const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingQuestions, setIsFetchingQuestions] = useState(true);
-  const { token } = useAppSelector((state) => state.admin); // Get Token from redux state
+  const { token, editedCourseDetails } = useAppSelector((state) => state.admin);
+  console.log(editedCourseDetails);
   const params = useParams();
   const id = params.course; // Get course Id from params
   const questionsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -34,8 +41,6 @@ const EditQuizQuestion: React.FC<Props> = ({
     courseId: "",
     questions: [{ question: "", answer: 0, point: 1, options: [""] }],
   });
-
-  console.log(questions);
 
   // Function to add courseId to questions state
   useEffect(() => {
@@ -99,9 +104,10 @@ const EditQuizQuestion: React.FC<Props> = ({
 
   // Function to submit all questions
   const handleSubmit = async () => {
-    const isValid = questions.questions.every((q) => {
-      return q.question.trim() !== "" && q.options.length > 1;
-    });
+    // Validate questions
+    const isValid = questions.questions.every(
+      (q) => q.question.trim() !== "" && q.options.length > 1
+    );
 
     if (!isValid) {
       toast.error(
@@ -109,8 +115,35 @@ const EditQuizQuestion: React.FC<Props> = ({
       );
       return;
     }
+
     try {
       setIsLoading(true);
+      if (editedCourseDetails) {
+        const savedCourseId = sessionStorage.getItem("courseId");
+        const res = await axios.patch(
+          `${baseUrl}/admin/course/${savedCourseId}`,
+          editedCourseDetails,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res?.data?.data) {
+          toast.success(res.data.message || "Course updated successfully.");
+          dispatch(getAllCourses({}));
+          dispatch(getCourseDetails(JSON.stringify(id)));
+          dispatch(setEditedCourseDetails(null));
+          sessionStorage.removeItem("courseId");
+          closeDrawer();
+        } else {
+          toast.error(res?.data?.message || "Failed to save changes.");
+          return;
+        }
+      }
+
+      // Submit questions
       const res = await axios.post(
         `${baseUrl}/admin/course/create-questions`,
         {
@@ -125,20 +158,16 @@ const EditQuizQuestion: React.FC<Props> = ({
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log(res);
-
       if (res.status === 201) {
-        console.log(res);
         toast.success(res.data.message || "Questions submitted successfully");
         closeDrawer();
       } else {
-        toast.error(res.data.message || "Failed to submit questions");
+        toast.error(res.data.message || "Failed to submit questions.");
       }
-    } catch (error) {
-      console.error("Error submitting questions:", error);
-      toast.error(
-        "An error occurred while submitting the quiz. Please try again."
-      );
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "An error occurred while submitting.";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -155,7 +184,10 @@ const EditQuizQuestion: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-between fixed right-0 top-0 h-screen w-[45vw] bg-white shadow-lg z-50">
       <QuizHeader
-        closeDrawer={closeDrawer}
+        closeDrawer={() => {
+          closeDrawer();
+          dispatch(setEditedCourseDetails(null));
+        }}
         addQuestion={addQuestion}
         isEdit={isEdit}
       />
@@ -180,10 +212,14 @@ const EditQuizQuestion: React.FC<Props> = ({
         )}
       </div>
       <QuizFooter
-        closeDrawer={closeDrawer}
+        closeDrawer={() => {
+          closeDrawer();
+          dispatch(setEditedCourseDetails(null));
+        }}
         handleSubmit={handleSubmit}
         isLoading={isLoading}
         isEdit={true}
+        editedCourseDetails={editedCourseDetails}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { cancel } from "@/assets/icons";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Props {
   closeDrawer: () => void;
@@ -25,10 +26,11 @@ const QuizHeader: React.FC<Props> = ({ closeDrawer, addQuestion, isEdit }) => (
       </div>
     </div>
     <div
-      className="absolute top-2 right-5 cursor-pointer"
+      className="absolute top-5 right-5 cursor-pointer"
       onClick={closeDrawer}
     >
-      <Image src={cancel} alt="close button" height={30} width={30} />
+      <IoCloseSharp size={20} />
+      {/* <Image src={cancel} alt="close button" height={30} width={30} /> */}
     </div>
   </div>
 );

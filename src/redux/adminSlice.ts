@@ -57,6 +57,7 @@ const initialState: AdminState = {
   coursesStats: null,
   courseQuestions: null,
   adminList: null,
+  editedCourseDetails: null,
 };
 
 // Auth Enpoints
@@ -405,21 +406,17 @@ export const adminSlice = createSlice({
     setAdminList: (state, action) => {
       state.adminList = action.payload;
     },
+    setCourseDetails: (state, action) => {
+      state.courseDetails = action.payload;
+    },
+    setEditedCourseDetails: (state, action) => {
+      state.editedCourseDetails = action.payload;
+    },
   },
   extraReducers: (builder) => {
     adminBuilder(builder);
   },
 });
-
-export const {
-  setUser,
-  setToken,
-  setCourseQuestions,
-  setAllUser,
-  setAdminList,
-} = adminSlice.actions;
-
-export default adminSlice.reducer;
 
 export const handleLogin = (data: LoginData) => async (dispatch: any) => {
   try {
@@ -436,3 +433,15 @@ export const getSingleUserDetails = (id: string) => async (dispatch: any) => {
     console.error("error", error);
   }
 };
+
+export const {
+  setUser,
+  setToken,
+  setCourseQuestions,
+  setAllUser,
+  setAdminList,
+  setCourseDetails,
+  setEditedCourseDetails,
+} = adminSlice.actions;
+
+export default adminSlice.reducer;
