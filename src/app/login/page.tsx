@@ -100,7 +100,7 @@ const Login = () => {
           disabled={isLoading}
           onClick={handleSubmit}
         >
-          Log In 
+          Log In
         </button>
       </div>
     </div>
