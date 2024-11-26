@@ -34,8 +34,8 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: 22
           script: |
-            cd skill2Rural-admin
+            cd skill2rural-admin
             git pull origin main
             npm install
             npm run build
-            pm2 restart skill2Rural-admin
+            pm2 restart skill2rural-admin
