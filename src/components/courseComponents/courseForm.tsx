@@ -42,7 +42,7 @@ const CourseForm: React.FC<ComponentProps> = ({ onClose, openSucessModal }) => {
     if (files && files.length > 0) {
       const file = files[0];
 
-      // // Check if the file size exceeds 5MB
+      // Check if the file size exceeds 5MB
       // const maxSize = 5 * 1024 * 1024; // 5MB in bytes
       // if (file.size > maxSize) {
       //   toast.error("File size exceeds 5MB. Please upload a smaller file.");
@@ -74,12 +74,14 @@ const CourseForm: React.FC<ComponentProps> = ({ onClose, openSucessModal }) => {
       formDataToSend.append("thumbnail_image", formData.thumbnail_image);
     } else {
       toast.error("Upload thumbnail image");
+      setIsLoading(false);
       return;
     }
     if (formData.video) {
       formDataToSend.append("course_video", formData.video);
     } else {
       toast.error("Upload Course Video");
+      setIsLoading(false);
       return;
     }
 
