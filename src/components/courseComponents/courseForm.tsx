@@ -41,14 +41,6 @@ const CourseForm: React.FC<ComponentProps> = ({ onClose, openSucessModal }) => {
     const { files } = e.target;
     if (files && files.length > 0) {
       const file = files[0];
-
-      // Check if the file size exceeds 5MB
-      // const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-      // if (file.size > maxSize) {
-      //   toast.error("File size exceeds 5MB. Please upload a smaller file.");
-      //   return;
-      // }
-
       if (field === "thumbnail_image") {
         setFormData((prevState) => ({
           ...prevState,
