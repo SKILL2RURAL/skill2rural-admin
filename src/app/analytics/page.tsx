@@ -76,7 +76,7 @@ const Analytics = () => {
       <div className="h-[30px]" />
       <div>
         <div className="md:flex gap-5">
-          <div className="border border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
+          <div className="border p-5 rounded-[8px] md:w-fit shadow-md md:w-2/3  w-full">
             <div className="w-full">
               <div>
                 <h1 className="text-[14px] font-[500] text-[#A3AED0]">
@@ -90,7 +90,7 @@ const Analytics = () => {
             </div>
             <AnalyticsBarChart />
           </div>
-          <div className="border border p-5 rounded-[8px] w-fit shadow-md md:w-2/4">
+          <div className="border p-5 rounded-[8px] w-fit shadow-md md:w-2/4">
             <div>
               <h1 className="text-[16px] font-[600]">Drop off rate</h1>
               <p className="text-[14px] font-[400] text-[#909090]">
@@ -122,7 +122,7 @@ const Analytics = () => {
       <div className="h-[30px]" />
 
       <div className="md:flex gap-5">
-        <div className="w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
+        <div className="w-1/2 border py-5 rounded-[8px] w-fit shadow-md">
           <div className="flex gap-2 items-start border-b pb-5 mb-3 px-5">
             <Image src={book} alt="" />
             <div>
@@ -135,7 +135,7 @@ const Analytics = () => {
           </div>
           <CourseCompletionCountChart />
         </div>
-        <div className="md:w-1/2 border border py-5 rounded-[8px] w-fit shadow-md">
+        <div className="md:w-1/2 border py-5 rounded-[8px] w-fit shadow-md">
           <div className="flex items-start gap-2 border-b pb-5 mb-3 px-5">
             <Image src={book} alt="" />
             <div>
