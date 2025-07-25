@@ -71,11 +71,12 @@ const CourseForm: React.FC<ComponentProps> = ({ onClose, openSucessModal }) => {
     }
     if (formData.video) {
       formDataToSend.append("course_video", formData.video);
-    } else {
-      toast.error("Upload Course Video");
-      setIsLoading(false);
-      return;
     }
+    //  else {
+    //   toast.error("Upload Course Video");
+    //   setIsLoading(false);
+    //   return;
+    // }
 
     try {
       const res = await axios.post(
